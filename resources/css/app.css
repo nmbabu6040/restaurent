@@ -5,6 +5,7 @@
 @import "@fontsource-variable/noto-serif-bengali";
 
 @source '../views/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../js/**/*.js';
 
 @theme {

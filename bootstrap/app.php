@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
         ]);
+        $middleware->validateCsrfTokens(except: ['payments/sslcommerz/*']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -50,66 +50,66 @@ class ContentSeeder extends Seeder
             }
         }
 
-        // if (Promotion::count() === 0) {
-        //     Promotion::create([
-        //         'title_en' => 'Free Borhani with every Biryani',
-        //         'title_bn' => 'প্রতিটি বিরিয়ানির সঙ্গে বোরহানি ফ্রি',
-        //         'description_en' => 'Order any biryani and get a glass of borhani on the house.',
-        //         'description_bn' => 'যেকোনো বিরিয়ানি অর্ডার করুন, সঙ্গে বোরহানি আমাদের পক্ষ থেকে।',
-        //         'sort_order' => 1,
-        //         'is_active' => true,
-        //     ]);
-        //     Promotion::create([
-        //         'title_en' => 'Weekend Family Platter',
-        //         'title_bn' => 'সাপ্তাহিক ফ্যামিলি প্ল্যাটার',
-        //         'description_en' => 'A shareable platter for four, available every Friday and Saturday.',
-        //         'description_bn' => 'চারজনের জন্য শেয়ার করার মতো প্ল্যাটার, প্রতি শুক্র ও শনিবার।',
-        //         'sort_order' => 2,
-        //         'is_active' => true,
-        //     ]);
-        //     Promotion::create([
-        //         'title_en' => 'Borhani with every order',
-        //         'title_bn' => 'প্রতিটি অর্ডারের সঙ্গে বোরহানি',
-        //         'description_en' => 'Order anything and get a glass of borhani on the house.',
-        //         'description_bn' => 'যেকোনো অর্ডার করুন, সঙ্গে বোরহানি আমাদের পক্ষ থেকে।',
-        //         'sort_order' => 3,
-        //         'is_active' => true,
-        //     ]);
-        // }
-
-        $promotions = [
-            [
+        if (Promotion::count() === 0) {
+            Promotion::create([
                 'title_en' => 'Free Borhani with every Biryani',
                 'title_bn' => 'প্রতিটি বিরিয়ানির সঙ্গে বোরহানি ফ্রি',
                 'description_en' => 'Order any biryani and get a glass of borhani on the house.',
                 'description_bn' => 'যেকোনো বিরিয়ানি অর্ডার করুন, সঙ্গে বোরহানি আমাদের পক্ষ থেকে।',
                 'sort_order' => 1,
                 'is_active' => true,
-            ],
-            [
+            ]);
+            Promotion::create([
                 'title_en' => 'Weekend Family Platter',
                 'title_bn' => 'সাপ্তাহিক ফ্যামিলি প্ল্যাটার',
                 'description_en' => 'A shareable platter for four, available every Friday and Saturday.',
                 'description_bn' => 'চারজনের জন্য শেয়ার করার মতো প্ল্যাটার, প্রতি শুক্র ও শনিবার।',
                 'sort_order' => 2,
                 'is_active' => true,
-            ],
-            [
+            ]);
+            Promotion::create([
                 'title_en' => 'Borhani with every order',
                 'title_bn' => 'প্রতিটি অর্ডারের সঙ্গে বোরহানি',
                 'description_en' => 'Order anything and get a glass of borhani on the house.',
                 'description_bn' => 'যেকোনো অর্ডার করুন, সঙ্গে বোরহানি আমাদের পক্ষ থেকে।',
                 'sort_order' => 3,
                 'is_active' => true,
-            ],
-        ];
-
-        foreach ($promotions as $promotion) {
-            Promotion::updateOrCreate(
-                ['title_en' => $promotion['title_en']],
-                $promotion
-            );
+            ]);
         }
+
+        // $promotions = [
+        //     [
+        //         'title_en' => 'Free Borhani with every Biryani',
+        //         'title_bn' => 'প্রতিটি বিরিয়ানির সঙ্গে বোরহানি ফ্রি',
+        //         'description_en' => 'Order any biryani and get a glass of borhani on the house.',
+        //         'description_bn' => 'যেকোনো বিরিয়ানি অর্ডার করুন, সঙ্গে বোরহানি আমাদের পক্ষ থেকে।',
+        //         'sort_order' => 1,
+        //         'is_active' => true,
+        //     ],
+        //     [
+        //         'title_en' => 'Weekend Family Platter',
+        //         'title_bn' => 'সাপ্তাহিক ফ্যামিলি প্ল্যাটার',
+        //         'description_en' => 'A shareable platter for four, available every Friday and Saturday.',
+        //         'description_bn' => 'চারজনের জন্য শেয়ার করার মতো প্ল্যাটার, প্রতি শুক্র ও শনিবার।',
+        //         'sort_order' => 2,
+        //         'is_active' => true,
+        //     ],
+        //     [
+        //         'title_en' => 'Borhani with every order',
+        //         'title_bn' => 'প্রতিটি অর্ডারের সঙ্গে বোরহানি',
+        //         'description_en' => 'Order anything and get a glass of borhani on the house.',
+        //         'description_bn' => 'যেকোনো অর্ডার করুন, সঙ্গে বোরহানি আমাদের পক্ষ থেকে।',
+        //         'sort_order' => 3,
+        //         'is_active' => true,
+        //     ],
+        // ];
+
+        // foreach ($promotions as $promotion) {
+        //     Promotion::updateOrCreate(
+        //         ['title_en' => $promotion['title_en']],
+        //         $promotion
+        //     );
+        // }
 
 
         if (Faq::count() === 0) {

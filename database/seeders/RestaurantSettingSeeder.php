@@ -33,7 +33,7 @@ class RestaurantSettingSeeder extends Seeder
         ];
 
         foreach ($settings as $key => [$en, $bn]) {
-            RestaurantSetting::updateOrCreate(
+            RestaurantSetting::firstOrCreate(
                 ['key' => $key],
                 ['value_en' => $en, 'value_bn' => $bn],
             );

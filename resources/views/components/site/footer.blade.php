@@ -46,7 +46,15 @@
             </form>
         </div>
     </div>
-    <div class="border-t border-white/10 py-5 text-center text-xs text-white/60">
+    <div class="border-t border-white/10 px-6 py-5 text-center text-xs text-white/60">
+        <nav aria-label="Footer" class="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-2">
+            <a href="{{ route('orders.track') }}" class="hover:text-white">{{ __('orders.track_link') }}</a>
+            <a href="{{ route('offers') }}" class="hover:text-white">{{ __('pages.links.offers') }}</a>
+            <a href="{{ route('testimonials') }}" class="hover:text-white">{{ __('pages.links.testimonials') }}</a>
+            <a href="{{ route('faq') }}" class="hover:text-white">{{ __('pages.links.faq') }}</a>
+            <a href="{{ route('privacy') }}" class="hover:text-white">{{ __('pages.links.privacy') }}</a>
+            <a href="{{ route('terms') }}" class="hover:text-white">{{ __('pages.links.terms') }}</a>
+        </nav>
         &copy; {{ date('Y') }} {{ setting('name', config('app.name')) }}. {{ __('site.footer.rights') }}
     </div>
 </footer>

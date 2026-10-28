@@ -5,12 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @isset($noindex)
+        <meta name="robots" content="noindex,nofollow">
+    @endisset
     <title>{{ isset($title) ? $title . ' | ' : '' }}{{ setting('name', config('app.name')) }}</title>
     <meta name="description" content="{{ $description ?? '' }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="flex min-h-screen flex-col">
+<body class="flex min-h-screen flex-col" data-cart-error="{{ __('forms.common.error') }}">
     <a href="#main"
         class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-3">{{ __('site.skip') }}</a>
 
@@ -22,6 +25,8 @@
 
     @if (session('status'))
         <div id="flash-message" data-message="{{ session('status') }}" hidden></div>
+    @elseif (session('error'))
+        <div id="flash-message" data-message="{{ session('error') }}" data-type="error" hidden></div>
     @endif
 </body>
 

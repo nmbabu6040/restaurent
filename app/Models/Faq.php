@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Models\Concerns\Displayable;
 use App\Models\Concerns\Translatable;
+use App\Models\Concerns\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Faq extends Model
 {
-    use Displayable, Translatable;
+    use Displayable, Translatable, LogsActivity;
 
     protected $fillable = ['question_en', 'question_bn', 'answer_en', 'answer_bn', 'sort_order', 'is_active'];
 

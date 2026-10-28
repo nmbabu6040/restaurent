@@ -26,6 +26,7 @@
         </nav>
 
         <div class="hidden items-center gap-4 lg:flex">
+            <x-site.cart-link />
             <div class="flex items-center gap-1 text-sm" role="group" aria-label="Language">
                 <a href="{{ route('lang.switch', 'en') }}" lang="en"
                     @if ($current === 'en') aria-current="true" @endif
@@ -37,13 +38,17 @@
             <a href="{{ $reserveUrl }}" class="btn-accent">{{ __('site.nav.reserve') }}</a>
         </div>
 
-        <button id="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav"
-            class="rounded p-2 lg:hidden" aria-label="{{ __('site.nav.toggle') }}">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                aria-hidden="true">
-                <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
+        <div class="flex items-center gap-1 lg:hidden">
+            <x-site.cart-link />
+
+            <button id="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav"
+                class="rounded p-2 lg:hidden" aria-label="{{ __('site.nav.toggle') }}">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                    aria-hidden="true">
+                    <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
     </div>
 
     <div id="mobile-nav" class="hidden border-t border-white/10 px-6 pb-6 lg:hidden">

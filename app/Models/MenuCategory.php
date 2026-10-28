@@ -6,12 +6,13 @@ use App\Models\Concerns\Translatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MenuCategory extends Model
 {
-    use SoftDeletes, Translatable;
+    use SoftDeletes, Translatable, LogsActivity;
 
     protected $fillable = [
         'name_en',

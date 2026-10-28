@@ -45,6 +45,22 @@
 
                 <p class="mt-5">{{ $item->description }}</p>
 
+                @if (config('restaurant.ordering_enabled') && $item->is_available)
+                    <form method="POST" action="{{ route('cart.add') }}" data-cart-add
+                        class="mt-6 flex items-end gap-3">
+                        @csrf
+                        <input type="hidden" name="item_id" value="{{ $item->id }}">
+                        <div>
+                            <label for="quantity"
+                                class="block text-sm font-medium text-navy">{{ __('orders.quantity') }}</label>
+                            <input id="quantity" type="number" name="quantity" value="1" min="1"
+                                max="{{ config('restaurant.ordering.max_qty') }}"
+                                class="mt-1 w-24 rounded-lg border border-navy/20 bg-surface px-3 py-2.5 text-sm focus:border-terracotta">
+                        </div>
+                        <button type="submit" class="btn-accent">{{ __('orders.add') }}</button>
+                    </form>
+                @endif
+
                 @if (!empty($item->dietary))
                     <ul class="mt-4 flex flex-wrap gap-1.5">
                         @foreach ($item->dietary as $label)

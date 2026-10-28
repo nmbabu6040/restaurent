@@ -70,5 +70,11 @@ return [
         'hello' => 'Hello :name,',
         'body' => 'Thank you. Our team will confirm your booking shortly. Here are the details:',
         'view' => 'View your reservation',
+        'status_subject' => 'Your reservation at :name: :status',
+        'status_body' => [
+            'confirmed' => 'Good news: your table is confirmed. We look forward to welcoming you.',
+            'rejected' => 'We are sorry, we are unable to accommodate this booking. Please contact us or choose another time.',
+            'cancelled' => 'Your reservation has been cancelled. You are welcome to book again any time.',
+        ],
     ],
 ];

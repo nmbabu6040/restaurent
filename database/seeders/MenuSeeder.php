@@ -22,7 +22,7 @@ class MenuSeeder extends Seeder
 
         $map = [];
         foreach ($categories as $i => [$en, $bn]) {
-            $map[$en] = MenuCategory::updateOrCreate(
+            $map[$en] = MenuCategory::firstOrCreate(
                 ['slug' => Str::slug($en)],
                 ['name_en' => $en, 'name_bn' => $bn, 'sort_order' => $i + 1, 'is_active' => true],
             );
@@ -166,7 +166,7 @@ class MenuSeeder extends Seeder
             [$cat, $nameEn, $nameBn, $descEn, $descBn, $price, $flags, $dietary] = $row;
             $available = $row[8] ?? true;
 
-            MenuItem::updateOrCreate(
+            MenuItem::firstOrCreate(
                 ['slug' => Str::slug($nameEn)],
                 [
                     'menu_category_id' => $map[$cat]->id,
