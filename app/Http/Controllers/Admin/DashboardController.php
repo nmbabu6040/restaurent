@@ -34,7 +34,14 @@ class DashboardController extends Controller
         $data = [
             'canReport' => $canReport,
             'stats' => [
-                ['label' => 'Pending orders', 'value' => Order::needsAttention()->count(), 'icon' => 'bag', 'tone' => 'rose', 'href' => route('admin.orders.index', ['status' => 'pending'])],
+                [
+                    'label' => 'Pending orders',
+                    'value' => Order::needsAttention()->count(),
+                    'icon' => 'bag',
+                    'tone' => 'rose',
+                    'href' => route('admin.orders.index', ['status' => 'pending'])
+                ],
+                ['label' => 'Need a rider', 'value' => Order::needsRider()->count(), 'icon' => 'truck', 'tone' => 'indigo', 'href' => route('admin.orders.index', ['needs_rider' => 1])],
                 ['label' => 'Pending reservations', 'value' => Reservation::where('status', ReservationStatus::Pending->value)->count(), 'icon' => 'clock', 'tone' => 'amber', 'href' => route('admin.reservations.index', ['status' => 'pending'])],
                 ['label' => "Today's reservations", 'value' => Reservation::blocking()->whereDate('reserved_at', now()->toDateString())->count(), 'icon' => 'calendar', 'tone' => 'cyan', 'href' => route('admin.reservations.index', ['date' => now()->toDateString()])],
                 ['label' => 'Unread messages', 'value' => ContactMessage::whereNull('read_at')->count(), 'icon' => 'mail', 'tone' => 'violet', 'href' => route('admin.messages.index')],

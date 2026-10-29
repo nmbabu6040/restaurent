@@ -40,6 +40,11 @@ return [
         'completed' => 'Completed',
         'cancelled' => 'Cancelled',
     ],
+    'rider' => [
+        'title' => 'Your delivery rider',
+        'assigned' => 'A rider has been assigned and will pick up your order soon.',
+        'on_the_way' => 'On the way to you. Call:',
+    ],
     'discount' => 'Discount',
     'payment' => [
         'cod' => 'Cash (on delivery or at pickup)',

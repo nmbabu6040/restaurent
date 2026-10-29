@@ -13,7 +13,7 @@ export function initOrderStatus() {
             if (!res.ok) return;
 
             const data = await res.json();
-            if (data.status !== current) {
+            if (data.signature !== current) {
                 window.location.reload();
             } else if (data.final) {
                 clearInterval(timer);

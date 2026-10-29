@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('admin.users.index', ['users' => User::orderBy('name')->paginate(20)]);
+        return view('admin.users.index', ['users' => User::where('role', '!=', 'rider')->orderBy('name')->paginate(20)]);
     }
 
     public function create()
@@ -39,11 +39,13 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        abort_if($user->role === UserRole::Rider, 404);
         return view('admin.users.form', compact('user'));
     }
 
     public function update(Request $request, User $user)
     {
+        abort_if($user->role === UserRole::Rider, 404);
         $data = $request->validate($this->rules($user));
 
         $user->fill(Arr::only($data, ['name', 'email']));
@@ -66,6 +68,7 @@ class UserController extends Controller
 
     public function destroy(Request $request, User $user)
     {
+        abort_if($user->role === UserRole::Rider, 404);
         if ($user->is($request->user())) {
             return back()->with('error', 'You cannot delete your own account.');
         }
@@ -81,7 +84,7 @@ class UserController extends Controller
         return [
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email:rfc', 'max:150', Rule::unique('users', 'email')->ignore($user?->id)],
-            'role' => ['required', Rule::enum(UserRole::class)],
+            'role' => ['required', Rule::in(['admin', 'manager', 'staff'])],
             'is_active' => ['required', 'boolean'],
             'password' => [$user ? 'nullable' : 'required', Password::defaults()],
         ];

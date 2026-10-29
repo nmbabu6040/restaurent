@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SalesController;
 use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\IngredientController;
 use App\Http\Controllers\Admin\ProfitLossController;
+use App\Http\Controllers\Admin\RiderController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -40,6 +41,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
+        Route::post('orders/{order}/rider', [OrderController::class, 'assignRider'])->name('orders.rider');
     });
 
     Route::middleware('can:manage-menu')->group(function () {
@@ -89,6 +91,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::post('ingredients/{ingredient}/receive', [IngredientController::class, 'receive'])->name('ingredients.receive');
         Route::post('ingredients/{ingredient}/waste', [IngredientController::class, 'waste'])->name('ingredients.waste');
         Route::post('ingredients/{ingredient}/count', [IngredientController::class, 'count'])->name('ingredients.count');
+    });
+
+    Route::middleware('can:manage-riders')->group(function () {
+        Route::resource('riders', RiderController::class)->parameters(['riders' => 'rider']);
+        Route::post('riders/{rider}/settle', [RiderController::class, 'settle'])->name('riders.settle');
     });
 
     Route::get('activity', [ActivityLogController::class, 'index'])->middleware('can:view-logs')->name('activity.index');

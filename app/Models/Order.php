@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -74,5 +75,23 @@ class Order extends Model
 
         // Give the stock back (dish counts and ingredients) that this order took.
         app(\App\Services\InventoryService::class)->restore($this->loadMissing('items'));
+
+        Delivery::where('order_id', $this->id)
+            ->whereIn('status', ['assigned', 'picked_up', 'failed'])
+            ->update(['status' => 'cancelled']);
+    }
+
+    public function delivery(): HasOne
+    {
+        return $this->hasOne(Delivery::class);
+    }
+
+    /** Delivery orders the kitchen has confirmed that still have no rider (or whose rider reported a problem). */
+    public function scopeNeedsRider(Builder $query): Builder
+    {
+        return $query->where('type', 'delivery')
+            ->whereIn('status', ['confirmed', 'preparing', 'out_for_delivery'])
+            ->where(fn($w) => $w->whereDoesntHave('delivery')
+                ->orWhereHas('delivery', fn($d) => $d->where('status', 'failed')));
     }
 }

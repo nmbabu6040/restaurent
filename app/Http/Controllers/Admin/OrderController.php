@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\OrderStatus;
 use App\Enums\OrderType;
+use App\Exceptions\DeliveryException;
+use App\Models\Rider;
+use App\Services\DeliveryService;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderUpdateMail;
 use App\Models\ActivityLog;
@@ -22,12 +25,14 @@ class OrderController extends Controller
             'type' => ['nullable', Rule::enum(OrderType::class)],
             'date' => ['nullable', 'date_format:Y-m-d'],
             'q' => ['nullable', 'string', 'max:100'],
+            'needs_rider' => ['nullable', 'boolean'],
         ]);
 
         $orders = Order::query()
             ->when($f['status'] ?? null, fn($q, $v) => $q->where('status', $v))
             ->when($f['type'] ?? null, fn($q, $v) => $q->where('type', $v))
             ->when($f['date'] ?? null, fn($q, $v) => $q->whereDate('created_at', $v))
+            ->when($request->boolean('needs_rider'), fn($q) => $q->needsRider())
             ->when($f['q'] ?? null, function ($q, $term) {
                 $like = '%' . addcslashes($term, '%_\\') . '%';
                 $q->where(fn($w) => $w->where('reference', 'like', $like)
@@ -43,7 +48,23 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        return view('admin.orders.show', ['order' => $order->load('items', 'payments')]);
+        return view('admin.orders.show', [
+            'order' => $order->load('items', 'payments', 'delivery.rider'),
+            'riders' => Rider::active()->orderByDesc('is_online')->orderBy('name')->get(),
+        ]);
+    }
+
+    public function assignRider(Request $request, Order $order, DeliveryService $deliveries)
+    {
+        $data = $request->validate(['rider_id' => ['required', 'integer', 'exists:riders,id']]);
+
+        try {
+            $delivery = $deliveries->assign($order, Rider::findOrFail($data['rider_id']), $request->user());
+        } catch (DeliveryException $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        return back()->with('status', "Order given to {$delivery->rider->name}.");
     }
 
     public function updateStatus(Request $request, Order $order)
@@ -85,6 +106,10 @@ class OrderController extends Controller
         }
 
         $order->refresh();
+
+        if ($new === OrderStatus::Completed) {
+            app(DeliveryService::class)->orderCompleted($order);
+        }
         ActivityLog::record('order.' . $new->value, "Order {$order->reference} marked {$new->value}", $order);
 
         if ($order->email) {

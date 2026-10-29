@@ -3,6 +3,12 @@
 
     $steps = OrderStatus::steps($order->type);
     $current = array_search($order->status, $steps, true);
+    $delivery = $order->delivery;
+    $showRider =
+        $delivery &&
+        $delivery->rider &&
+        in_array($delivery->status->value, ['assigned', 'picked_up'], true) &&
+        in_array($order->status->value, ['confirmed', 'preparing', 'out_for_delivery'], true);
     $needsPayment =
         $order->payment_method === 'sslcommerz' &&
         $order->payment_status !== 'paid' &&
@@ -12,7 +18,7 @@
 
 <x-layouts.app :title="__('orders.show.title')" :noindex="true">
     <section class="mx-auto max-w-3xl px-6 py-12" data-order-status-url="{{ route('orders.status', $order->token) }}"
-        data-status="{{ $order->status->value }}">
+        data-status="{{ $order->status->value . '|' . ($order->delivery?->status->value ?? '') }}">
         <div class="card p-6 sm:p-8">
             <h1 class="text-3xl font-bold">{{ __('orders.show.thanks', ['name' => $order->name]) }}</h1>
             <p class="mt-2">{{ __('orders.show.received') }}</p>
@@ -28,6 +34,8 @@
                 </div>
             @endif
 
+            @include('admin.orders._delivery')
+
             @if ($order->status === OrderStatus::Cancelled)
                 <p class="mt-6 rounded-lg bg-charcoal p-4 text-sm font-semibold text-white">
                     {{ __('orders.show.cancelled') }}</p>
@@ -40,6 +48,21 @@
                         </li>
                     @endforeach
                 </ol>
+            @endif
+
+            @if ($showRider)
+                <div class="mt-6 rounded-lg bg-warm p-4 text-sm">
+                    <p class="font-semibold text-navy">{{ __('orders.rider.title') }}</p>
+                    <p class="mt-1">{{ $delivery->rider->name }}</p>
+                    @if ($delivery->status->value === 'picked_up')
+                        <p class="mt-1">{{ __('orders.rider.on_the_way') }}
+                            <a href="tel:{{ preg_replace('/[^+\d]/', '', $delivery->rider->phone) }}"
+                                class="font-semibold text-navy hover:text-terracotta-dark">{{ $delivery->rider->phone }}</a>
+                        </p>
+                    @else
+                        <p class="mt-1">{{ __('orders.rider.assigned') }}</p>
+                    @endif
+                </div>
             @endif
 
             <dl class="mt-8 grid gap-4 text-sm sm:grid-cols-2">

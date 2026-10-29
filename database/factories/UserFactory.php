@@ -40,6 +40,11 @@ class UserFactory extends Factory
         return $this->state(['role' => 'staff']);
     }
 
+    public function rider(): static
+    {
+        return $this->state(['role' => 'rider']);
+    }
+
     public function inactive(): static
     {
         return $this->state(['is_active' => false]);

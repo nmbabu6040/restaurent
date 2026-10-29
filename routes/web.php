@@ -80,5 +80,6 @@ Route::prefix('payments/sslcommerz')->middleware('throttle:120,1')->name('paymen
 });
 
 require __DIR__ . '/admin.php';
+require __DIR__ . '/rider.php';
 
 Route::fallback(NotFoundController::class);

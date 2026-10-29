@@ -24,7 +24,7 @@
                 <select id="role" name="role" required @disabled($self)
                     aria-describedby="role-error"
                     class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta disabled:opacity-60">
-                    @foreach (\App\Enums\UserRole::cases() as $role)
+                    @foreach (collect(\App\Enums\UserRole::cases())->reject(fn($r) => $r === \App\Enums\UserRole::Rider) as $role)
                         <option value="{{ $role->value }}" @selected(old('role', $user->role?->value ?? 'staff') === $role->value)>{{ ucfirst($role->value) }}
                         </option>
                     @endforeach

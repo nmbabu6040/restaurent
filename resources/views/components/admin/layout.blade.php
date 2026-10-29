@@ -6,6 +6,7 @@
     $unread = \App\Models\ContactMessage::whereNull('read_at')->count();
     $pendingOrders = \App\Models\Order::needsAttention()->count();
     $maintenance = setting('maintenance_enabled') === '1';
+    $riderAlerts = auth()->user()->can('manage-riders') ? \App\Models\Delivery::where('status', 'failed')->count() : 0;
     $lowStock = auth()->user()->can('manage-inventory') ? \App\Models\Ingredient::low()->count() : 0;
 
     $groups = [
@@ -36,6 +37,13 @@
                 'label' => 'Messages',
                 'can' => 'handle-guests',
                 'badge' => $unread,
+            ],
+            [
+                'url' => route('admin.riders.index'),
+                'active' => request()->routeIs('admin.riders.*'),
+                'label' => 'Riders',
+                'can' => 'manage-riders',
+                'badge' => $riderAlerts,
             ],
         ],
         'Reports' => [

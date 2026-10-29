@@ -13,7 +13,7 @@
 <body class="flex min-h-screen items-center justify-center bg-warm p-4">
     <main class="card w-full max-w-sm p-8">
         <h1 class="text-center text-3xl font-bold">{{ setting('name', config('app.name')) }}</h1>
-        <p class="mt-1 text-center text-sm">Admin login</p>
+        <p class="mt-1 text-center text-sm">Staff and Rider login</p>
 
         <form method="POST" action="{{ route('login.store') }}" class="mt-6 space-y-5">
             @csrf

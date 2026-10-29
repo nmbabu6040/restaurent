@@ -19,6 +19,10 @@
                 <option value="delivery" @selected(request('type') === 'delivery')>Delivery</option>
                 <option value="pickup" @selected(request('type') === 'pickup')>Pickup</option>
             </select>
+            <label class="flex items-center gap-2 pb-2 text-sm">
+                <input type="checkbox" name="needs_rider" value="1" class="accent-navy"
+                    @checked(request()->boolean('needs_rider'))> Needs a rider
+            </label>
         </div>
         <div>
             <label for="date" class="block text-sm font-medium text-navy">Date</label>
@@ -32,7 +36,7 @@
                 class="mt-1 rounded-lg border border-navy/20 bg-surface px-3 py-2 text-sm">
         </div>
         <button type="submit" class="btn-primary !py-2">Filter</button>
-        @if (request()->hasAny(['status', 'type', 'date', 'q']))
+        @if (request()->hasAny(['status', 'type', 'date', 'q', 'needs_rider']))
             <a href="{{ route('admin.orders.index') }}"
                 class="py-2 text-sm font-semibold text-navy hover:text-terracotta-dark">Reset</a>
         @endif

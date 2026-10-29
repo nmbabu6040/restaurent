@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Enums\UserRole;
 
 class AuthController extends Controller
 {
@@ -46,6 +47,10 @@ class AuthController extends Controller
 
         RateLimiter::clear($key);
         $request->session()->regenerate();
+
+        if ($request->user()->role === UserRole::Rider) {
+            return redirect()->route('rider.dashboard');
+        }
 
         return redirect()->intended(route('admin.dashboard'));
     }

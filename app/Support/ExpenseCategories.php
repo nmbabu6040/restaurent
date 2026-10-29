@@ -15,7 +15,7 @@ final class ExpenseCategories
             'packaging' => 'Packaging',
             'marketing' => 'Marketing',
             'maintenance' => 'Repairs and maintenance',
-            'delivery' => 'Delivery and courier',
+            'delivery' => 'Other delivery costs (rider fees are added automatically)',
             'fees' => 'Fees, taxes and licences',
             'other' => 'Other',
         ];

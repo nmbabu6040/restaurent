@@ -10,15 +10,19 @@ class OrderController extends Controller
 {
     public function show(Order $order)
     {
-        return view('orders.show', ['order' => $order->load('items')]);
+        return view('orders.show', ['order' => $order->load('items', 'delivery.rider')]);
     }
 
     public function status(Order $order)
     {
+        $order->loadMissing('delivery');
+
         return response()->json([
             'status' => $order->status->value,
             'label' => $order->status->label(),
             'final' => $order->status->isFinal(),
+            // Changes when the order status or its rider changes, so the page can refresh itself.
+            'signature' => $order->status->value . '|' . ($order->delivery?->status->value ?? ''),
         ]);
     }
 

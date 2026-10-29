@@ -25,7 +25,7 @@ class OrderTrackingTest extends TestCase
 
         $this->getJson(route('orders.status', $order->token))
             ->assertOk()
-            ->assertExactJson(['status' => 'preparing', 'label' => 'Preparing', 'final' => false]);
+            ->assertExactJson(['status' => 'preparing', 'label' => 'Preparing', 'final' => false, 'signature' => 'preparing|']);
     }
 
     public function test_lookup_by_reference_and_phone_in_any_format(): void

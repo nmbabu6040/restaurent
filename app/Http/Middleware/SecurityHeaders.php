@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SecurityHeaders
 {
     /** Pages that hold personal data or that search engines should not list. */
-    private const PRIVATE_PATHS = ['admin', 'admin/*', 'cart', 'checkout', 'orders/*', 'reservations/*', 'payments/*'];
+    private const PRIVATE_PATHS = ['admin', 'admin/*', 'rider', 'rider/*', 'cart', 'checkout', 'orders/*', 'reservations/*', 'payments/*'];
 
     public function handle(Request $request, Closure $next): Response
     {

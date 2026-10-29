@@ -9,6 +9,7 @@ import { initAdmin } from "./modules/admin";
 import { initAdminOptions } from "./modules/admin-options";
 import { initAdminShell } from "./modules/admin-shell";
 import { initCharts } from "./modules/charts";
+import { initRider } from "./modules/rider";
 import { initCart } from "./modules/cart";
 import { initItemOptions } from "./modules/item-options";
 import { initCheckout } from "./modules/checkout";
@@ -41,6 +42,7 @@ $(() => {
     initItemOptions();
     initCheckout();
     initOrderStatus();
+    initRider();
     initBackToTop();
     initShare();
 

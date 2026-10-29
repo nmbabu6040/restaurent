@@ -74,6 +74,7 @@ class ProfitLossController extends Controller
                     'Food cost' => $s['cogs'],
                     'Gross profit' => $s['gross'],
                     'Wastage' => $s['wastage'],
+                    'Rider fees' => $s['courier'],
                     'Expenses' => $s['expenses'],
                     'Net profit' => $s['net'],
                 ] as $label => $value

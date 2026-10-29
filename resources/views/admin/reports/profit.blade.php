@@ -17,7 +17,8 @@
         <x-admin.stat label="Revenue" :value="money($s['revenue'])" icon="cash" tone="indigo" />
         <x-admin.stat label="Food cost" :value="money($s['cogs'])" icon="utensils" tone="amber" />
         <x-admin.stat label="Gross profit" :value="money($s['gross'])" icon="chart" tone="cyan" :sub="$s['gross_margin'] . '% margin'" />
-        <x-admin.stat label="Wastage and expenses" :value="money($s['wastage'] + $s['expenses'])" icon="tag" tone="violet" :sub="'Wastage ' . money($s['wastage'])" />
+        <x-admin.stat label="Wastage, riders and expenses" :value="money($s['wastage'] + $s['courier'] + $s['expenses'])" icon="tag" tone="violet"
+            :sub="'Riders ' . money($s['courier']) . ', wastage ' . money($s['wastage'])" />
         <x-admin.stat label="Net profit" :value="money($s['net'])" icon="trend" :tone="$s['net'] >= 0 ? 'emerald' : 'rose'" :sub="$s['net_margin'] . '% margin'" />
     </div>
 
@@ -47,6 +48,10 @@
                     <tr class="border-b border-navy/5">
                         <th scope="row" class="py-2 text-left font-normal">&minus; Stock wastage</th>
                         <td class="py-2 text-right">{{ money($s['wastage']) }}</td>
+                    </tr>
+                    <tr class="border-b border-navy/5">
+                        <th scope="row" class="py-2 text-left font-normal">&minus; Rider delivery fees</th>
+                        <td class="py-2 text-right">{{ money($s['courier']) }}</td>
                     </tr>
                     <tr class="border-b border-navy/5">
                         <th scope="row" class="py-2 text-left font-normal">&minus; Operating expenses</th>

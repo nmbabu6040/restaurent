@@ -6,6 +6,7 @@ use App\Models\Order;
 use Carbon\Carbon;
 use App\Models\Expense;
 use App\Models\StockMovement;
+use App\Models\Delivery;
 use Illuminate\Support\Facades\DB;
 
 class AnalyticsService
@@ -25,6 +26,12 @@ class AnalyticsService
      * Food cost uses the cost saved on each order line when it was placed.
      * With $full = false only the summary is built (cheaper, used on the dashboard).
      */
+    /**
+     * Revenue minus food cost, wastage, rider fees and expenses.
+     * Food cost uses the cost saved on each order line when it was placed.
+     * Rider fees count on the day the delivery was made.
+     * With $full = false only the summary is built (cheaper, used on the dashboard).
+     */
     public function profitLoss(Carbon $from, Carbon $to, string $group, bool $full = true): array
     {
         $sales = $this->summary($from, $to);
@@ -40,6 +47,10 @@ class AnalyticsService
             ->get(['quantity', 'unit_cost', 'created_at']);
         $wastage = $wasteRows->sum(fn($m) => abs((float) $m->quantity) * (float) $m->unit_cost);
 
+        $courierRows = Delivery::query()->where('status', 'delivered')->whereBetween('delivered_at', [$from, $to])
+            ->get(['delivered_at', 'rider_fee']);
+        $courier = (float) $courierRows->sum('rider_fee');
+
         $expenseRows = Expense::query()->whereBetween('expense_date', [$from->toDateString(), $to->toDateString()])
             ->get(['expense_date', 'category', 'amount']);
         $expenses = (float) $expenseRows->sum('amount');
@@ -47,7 +58,7 @@ class AnalyticsService
         $revenue = $sales['revenue'];
         $cogs = round((float) $cost->cost, 2);
         $gross = round($revenue - $cogs, 2);
-        $net = round($gross - $wastage - $expenses, 2);
+        $net = round($gross - $wastage - $courier - $expenses, 2);
 
         $result = ['summary' => [
             'revenue' => round($revenue, 2),
@@ -55,6 +66,7 @@ class AnalyticsService
             'gross' => $gross,
             'gross_margin' => $revenue > 0 ? round($gross / $revenue * 100, 1) : 0.0,
             'wastage' => round($wastage, 2),
+            'courier' => round($courier, 2),
             'expenses' => round($expenses, 2),
             'net' => $net,
             'net_margin' => $revenue > 0 ? round($net / $revenue * 100, 1) : 0.0,
@@ -82,6 +94,12 @@ class AnalyticsService
             $key = $this->key($m->created_at, $group);
             if (isset($buckets[$key])) {
                 $buckets[$key]['costs'] += abs((float) $m->quantity) * (float) $m->unit_cost;
+            }
+        }
+        foreach ($courierRows as $d) {
+            $key = $this->key($d->delivered_at, $group);
+            if (isset($buckets[$key])) {
+                $buckets[$key]['costs'] += (float) $d->rider_fee;
             }
         }
         foreach ($expenseRows as $e) {

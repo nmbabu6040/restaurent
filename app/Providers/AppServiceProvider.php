@@ -40,7 +40,10 @@ class AppServiceProvider extends ServiceProvider
 
         $is = fn(User $u, UserRole ...$roles) => $u->is_active && in_array($u->role, $roles, true);
 
-        Gate::define('access-admin', fn(User $u) => $u->is_active && $u->role instanceof UserRole);
+        // Riders have their own panel and must never reach the admin.
+        Gate::define('access-admin', fn(User $u) => $u->is_active && $u->role instanceof UserRole && $u->role !== UserRole::Rider);
+        Gate::define('manage-riders', fn(User $u) => $is($u, UserRole::Admin, UserRole::Manager));
+        Gate::define('access-rider', fn(User $u) => $u->is_active && $u->role === UserRole::Rider && $u->rider?->is_active === true);
         Gate::define('handle-guests', fn(User $u) => $is($u, UserRole::Admin, UserRole::Manager, UserRole::Staff));
         Gate::define('manage-menu', fn(User $u) => $is($u, UserRole::Admin, UserRole::Manager));
         Gate::define('manage-content', fn(User $u) => $is($u, UserRole::Admin, UserRole::Manager));

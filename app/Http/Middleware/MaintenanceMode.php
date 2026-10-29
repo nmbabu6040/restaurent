@@ -33,7 +33,6 @@ class MaintenanceMode
     private function isExempt(Request $request): bool
     {
         // Payment confirmations must still reach us, and staff must be able to log in and switch the mode off.
-        return $request->is('admin', 'admin/*', 'lang/*', 'payments/sslcommerz/*', 'up')
-            || (auth()->check() && Gate::allows('access-admin'));
+        return $request->is('admin', 'admin/*', 'rider', 'rider/*', 'lang/*', 'payments/sslcommerz/*', 'up');
     }
 }

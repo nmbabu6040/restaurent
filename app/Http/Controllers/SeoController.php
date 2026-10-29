@@ -17,6 +17,7 @@ class SeoController extends Controller
         $lines = [
             'User-agent: *',
             'Disallow: /admin',
+            'Disallow: /rider',
             'Disallow: /cart',
             'Disallow: /checkout',
             'Disallow: /orders',
