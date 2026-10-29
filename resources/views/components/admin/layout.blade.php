@@ -37,6 +37,20 @@
                 'badge' => $unread,
             ],
         ],
+        'Reports' => [
+            [
+                'url' => route('admin.sales.index'),
+                'active' => request()->routeIs('admin.sales.*'),
+                'label' => 'Sales',
+                'can' => 'view-reports',
+            ],
+            [
+                'url' => route('admin.customers.index'),
+                'active' => request()->routeIs('admin.customers.*'),
+                'label' => 'Customers',
+                'can' => 'view-reports',
+            ],
+        ],
         'Menu' => [
             [
                 'url' => route('admin.items.index'),

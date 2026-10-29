@@ -5,6 +5,7 @@ function setTheme(theme) {
     document.cookie =
         `${COOKIE}=${theme}; path=/; max-age=31536000; SameSite=Lax` +
         (location.protocol === "https:" ? "; Secure" : "");
+    document.dispatchEvent(new CustomEvent("admin:theme"));
 }
 
 export function initAdminShell() {
@@ -52,12 +53,18 @@ export function initAdminShell() {
         }
     });
 
-    // Picking a color switches "use default" off.
     document.addEventListener("input", (e) => {
+        // Picking a color switches "use default" off.
         const picker = e.target.closest('input[type="color"][data-reset]');
         if (picker) {
             const reset = document.getElementById(picker.dataset.reset);
             if (reset) reset.checked = false;
+        }
+
+        // Typing report dates switches the period to "Custom dates".
+        if (e.target.matches("[data-range-date]")) {
+            const select = document.querySelector("[data-range-select]");
+            if (select) select.value = "custom";
         }
     });
 }

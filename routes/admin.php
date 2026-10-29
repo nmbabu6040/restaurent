@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Support\AdminResources;
 use App\Http\Controllers\Admin\AppearanceController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\SalesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin/login', [AuthController::class, 'create'])->middleware('guest')->name('login');
@@ -66,6 +68,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
 
     Route::middleware('can:manage-users')->group(function () {
         Route::resource('users', UserController::class)->except('show');
+    });
+
+    Route::middleware('can:view-reports')->group(function () {
+        Route::get('sales', [SalesController::class, 'index'])->name('sales.index');
+        Route::get('sales/export', [SalesController::class, 'export'])->name('sales.export');
+        Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
+        Route::get('customers/export', [CustomerController::class, 'export'])->name('customers.export');
     });
 
     Route::get('activity', [ActivityLogController::class, 'index'])->middleware('can:view-logs')->name('activity.index');
