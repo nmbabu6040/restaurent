@@ -18,16 +18,39 @@ class CartService
         return (int) round(((float) $amount) * 100);
     }
 
-    /** @return array<int,int> item id => quantity */
+    /** Line key: "{item}_{variation or 0}_{addon ids joined by dots, sorted}". */
+    public static function lineKey(int $item, ?int $variation, array $addons): string
+    {
+        return $item . '_' . ($variation ?? 0) . '_' . implode('.', $addons);
+    }
+
+    /** @return array<string, array{item:int, variation:?int, addons:int[], qty:int}> */
     public function raw(): array
     {
         $stored = session(self::KEY, []);
         $cart = [];
 
-        foreach (is_array($stored) ? $stored : [] as $id => $qty) {
-            if ((int) $id > 0 && (int) $qty > 0) {
-                $cart[(int) $id] = (int) $qty;
+        foreach (is_array($stored) ? $stored : [] as $key => $entry) {
+            if (! is_array($entry)) { // legacy format: item id => quantity
+                $entry = ['item' => (int) $key, 'variation' => null, 'addons' => [], 'qty' => (int) $entry];
             }
+
+            $item = (int) ($entry['item'] ?? 0);
+            $qty = (int) ($entry['qty'] ?? 0);
+
+            if ($item < 1 || $qty < 1) {
+                continue;
+            }
+
+            $variation = ! empty($entry['variation']) ? (int) $entry['variation'] : null;
+            $addons = collect($entry['addons'] ?? [])->map(fn($id) => (int) $id)->filter()->unique()->sort()->values()->all();
+
+            $cart[self::lineKey($item, $variation, $addons)] = [
+                'item' => $item,
+                'variation' => $variation,
+                'addons' => $addons,
+                'qty' => $qty,
+            ];
         }
 
         return $cart;
@@ -35,41 +58,74 @@ class CartService
 
     public function count(): int
     {
-        return array_sum($this->raw());
+        return array_sum(array_column($this->raw(), 'qty'));
     }
 
-    public function add(int $id, int $qty): void
+    /**
+     * Check a customer's choices against the database.
+     *
+     * @return array{0:?int, 1:int[]} validated variation id and sorted add-on ids
+     */
+    public function resolveSelection(MenuItem $item, ?int $variationId, array $addonIds): array
+    {
+        $variation = null;
+
+        if ($item->activeVariations->isNotEmpty()) {
+            $variation = $item->activeVariations->firstWhere('id', $variationId);
+
+            if (! $variation) {
+                throw ValidationException::withMessages(['variation_id' => __('orders.errors.choose_variation')]);
+            }
+        }
+
+        $ids = collect($addonIds)->map(fn($id) => (int) $id)->unique()->sort()->values();
+
+        if ($ids->diff($item->activeAddons->pluck('id'))->isNotEmpty()) {
+            throw ValidationException::withMessages(['addons' => __('orders.errors.bad_addon')]);
+        }
+
+        return [$variation?->id, $ids->all()];
+    }
+
+    public function add(int $item, ?int $variation, array $addons, int $qty): void
     {
         $cart = $this->raw();
+        $key = self::lineKey($item, $variation, $addons);
 
-        if (! isset($cart[$id]) && count($cart) >= config('restaurant.ordering.max_lines')) {
+        if (! isset($cart[$key]) && count($cart) >= config('restaurant.ordering.max_lines')) {
             throw ValidationException::withMessages(['item_id' => __('orders.errors.too_many')]);
         }
 
-        $cart[$id] = min($this->maxQty(), ($cart[$id] ?? 0) + $qty);
+        $cart[$key] = [
+            'item' => $item,
+            'variation' => $variation,
+            'addons' => $addons,
+            'qty' => min($this->maxQty(), ($cart[$key]['qty'] ?? 0) + $qty),
+        ];
+
         session([self::KEY => $cart]);
     }
 
-    public function set(int $id, int $qty): void
+    public function set(string $key, int $qty): void
     {
         $cart = $this->raw();
 
-        if (! isset($cart[$id])) {
+        if (! isset($cart[$key])) {
             return;
         }
 
         if ($qty <= 0) {
-            unset($cart[$id]);
+            unset($cart[$key]);
         } else {
-            $cart[$id] = min($this->maxQty(), $qty);
+            $cart[$key]['qty'] = min($this->maxQty(), $qty);
         }
 
         session([self::KEY => $cart]);
     }
 
-    public function remove(int $id): void
+    public function remove(string $key): void
     {
-        $this->set($id, 0);
+        $this->set($key, 0);
     }
 
     public function clear(): void
@@ -107,21 +163,22 @@ class CartService
 
     /**
      * Rebuild the cart from the database. Prices and discounts always come from here, never from the browser.
-     * Items that are no longer orderable are dropped from the session and reported in "removed".
+     * Lines whose item, size or extras are no longer orderable are dropped and reported in "removed".
      */
     public function summary(?OrderType $type = null): array
     {
         $cart = $this->raw();
         $items = $cart
-            ? MenuItem::withTrashed()->with('category')->whereIn('id', array_keys($cart))->get()->keyBy('id')
+            ? MenuItem::withTrashed()->with(['category', 'variations', 'addons'])
+            ->whereIn('id', array_unique(array_column($cart, 'item')))->get()->keyBy('id')
             : collect();
 
         $lines = collect();
         $removed = [];
         $clean = [];
 
-        foreach ($cart as $id => $qty) {
-            $item = $items->get($id);
+        foreach ($cart as $key => $entry) {
+            $item = $items->get($entry['item']);
 
             if (! $item) {
                 continue;
@@ -133,9 +190,40 @@ class CartService
                 continue;
             }
 
-            $unit = self::cents($item->price);
-            $lines->push(['item' => $item, 'qty' => $qty, 'unit' => $unit, 'total' => $unit * $qty]);
-            $clean[$id] = $qty;
+            $variations = $item->variations->where('is_active', true);
+            $variation = null;
+
+            if ($variations->isNotEmpty()) {
+                $variation = $variations->firstWhere('id', $entry['variation']);
+
+                if (! $variation) {
+                    $removed[] = $item->name;
+
+                    continue;
+                }
+            }
+
+            $addons = $item->addons->where('is_active', true)->whereIn('id', $entry['addons'])->values();
+
+            if ($addons->count() !== count($entry['addons'])) {
+                $removed[] = $item->name;
+
+                continue;
+            }
+
+            $unit = self::cents($variation ? $variation->price : $item->price)
+                + (int) $addons->sum(fn($a) => self::cents($a->price));
+
+            $lines->push([
+                'key' => $key,
+                'item' => $item,
+                'variation' => $variation,
+                'addons' => $addons,
+                'qty' => $entry['qty'],
+                'unit' => $unit,
+                'total' => $unit * $entry['qty'],
+            ]);
+            $clean[$key] = $entry;
         }
 
         if ($clean !== $cart) {

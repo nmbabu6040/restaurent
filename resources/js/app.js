@@ -6,7 +6,9 @@ import { initReservation } from "./modules/reservation";
 import { initLightbox } from "./modules/lightbox";
 import { initConfirm } from "./modules/confirm";
 import { initAdmin } from "./modules/admin";
+import { initAdminOptions } from "./modules/admin-options";
 import { initCart } from "./modules/cart";
+import { initItemOptions } from "./modules/item-options";
 import { initCheckout } from "./modules/checkout";
 import { initOrderStatus } from "./modules/order-status";
 import { toast } from "./modules/toast";
@@ -28,7 +30,9 @@ $(() => {
     initLightbox();
     initConfirm();
     initAdmin();
+    initAdminOptions();
     initCart();
+    initItemOptions();
     initCheckout();
     initOrderStatus();
 

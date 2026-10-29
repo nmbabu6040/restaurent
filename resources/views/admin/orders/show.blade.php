@@ -91,7 +91,9 @@
                         <tr class="border-b border-navy/5">
                             <td class="py-2">{{ $line->name_en }}@if ($line->name_bn)
                                     <br><span class="text-xs">{{ $line->name_bn }}</span>
-                                @endif
+                                    @endif @if ($line->optionsLabel('en'))
+                                        <br><span class="text-xs font-semibold">{{ $line->optionsLabel('en') }}</span>
+                                    @endif
                             </td>
                             <td class="py-2 text-center">{{ $line->quantity }}</td>
                             <td class="py-2 text-right">{{ money($line->unit_price) }}</td>

@@ -19,7 +19,10 @@
     </p>
     <ul>
         @foreach ($order->items as $line)
-            <li>{{ $line->quantity }} &times; {{ $line->name_en }}</li>
+            <li>{{ $line->quantity }} &times; {{ $line->name_en }}@if ($line->optionsLabel('en'))
+                    ({{ $line->optionsLabel('en') }})
+                @endif
+            </li>
         @endforeach
     </ul>
     <p><a href="{{ route('admin.orders.show', $order) }}">Open in admin</a></p>

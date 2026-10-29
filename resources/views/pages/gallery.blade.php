@@ -12,9 +12,9 @@
                             data-alt="{{ $image->tr('alt') }}"
                             aria-label="{{ __('pages.gallery.open') }}: {{ $image->tr('alt') }}"
                             class="block w-full overflow-hidden rounded-xl">
-                            <img src="{{ $image->image_url }}" alt="{{ $image->tr('alt') }}" width="480" height="480"
-                                loading="lazy"
-                                class="aspect-square w-full object-cover transition duration-300 hover:scale-105">
+                            <x-site.picture :path="$image->image_path" :url="$image->image_url" :alt="$image->tr('alt')" :width="480"
+                                :height="480" sizes="(min-width:1024px) 25vw, (min-width:768px) 33vw, 50vw"
+                                class="aspect-square w-full object-cover transition duration-300 hover:scale-105" />
                         </button>
                     </li>
                 @endforeach

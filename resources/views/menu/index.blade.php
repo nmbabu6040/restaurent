@@ -26,7 +26,8 @@
             @endforeach
         </nav>
 
-        <div id="menu-grid" aria-live="polite" aria-busy="false" class="mt-10 transition-opacity">
+        <div id="menu-grid" aria-busy="false" class="mt-10 transition-opacity">
+            <p id="menu-status" class="sr-only" role="status" aria-live="polite"></p>
             @include('menu._grid')
         </div>
     </section>

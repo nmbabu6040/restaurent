@@ -20,6 +20,7 @@ return [
     'ingredients' => 'Ingredients',
     'allergens' => 'Allergen information',
     'related' => 'You may also like',
+    'results' => ':count dish found|:count dishes found',
     'dietary' => [
         'vegetarian' => 'Vegetarian',
         'halal' => 'Halal',

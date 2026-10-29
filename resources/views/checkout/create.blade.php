@@ -87,7 +87,8 @@
                 <ul class="mt-4 space-y-2 text-sm">
                     @foreach ($summary['lines'] as $line)
                         <li class="flex justify-between gap-3">
-                            <span>{{ $line['qty'] }} &times; {{ $line['item']->name }}</span>
+                            <span>{{ $line['qty'] }} &times; {{ $line['item']->name }}<x-orders.options
+                                    :variation="$line['variation']" :addons="$line['addons']" /></span>
                             <span>{{ money_c($line['total']) }}</span>
                         </li>
                     @endforeach

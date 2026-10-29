@@ -20,6 +20,7 @@ return [
     'allergens' => 'অ্যালার্জি তথ্য',
     'related' => 'আরও যা পছন্দ হতে পারে',
     'page_of' => 'পৃষ্ঠা :page / :last',
+    'results' => ':count টি খাবার পাওয়া গেছে|:count টি খাবার পাওয়া গেছে',
     'dietary' => [
         'vegetarian' => 'নিরামিষ',
         'halal' => 'হালাল',

@@ -40,6 +40,8 @@ export function initMenu() {
         })
             .done((html) => {
                 $grid.html(html);
+                const msg = $grid.find("[data-results]").attr("data-results");
+                if (msg) $("#menu-status").text(msg);
                 if (push) history.pushState({}, "", url);
             })
             .fail((jq, status) => {

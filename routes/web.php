@@ -12,9 +12,12 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Middleware\EnsureOrderingEnabled;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SeoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 
 Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 Route::get('/menu/{item:slug}', [MenuController::class, 'show'])->name('menu.show');
@@ -49,8 +52,10 @@ Route::get('/lang/{locale}', LocaleController::class)->name('lang.switch');
 Route::middleware([EnsureOrderingEnabled::class, 'throttle:120,1'])->group(function () {
     Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
     Route::post('/cart/items', [CartController::class, 'add'])->name('cart.add');
-    Route::patch('/cart/items/{itemId}', [CartController::class, 'update'])->whereNumber('itemId')->name('cart.update');
-    Route::delete('/cart/items/{itemId}', [CartController::class, 'destroy'])->whereNumber('itemId')->name('cart.remove');
+    Route::patch('/cart/items/{line}', [CartController::class, 'update'])
+        ->where('line', '[0-9]+_[0-9]+_[0-9.]*')->name('cart.update');
+    Route::delete('/cart/items/{line}', [CartController::class, 'destroy'])
+        ->where('line', '[0-9]+_[0-9]+_[0-9.]*')->name('cart.remove');
     Route::post('/cart/coupon', [CartController::class, 'applyCoupon'])->name('cart.coupon.apply');
     Route::delete('/cart/coupon', [CartController::class, 'removeCoupon'])->name('cart.coupon.remove');
 

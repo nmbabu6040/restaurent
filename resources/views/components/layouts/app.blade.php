@@ -1,3 +1,18 @@
+@props([
+    'title' => null,
+    'description' => null,
+    'image' => null,
+    'noindex' => false,
+    'canonical' => null,
+    'type' => 'website',
+])
+
+@php
+    $siteName = setting('name', config('app.name'));
+    $metaDescription = $description ?: setting('tagline', '');
+    $page = (int) request('page', 1);
+    $canonicalUrl = $canonical ?: url()->current() . ($page > 1 ? '?page=' . $page : '');
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -5,11 +20,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @isset($noindex)
+    <meta name="theme-color" content="#172B4D">
+    <title>{{ $title ? $title . ' | ' : '' }}{{ $siteName }}</title>
+    <meta name="description" content="{{ $metaDescription }}">
+    @if ($noindex)
         <meta name="robots" content="noindex,nofollow">
-    @endisset
-    <title>{{ isset($title) ? $title . ' | ' : '' }}{{ setting('name', config('app.name')) }}</title>
-    <meta name="description" content="{{ $description ?? '' }}">
+    @else
+        <link rel="canonical" href="{{ $canonicalUrl }}">
+    @endif
+
+    <meta property="og:site_name" content="{{ $siteName }}">
+    <meta property="og:type" content="{{ $type }}">
+    <meta property="og:title" content="{{ $title ?: $siteName }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
+    <meta property="og:url" content="{{ $canonicalUrl }}">
+    <meta property="og:locale" content="{{ app()->getLocale() === 'bn' ? 'bn_BD' : 'en_US' }}">
+    @if ($image)
+        <meta property="og:image" content="{{ $image }}">
+    @endif
+    <meta name="twitter:card" content="{{ $image ? 'summary_large_image' : 'summary' }}">
+
+    @stack('head')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -19,7 +50,7 @@
 
     <x-site.navbar />
 
-    <main id="main" class="flex-1">{{ $slot }}</main>
+    <main id="main" tabindex="-1" class="flex-1 focus:outline-none">{{ $slot }}</main>
 
     <x-site.footer />
 

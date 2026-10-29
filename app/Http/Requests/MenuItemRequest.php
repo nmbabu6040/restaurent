@@ -16,6 +16,18 @@ class MenuItemRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge(['slug' => Str::slug($this->input('slug') ?: (string) $this->input('name_en'))]);
+
+        // Ignore completely empty option rows (e.g. an untouched template row).
+        foreach (['variations', 'addons'] as $key) {
+            $rows = $this->input($key);
+
+            if (is_array($rows)) {
+                $this->merge([$key => collect($rows)
+                    ->filter(fn($r) => is_array($r) && (filled($r['name_en'] ?? null) || filled($r['price'] ?? null)))
+                    ->values()
+                    ->all()]);
+            }
+        }
     }
 
     public function rules(): array
@@ -42,6 +54,20 @@ class MenuItemRequest extends FormRequest
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:65535'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048', 'dimensions:max_width=4000,max_height=4000'],
             'remove_image' => ['nullable', 'boolean'],
+
+            'variations' => ['nullable', 'array', 'max:10'],
+            'variations.*.id' => ['nullable', 'integer'],
+            'variations.*.name_en' => ['required', 'string', 'max:100'],
+            'variations.*.name_bn' => ['nullable', 'string', 'max:100'],
+            'variations.*.price' => ['required', 'numeric', 'min:0', 'max:99999999', 'decimal:0,2'],
+            'variations.*.is_active' => ['nullable', 'boolean'],
+
+            'addons' => ['nullable', 'array', 'max:20'],
+            'addons.*.id' => ['nullable', 'integer'],
+            'addons.*.name_en' => ['required', 'string', 'max:100'],
+            'addons.*.name_bn' => ['nullable', 'string', 'max:100'],
+            'addons.*.price' => ['required', 'numeric', 'min:0', 'max:99999999', 'decimal:0,2'],
+            'addons.*.is_active' => ['nullable', 'boolean'],
         ];
     }
 }

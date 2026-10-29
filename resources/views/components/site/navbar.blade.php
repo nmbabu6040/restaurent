@@ -19,7 +19,7 @@
             @foreach ($links as $link)
                 <a href="{{ Route::has($link['route']) ? route($link['route']) : '#' }}"
                     @if (request()->routeIs($link['route'])) aria-current="page" @endif
-                    class="text-sm font-medium transition hover:text-terracotta {{ request()->routeIs($link['route']) ? 'text-terracotta' : 'text-white/90' }}">
+                    class="text-sm font-medium transition hover:text-terracotta-light {{ request()->routeIs($link['route']) ? 'text-terracotta-light' : 'text-white/90' }}">
                     {{ $link['label'] }}
                 </a>
             @endforeach

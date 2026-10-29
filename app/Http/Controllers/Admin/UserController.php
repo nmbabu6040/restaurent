@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
+
 class UserController extends Controller
 {
     public function index()
@@ -82,7 +83,7 @@ class UserController extends Controller
             'email' => ['required', 'email:rfc', 'max:150', Rule::unique('users', 'email')->ignore($user?->id)],
             'role' => ['required', Rule::enum(UserRole::class)],
             'is_active' => ['required', 'boolean'],
-            'password' => [$user ? 'nullable' : 'required', Password::min(10)->letters()->numbers()],
+            'password' => [$user ? 'nullable' : 'required', Password::defaults()],
         ];
     }
 }

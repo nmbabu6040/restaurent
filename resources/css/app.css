@@ -15,6 +15,8 @@
     --color-terracotta-dark: #b25a37;
     --color-charcoal: #292d32;
     --color-surface: #ffffff;
+    --color-terracotta-dark: #a34f2d;
+    --color-terracotta-light: #e39a7b;
 
     --font-heading:
         "Playfair Display Variable", "Noto Serif Bengali Variable", Georgia,
@@ -78,4 +80,25 @@
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+}
+
+/*
+ * Form-control borders need 3:1 contrast against the page (WCAG 1.4.11).
+ * Kept outside any @layer, with :where() for zero specificity, so it overrides the faint
+ * utility-class borders while the invalid state below still wins.
+ */
+:where(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not(
+            [type="file"]
+        ),
+    select,
+    textarea
+) {
+    border-color: color-mix(in srgb, var(--color-navy) 60%, white);
+}
+
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+    border-color: var(--color-red-700);
 }

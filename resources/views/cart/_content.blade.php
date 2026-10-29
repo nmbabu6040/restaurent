@@ -18,7 +18,10 @@
     <div class="grid gap-8 lg:grid-cols-3">
         <ul class="space-y-4 lg:col-span-2">
             @foreach ($lines as $line)
-                @php $item = $line['item']; @endphp
+                @php
+                    $item = $line['item'];
+                    $label = $item->name . ($line['variation'] ? ' (' . $line['variation']->tr('name') . ')' : '');
+                @endphp
                 <li class="card flex flex-wrap items-center gap-4 p-4">
                     @if ($item->image_url)
                         <img src="{{ $item->image_url }}" alt="" width="64" height="64" loading="lazy"
@@ -27,28 +30,31 @@
                     <div class="min-w-0 flex-1 basis-40">
                         <a href="{{ route('menu.show', $item->slug) }}"
                             class="font-heading text-lg text-navy hover:text-terracotta-dark">{{ $item->name }}</a>
+                        <x-orders.options :variation="$line['variation']" :addons="$line['addons']" />
                         <p class="text-sm">{{ money_c($line['unit']) }}</p>
                     </div>
 
                     <div class="flex items-center gap-1">
                         <button type="button" data-qty-delta="-1"
-                            aria-label="{{ __('orders.decrease', ['name' => $item->name]) }}"
+                            aria-label="{{ __('orders.decrease', ['name' => $label]) }}"
                             class="h-9 w-9 rounded-full border border-navy/20 text-lg text-navy hover:border-terracotta">&minus;</button>
-                        <input type="number" data-cart-qty data-url="{{ route('cart.update', $item->id) }}"
+                        <input type="number" data-cart-qty
+                            data-url="{{ route('cart.update', ['line' => $line['key']]) }}"
                             value="{{ $line['qty'] }}" min="0" max="{{ $max }}"
-                            aria-label="{{ __('orders.quantity_of', ['name' => $item->name]) }}"
+                            aria-label="{{ __('orders.quantity_of', ['name' => $label]) }}"
                             class="w-14 rounded-lg border border-navy/20 bg-surface py-1.5 text-center text-sm">
                         <button type="button" data-qty-delta="1"
-                            aria-label="{{ __('orders.increase', ['name' => $item->name]) }}"
+                            aria-label="{{ __('orders.increase', ['name' => $label]) }}"
                             class="h-9 w-9 rounded-full border border-navy/20 text-lg text-navy hover:border-terracotta">+</button>
                     </div>
 
                     <p class="w-24 text-right font-semibold text-navy">{{ money_c($line['total']) }}</p>
 
-                    <form method="POST" action="{{ route('cart.remove', $item->id) }}" data-cart-remove>
+                    <form method="POST" action="{{ route('cart.remove', ['line' => $line['key']]) }}"
+                        data-cart-remove>
                         @csrf @method('DELETE')
                         <button type="submit" class="text-sm font-semibold text-red-700 hover:underline"
-                            aria-label="{{ __('orders.remove_named', ['name' => $item->name]) }}">{{ __('orders.remove') }}</button>
+                            aria-label="{{ __('orders.remove_named', ['name' => $label]) }}">{{ __('orders.remove') }}</button>
                     </form>
                 </li>
             @endforeach

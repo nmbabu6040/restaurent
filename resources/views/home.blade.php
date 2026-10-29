@@ -5,6 +5,30 @@
 @endphp
 
 <x-layouts.app :description="setting('hero_subtitle')">
+
+    @push('head')
+        @php
+            $sameAs = array_values(
+                array_filter([setting('facebook'), setting('instagram')], fn($u) => $u && str_starts_with($u, 'http')),
+            );
+            $ld = array_filter([
+                '@context' => 'https://schema.org',
+                '@type' => 'Restaurant',
+                'name' => $brand,
+                'description' => setting('hero_subtitle'),
+                'url' => url('/'),
+                'image' => $gallery->first()?->image_url,
+                'servesCuisine' => setting('cuisine'),
+                'telephone' => setting('phone'),
+                'address' => setting('address'),
+                'sameAs' => $sameAs ?: null,
+                'hasMenu' => ['@type' => 'Menu', 'url' => route('menu.index')],
+                'acceptsReservations' => route('reservations.create'),
+            ]);
+        @endphp
+        <x-seo.json-ld :data="$ld" />
+    @endpush
+
     {{-- Hero --}}
     <section class="mx-auto max-w-4xl px-6 py-20 text-center sm:py-28">
         <span class="inline-block rounded-full bg-terracotta-dark px-3 py-1 text-xs font-semibold text-white">
@@ -13,7 +37,8 @@
         <h1 class="mt-5 text-4xl font-bold leading-tight sm:text-6xl">{{ setting('hero_title', __('site.hero.title')) }}
         </h1>
         <p class="mx-auto mt-5 max-w-xl text-lg">{{ setting('hero_subtitle', __('site.hero.subtitle')) }}</p>
-        <p class="mt-3 text-sm font-semibold uppercase tracking-widest text-terracotta-dark">{{ setting('cuisine') }}</p>
+        <p class="mt-3 text-sm font-semibold uppercase tracking-widest text-terracotta-light-dark">
+            {{ setting('cuisine') }}</p>
         <div class="mt-8 flex flex-wrap justify-center gap-3">
             <a href="{{ $menuUrl }}" class="btn-primary">{{ __('site.hero.menu_cta') }}</a>
             <a href="{{ $reserveUrl }}" class="btn-accent">{{ __('site.nav.reserve') }}</a>
@@ -28,7 +53,7 @@
                 @foreach ($categories as $category)
                     <li>
                         <a href="{{ route('menu.index', ['category' => $category->slug]) }}"
-                            class="card flex h-full items-center justify-center p-5 text-center font-heading text-lg text-navy transition hover:-translate-y-0.5 hover:text-terracotta-dark">
+                            class="card flex h-full items-center justify-center p-5 text-center font-heading text-lg text-navy transition hover:-translate-y-0.5 hover:text-terracotta-light-dark">
                             {{ $category->name }}
                         </a>
                     </li>
@@ -41,7 +66,7 @@
     @if ($featured->isNotEmpty())
         <section class="mx-auto max-w-7xl px-6 py-12" aria-labelledby="featured-title">
             <div class="text-center">
-                <h2 id="featured-title" class="text-3xl font-bold">{{ __('home.featured_title') }}</h2>
+                <h3 id="featured-title" class="text-3xl font-bold">{{ __('home.featured_title') }}</h3>
                 <p class="mt-2">{{ __('home.featured_text') }}</p>
             </div>
             <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -103,7 +128,8 @@
                                 <h3 class="text-xl font-semibold !text-white">{{ $promo->tr('title') }}</h3>
                                 <p class="mt-2 text-sm text-white/80">{{ $promo->tr('description') }}</p>
                                 @if ($promo->ends_at)
-                                    <p class="mt-4 text-xs font-semibold uppercase tracking-wider text-terracotta">
+                                    <p
+                                        class="mt-4 text-xs font-semibold uppercase tracking-wider text-terracotta-light">
                                         {{ __('home.valid_until', ['date' => $promo->ends_at->translatedFormat('d M Y')]) }}
                                     </p>
                                 @endif
@@ -122,9 +148,9 @@
             <ul class="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
                 @foreach ($gallery as $image)
                     <li class="overflow-hidden rounded-xl">
-                        <img src="{{ $image->image_url }}" alt="{{ $image->tr('alt') }}" width="480" height="480"
-                            loading="lazy"
-                            class="aspect-square w-full object-cover transition duration-300 hover:scale-105">
+                        <x-site.picture :path="$image->image_path" :url="$image->image_url" :alt="$image->tr('alt')" :width="480"
+                            :height="480" sizes="(min-width:768px) 25vw, 50vw"
+                            class="aspect-square w-full object-cover transition duration-300 hover:scale-105" />
                     </li>
                 @endforeach
             </ul>
@@ -141,7 +167,7 @@
                     @foreach ($testimonials as $t)
                         <figure class="rounded-2xl bg-warm p-6">
                             <p role="img" aria-label="{{ __('home.stars', ['count' => $t->rating]) }}"
-                                class="text-terracotta-dark">
+                                class="text-terracotta-light-dark">
                                 <span
                                     aria-hidden="true">{{ str_repeat('★', $t->rating) }}{{ str_repeat('☆', 5 - $t->rating) }}</span>
                             </p>
@@ -174,7 +200,7 @@
                 <p class="mt-3 text-sm">
                     {{ __('home.call') }}:
                     <a href="tel:{{ preg_replace('/[^+\d]/', '', setting('phone', '')) }}"
-                        class="font-semibold text-navy hover:text-terracotta-dark">{{ setting('phone') }}</a>
+                        class="font-semibold text-navy hover:text-terracotta-light-dark">{{ setting('phone') }}</a>
                 </p>
             </div>
         </div>

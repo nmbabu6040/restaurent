@@ -2,6 +2,23 @@
     $editing = $item->exists;
     $dietary = old('dietary', $item->dietary ?? []);
     $dietary = is_array($dietary) ? $dietary : [];
+    $rowsFor = fn(string $key, $relation) => old(
+        $key,
+        $relation
+            ->map(
+                fn($o) => [
+                    'id' => $o->id,
+                    'name_en' => $o->name_en,
+                    'name_bn' => $o->name_bn,
+                    'price' => $o->price,
+                    'is_active' => $o->is_active,
+                ],
+            )
+            ->all(),
+    );
+    $variationRows = $rowsFor('variations', $item->variations);
+    $addonRows = $rowsFor('addons', $item->addons);
+    $nextIndex = fn(array $rows) => $rows ? max(array_keys($rows)) + 1 : 0;
 @endphp
 
 <x-admin.layout :title="$editing ? 'Edit menu item' : 'New menu item'">
@@ -44,14 +61,66 @@
                 <p id="menu_category_id-error" class="mt-1 text-sm text-red-700">
                     {{ $errors->first('menu_category_id') }}</p>
             </div>
-            <x-form.field name="price" type="number" label="Price" :required="true" :value="$item->price"
-                step="0.01" min="0" />
+            <x-form.field name="price" type="number" label="Base price (used when the item has no sizes)"
+                :required="true" :value="$item->price" step="0.01" min="0" />
             <x-form.field name="sort_order" type="number" label="Sort order" :value="$item->sort_order" min="0"
                 max="65535" />
         </div>
 
         <x-form.field name="slug" label="URL slug (auto from English name if empty)" :value="$item->slug"
             maxlength="160" />
+
+        <fieldset class="rounded-xl border border-navy/10 p-4">
+            <legend class="px-1 font-heading text-lg text-navy">Sizes / portions</legend>
+            <p class="text-sm">If you add sizes, the customer must choose one, and the size price replaces the base
+                price.</p>
+            <div data-option-list="variations" data-next-index="{{ $nextIndex($variationRows) }}"
+                class="mt-3 space-y-3">
+                @foreach ($variationRows as $i => $row)
+                    @include('admin.items._option-row', [
+                        'field' => 'variations',
+                        'i' => $i,
+                        'row' => $row,
+                        'priceLabel' => 'Size price',
+                    ])
+                @endforeach
+            </div>
+            <template id="tpl-variations">
+                @include('admin.items._option-row', [
+                    'field' => 'variations',
+                    'i' => '__INDEX__',
+                    'row' => [],
+                    'priceLabel' => 'Size price',
+                ])
+            </template>
+            <button type="button" data-add-option="variations" class="btn mt-3 border border-navy/20 text-navy">Add
+                size</button>
+        </fieldset>
+
+        <fieldset class="rounded-xl border border-navy/10 p-4">
+            <legend class="px-1 font-heading text-lg text-navy">Extras / add-ons</legend>
+            <p class="text-sm">Optional extras the customer can tick. The price is added on top of the item price.</p>
+            <div data-option-list="addons" data-next-index="{{ $nextIndex($addonRows) }}" class="mt-3 space-y-3">
+                @foreach ($addonRows as $i => $row)
+                    @include('admin.items._option-row', [
+                        'field' => 'addons',
+                        'i' => $i,
+                        'row' => $row,
+                        'priceLabel' => 'Extra price',
+                    ])
+                @endforeach
+            </div>
+            <template id="tpl-addons">
+                @include('admin.items._option-row', [
+                    'field' => 'addons',
+                    'i' => '__INDEX__',
+                    'row' => [],
+                    'priceLabel' => 'Extra price',
+                ])
+            </template>
+            <button type="button" data-add-option="addons" class="btn mt-3 border border-navy/20 text-navy">Add
+                extra</button>
+        </fieldset>
 
         <fieldset>
             <legend class="text-sm font-medium text-navy">Dietary labels</legend>
@@ -78,13 +147,15 @@
         </div>
 
         <div>
-            <label for="image" class="block text-sm font-medium text-navy">Image (JPG, PNG or WebP, max 2 MB)</label>
+            <label for="image" class="block text-sm font-medium text-navy">Image (JPG, PNG or WebP, max 2
+                MB)</label>
             @if ($item->image_url)
                 <img src="{{ $item->image_url }}" alt="Current image of {{ $item->name_en }}" width="160"
                     height="120" class="mt-2 h-24 w-32 rounded-lg object-cover">
                 <input type="hidden" name="remove_image" value="0">
                 <label class="mt-2 flex items-center gap-2 text-sm">
-                    <input type="checkbox" name="remove_image" value="1" class="accent-navy"> Remove current image
+                    <input type="checkbox" name="remove_image" value="1" class="accent-navy"> Remove current
+                    image
                 </label>
             @endif
             <input id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp"

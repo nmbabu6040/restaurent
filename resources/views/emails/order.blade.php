@@ -18,7 +18,10 @@
         </tr>
         @foreach ($order->items as $line)
             <tr>
-                <td>{{ $line->tr('name') }}</td>
+                <td>{{ $line->tr('name') }}@if ($line->optionsLabel(app()->getLocale()))
+                        <br><small>{{ $line->optionsLabel(app()->getLocale()) }}</small>
+                    @endif
+                </td>
                 <td align="center">{{ $line->quantity }}</td>
                 <td align="right">{{ money($line->line_total) }}</td>
             </tr>

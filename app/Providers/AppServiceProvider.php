@@ -8,14 +8,29 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
+    public function register(): void
+    {
+        // Reset for every request and every queued job, so a long-running queue worker never uses stale settings.
+        $this->app->scoped('settings.memo', fn() => new \ArrayObject());
+    }
 
     public function boot(): void
     {
+        // Build every absolute URL (emails, sitemap, canonical, payment callbacks) from APP_URL,
+        // so a forged Host header cannot inject another domain into them.
+        if ($this->app->isProduction()) {
+            URL::forceRootUrl(config('app.url'));
+            URL::forceScheme('https');
+        }
+
+        Password::defaults(fn() => Password::min(10)->letters()->numbers());
+
         RateLimiter::for('reservations', fn(Request $r) => Limit::perMinutes(10, 5)->by($r->ip()));
         RateLimiter::for('contact', fn(Request $r) => Limit::perMinutes(10, 3)->by($r->ip()));
         RateLimiter::for('newsletter', fn(Request $r) => Limit::perMinutes(10, 5)->by($r->ip()));

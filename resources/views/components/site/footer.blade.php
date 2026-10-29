@@ -4,8 +4,8 @@
             <p class="font-heading text-2xl font-bold text-white">{{ setting('name', config('app.name')) }}</p>
             <p class="mt-3 text-sm text-white/70">{{ setting('tagline') }}</p>
             <div class="mt-4 flex gap-4 text-sm">
-                <a href="{{ setting('facebook', '#') }}" class="hover:text-terracotta" rel="noopener">Facebook</a>
-                <a href="{{ setting('instagram', '#') }}" class="hover:text-terracotta" rel="noopener">Instagram</a>
+                <a href="{{ setting('facebook', '#') }}" class="hover:text-terracotta-light" rel="noopener">Facebook</a>
+                <a href="{{ setting('instagram', '#') }}" class="hover:text-terracotta-light" rel="noopener">Instagram</a>
             </div>
         </div>
 

@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\LogsActivity;
 use App\Models\Concerns\Translatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Concerns\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 class MenuItem extends Model
 {
-    use SoftDeletes, Translatable, LogsActivity;
+    use LogsActivity, SoftDeletes, Translatable;
 
     protected $fillable = [
         'menu_category_id',
@@ -51,6 +52,31 @@ class MenuItem extends Model
         return $this->belongsTo(MenuCategory::class, 'menu_category_id');
     }
 
+    public function variations(): HasMany
+    {
+        return $this->hasMany(FoodVariation::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function addons(): HasMany
+    {
+        return $this->hasMany(FoodAddon::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function activeVariations(): HasMany
+    {
+        return $this->variations()->where('is_active', true);
+    }
+
+    public function activeAddons(): HasMany
+    {
+        return $this->addons()->where('is_active', true);
+    }
+
+    public function hasOptions(): bool
+    {
+        return $this->activeVariations->isNotEmpty() || $this->activeAddons->isNotEmpty();
+    }
+
     protected function name(): Attribute
     {
         return Attribute::get(fn() => $this->tr('name'));
@@ -68,13 +94,15 @@ class MenuItem extends Model
         );
     }
 
+    /** "From ৳ 250" when the item has sizes (requires the activeVariations relation to be loaded), else the price. */
     protected function formattedPrice(): Attribute
     {
         return Attribute::get(function () {
-            $price = (float) $this->price;
-            $number = fmod($price, 1) === 0.0 ? number_format($price, 0) : number_format($price, 2);
+            if ($this->relationLoaded('activeVariations') && $this->activeVariations->isNotEmpty()) {
+                return __('orders.from', ['price' => money($this->activeVariations->min('price'))]);
+            }
 
-            return config('restaurant.currency_symbol') . ' ' . $number;
+            return money($this->price);
         });
     }
 

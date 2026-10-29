@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Support\AdminResources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\ImageService;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 
@@ -44,7 +45,7 @@ class ContentController extends Controller
         $data = $this->prepare($request->validate($this->rules($cfg, true)));
 
         if ($file = $request->file('image')) {
-            $data[$cfg['image']['field']] = $file->store($cfg['image']['dir'], 'public');
+            $data[$cfg['image']['field']] = app(ImageService::class)->store($file, $cfg['image']['dir']);
         }
 
         $cfg['model']::create($data);
@@ -72,7 +73,7 @@ class ContentController extends Controller
 
         if ($img && $request->hasFile('image')) {
             $this->deleteFile($record->{$img['field']});
-            $data[$img['field']] = $request->file('image')->store($img['dir'], 'public');
+            $data[$img['field']] = app(ImageService::class)->store($request->file('image'), $img['dir']);
         } elseif ($img && ! $img['required'] && $request->boolean('remove_image')) {
             $this->deleteFile($record->{$img['field']});
             $data[$img['field']] = null;
@@ -150,8 +151,6 @@ class ContentController extends Controller
 
     private function deleteFile(?string $path): void
     {
-        if ($path) {
-            Storage::disk('public')->delete($path);
-        }
+        app(ImageService::class)->delete($path);
     }
 }

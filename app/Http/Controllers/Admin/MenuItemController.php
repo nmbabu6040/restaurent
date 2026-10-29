@@ -8,6 +8,8 @@ use App\Models\MenuCategory;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Storage;
 
 class MenuItemController extends Controller
@@ -52,10 +54,13 @@ class MenuItemController extends Controller
         $data = $this->payload($request);
 
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('menu', 'public');
+            $data['image_path'] = app(ImageService::class)->store($request->file('image'), 'menu');
         }
 
-        MenuItem::create($data);
+        DB::transaction(function () use ($data, $request) {
+            $item = MenuItem::create($data);
+            $this->syncOptions($item, $request->validated());
+        });
 
         return redirect()->route('admin.items.index')->with('status', 'Menu item created.');
     }
@@ -74,13 +79,16 @@ class MenuItemController extends Controller
 
         if ($request->hasFile('image')) {
             $this->deleteImage($item->image_path);
-            $data['image_path'] = $request->file('image')->store('menu', 'public');
+            $data['image_path'] = app(ImageService::class)->store($request->file('image'), 'menu');
         } elseif ($request->boolean('remove_image')) {
             $this->deleteImage($item->image_path);
             $data['image_path'] = null;
         }
 
-        $item->update($data);
+        DB::transaction(function () use ($item, $data, $request) {
+            $item->update($data);
+            $this->syncOptions($item, $request->validated());
+        });
 
         return redirect()->route('admin.items.index')->with('status', 'Menu item updated.');
     }
@@ -105,17 +113,49 @@ class MenuItemController extends Controller
 
     private function payload(MenuItemRequest $request): array
     {
-        $data = Arr::except($request->validated(), ['image', 'remove_image']);
+        $data = Arr::except($request->validated(), ['image', 'remove_image', 'variations', 'addons']);
         $data['dietary'] = array_values(array_filter($data['dietary'] ?? []));
         $data['sort_order'] = $data['sort_order'] ?? 0;
 
         return $data;
     }
 
+    /**
+     * Save sizes and extras. Rows with an id are updated in place (so carts keep working),
+     * new rows are created, and rows missing from the form are deleted.
+     */
+    private function syncOptions(MenuItem $item, array $validated): void
+    {
+        foreach (['variations', 'addons'] as $key) {
+            $relation = fn() => $key === 'variations' ? $item->variations() : $item->addons();
+            $keep = [];
+
+            foreach (($validated[$key] ?? []) as $position => $row) {
+                $attrs = [
+                    'name_en' => $row['name_en'],
+                    'name_bn' => $row['name_bn'] ?? null,
+                    'price' => $row['price'],
+                    'is_active' => (bool) ($row['is_active'] ?? true),
+                    'sort_order' => $position,
+                ];
+
+                $model = ! empty($row['id']) ? $relation()->whereKey($row['id'])->first() : null;
+
+                if ($model) {
+                    $model->update($attrs);
+                } else {
+                    $model = $relation()->create($attrs);
+                }
+
+                $keep[] = $model->id;
+            }
+
+            $relation()->whereNotIn('id', $keep)->delete();
+        }
+    }
+
     private function deleteImage(?string $path): void
     {
-        if ($path) {
-            Storage::disk('public')->delete($path);
-        }
+        app(ImageService::class)->delete($path);
     }
 }

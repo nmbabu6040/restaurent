@@ -1,3 +1,4 @@
+<span hidden data-results="{{ trans_choice('menu.results', $items->total(), ['count' => $items->total()]) }}"></span>
 @if ($items->isEmpty())
     <div class="card mx-auto max-w-md p-10 text-center">
         <p class="font-heading text-xl text-navy">{{ __('menu.empty_title') }}</p>

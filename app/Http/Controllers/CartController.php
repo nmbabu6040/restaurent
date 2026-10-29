@@ -23,9 +23,13 @@ class CartController extends Controller
         $data = $request->validate([
             'item_id' => ['required', 'integer'],
             'quantity' => ['nullable', 'integer', 'min:1', 'max:' . $max],
+            'variation_id' => ['nullable', 'integer'],
+            'addons' => ['nullable', 'array', 'max:20'],
+            'addons.*' => ['integer'],
         ]);
 
         $item = MenuItem::query()
+            ->with(['activeVariations', 'activeAddons'])
             ->whereKey($data['item_id'])
             ->where('is_available', true)
             ->whereHas('category', fn($q) => $q->where('is_active', true))
@@ -35,7 +39,9 @@ class CartController extends Controller
             throw ValidationException::withMessages(['item_id' => __('orders.unavailable')]);
         }
 
-        $this->cart->add($item->id, $data['quantity'] ?? 1);
+        [$variationId, $addonIds] = $this->cart->resolveSelection($item, $data['variation_id'] ?? null, $data['addons'] ?? []);
+
+        $this->cart->add($item->id, $variationId, $addonIds, $data['quantity'] ?? 1);
         $message = __('orders.added', ['name' => $item->name]);
 
         return $request->wantsJson()
@@ -43,20 +49,20 @@ class CartController extends Controller
             : back()->with('status', $message);
     }
 
-    public function update(Request $request, int $itemId)
+    public function update(Request $request, string $line)
     {
         $data = $request->validate([
             'quantity' => ['required', 'integer', 'min:0', 'max:' . config('restaurant.ordering.max_qty')],
         ]);
 
-        $this->cart->set($itemId, $data['quantity']);
+        $this->cart->set($line, $data['quantity']);
 
         return $this->respond($request);
     }
 
-    public function destroy(Request $request, int $itemId)
+    public function destroy(Request $request, string $line)
     {
-        $this->cart->remove($itemId);
+        $this->cart->remove($line);
 
         return $this->respond($request);
     }

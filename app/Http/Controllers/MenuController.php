@@ -19,7 +19,7 @@ class MenuController extends Controller
         $activeCategory = $data['category'] ?? '';
 
         $items = MenuItem::query()
-            ->with('category')
+            ->with(['category', 'activeVariations', 'activeAddons'])
             ->whereHas('category', function ($q) use ($activeCategory) {
                 $q->where('is_active', true)
                     ->when($activeCategory !== '', fn($c) => $c->where('slug', $activeCategory));
@@ -48,7 +48,7 @@ class MenuController extends Controller
         abort_unless($item->category()->where('is_active', true)->exists(), 404);
 
         $related = MenuItem::query()
-            ->with('category')
+            ->with(['category', 'activeVariations', 'activeAddons'])
             ->where('menu_category_id', $item->menu_category_id)
             ->where('id', '!=', $item->id)
             ->where('is_available', true)
@@ -57,7 +57,7 @@ class MenuController extends Controller
             ->get();
 
         return view('menu.show', [
-            'item' => $item->load('category'),
+            'item' => $item->load('category', 'activeVariations', 'activeAddons'),
             'related' => $related,
         ]);
     }

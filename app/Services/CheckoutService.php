@@ -95,6 +95,15 @@ class CheckoutService
                     'menu_item_id' => $line['item']->id,
                     'name_en' => $line['item']->name_en,
                     'name_bn' => $line['item']->name_bn,
+                    'variation_en' => $line['variation']?->name_en,
+                    'variation_bn' => $line['variation']?->name_bn,
+                    'addons' => $line['addons']->isEmpty()
+                        ? null
+                        : $line['addons']->map(fn($a) => [
+                            'name_en' => $a->name_en,
+                            'name_bn' => $a->name_bn,
+                            'price' => (float) $a->price,
+                        ])->values()->all(),
                     'unit_price' => $dec($line['unit']),
                     'quantity' => $line['qty'],
                     'line_total' => $dec($line['total']),

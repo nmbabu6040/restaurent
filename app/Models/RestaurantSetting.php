@@ -11,17 +11,28 @@ class RestaurantSetting extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn() => Cache::forget('restaurant_settings'));
-        static::deleted(fn() => Cache::forget('restaurant_settings'));
+        $flush = function () {
+            Cache::forget('restaurant_settings');
+            app('settings.memo')->exchangeArray([]);
+        };
+
+        static::saved($flush);
+        static::deleted($flush);
     }
 
     public static function cached(): array
     {
-        return Cache::rememberForever('restaurant_settings', function () {
-            return static::query()->get()->mapWithKeys(fn($s) => [
-                $s->key => ['en' => $s->value_en, 'bn' => $s->value_bn],
-            ])->all();
-        });
+        $memo = app('settings.memo');
+
+        if (! isset($memo['all'])) {
+            $memo['all'] = Cache::rememberForever('restaurant_settings', function () {
+                return static::query()->get()->mapWithKeys(fn($s) => [
+                    $s->key => ['en' => $s->value_en, 'bn' => $s->value_bn],
+                ])->all();
+            });
+        }
+
+        return $memo['all'];
     }
 
     public static function get(string $key, ?string $default = null): ?string

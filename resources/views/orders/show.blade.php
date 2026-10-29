@@ -81,8 +81,14 @@
             <h2 class="mt-8 text-xl font-semibold">{{ __('orders.show.items') }}</h2>
             <ul class="mt-3 space-y-2 text-sm">
                 @foreach ($order->items as $line)
-                    <li class="flex justify-between gap-3"><span>{{ $line->quantity }} &times;
-                            {{ $line->tr('name') }}</span><span>{{ money($line->line_total) }}</span></li>
+                    <li class="flex justify-between gap-3">
+                        <span>{{ $line->quantity }} &times; {{ $line->tr('name') }}@if ($line->optionsLabel(app()->getLocale()))
+                                <span
+                                    class="block text-xs text-charcoal/80">{{ $line->optionsLabel(app()->getLocale()) }}</span>
+                            @endif
+                        </span>
+                        <span>{{ money($line->line_total) }}</span>
+                    </li>
                 @endforeach
             </ul>
             <dl class="mt-4 space-y-2 border-t border-navy/10 pt-4 text-sm">

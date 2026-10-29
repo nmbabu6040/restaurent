@@ -13,7 +13,7 @@ class HomeController extends Controller
     public function __invoke()
     {
         $available = fn() => MenuItem::query()
-            ->with('category')
+            ->with(['category', 'activeVariations', 'activeAddons'])
             ->whereHas('category', fn($c) => $c->where('is_active', true))
             ->where('is_available', true)
             ->orderBy('sort_order');

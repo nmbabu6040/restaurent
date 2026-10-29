@@ -1,12 +1,12 @@
-@props(['item'])
+@props(['item', 'heading' => 'h2'])
 
 @php $canOrder = config('restaurant.ordering_enabled') && $item->is_available; @endphp
 
 <article class="card relative flex flex-col overflow-hidden {{ $item->is_available ? '' : 'opacity-75' }}">
     <div class="relative aspect-[4/3] bg-navy/5">
         @if ($item->image_url)
-            <img src="{{ $item->image_url }}" alt="{{ $item->name }}" width="640" height="480" loading="lazy"
-                class="h-full w-full object-cover">
+            <x-site.picture :path="$item->image_path" :url="$item->image_url" :alt="$item->name"
+                sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" class="h-full w-full object-cover" />
         @else
             <div class="flex h-full items-center justify-center font-heading text-6xl text-navy/20" aria-hidden="true">
                 {{ mb_substr($item->name, 0, 1) }}</div>
@@ -26,33 +26,44 @@
 
     <div class="flex flex-1 flex-col p-5">
         <p class="text-xs font-semibold uppercase tracking-widest text-terracotta-dark">{{ $item->category->name }}</p>
-        <h2 class="mt-1 text-xl font-semibold"><a href="{{ route('menu.show', $item->slug) }}"
-                class="after:absolute after:inset-0 hover:text-terracotta-dark">{{ $item->name }}</a></h2>
-        <p class="mt-2 line-clamp-3 text-sm">{{ $item->description }}</p>
+        <{{ $heading }} class="mt-1 text-xl font-semibold">
+            <a href="{{ route('menu.show', $item->slug) }}"
+                class="after:absolute after:inset-0 hover:text-terracotta-dark">{{ $item->name }}</a>
+            </{{ $heading }}>
 
-        @if (!empty($item->dietary))
-            <ul class="mt-3 flex flex-wrap gap-1.5">
-                @foreach ($item->dietary as $label)
-                    <li class="rounded bg-warm px-2 py-0.5 text-xs text-charcoal">{{ __('menu.dietary.' . $label) }}</li>
-                @endforeach
-            </ul>
-        @endif
 
-        <div class="mt-auto flex items-center justify-between gap-3 pt-4">
-            <span class="font-heading text-xl font-bold text-navy">{{ $item->formatted_price }}</span>
+            <p class="mt-2 line-clamp-3 text-sm">{{ $item->description }}</p>
 
-            @if ($canOrder)
-                <form method="POST" action="{{ route('cart.add') }}" data-cart-add class="relative z-10">
-                    @csrf
-                    <input type="hidden" name="item_id" value="{{ $item->id }}">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn-primary !px-4 !py-2"
-                        aria-label="{{ __('orders.add_named', ['name' => $item->name]) }}">{{ __('orders.add') }}</button>
-                </form>
-            @elseif (!$item->is_available)
-                <span
-                    class="rounded-full bg-charcoal/10 px-3 py-1 text-xs font-semibold">{{ __('menu.sold_out') }}</span>
+            @if (!empty($item->dietary))
+                <ul class="mt-3 flex flex-wrap gap-1.5">
+                    @foreach ($item->dietary as $label)
+                        <li class="rounded bg-warm px-2 py-0.5 text-xs text-charcoal">
+                            {{ __('menu.dietary.' . $label) }}
+                        </li>
+                    @endforeach
+                </ul>
             @endif
-        </div>
+
+            <div class="mt-auto flex items-center justify-between gap-3 pt-4">
+                <span class="font-heading text-xl font-bold text-navy">{{ $item->formatted_price }}</span>
+
+                @if ($canOrder)
+                    @if ($item->hasOptions())
+                        <a href="{{ route('menu.show', $item->slug) }}"
+                            class="btn-primary relative z-10 !px-4 !py-2">{{ __('orders.choose_options') }}</a>
+                    @else
+                        <form method="POST" action="{{ route('cart.add') }}" data-cart-add class="relative z-10">
+                            @csrf
+                            <input type="hidden" name="item_id" value="{{ $item->id }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn-primary !px-4 !py-2"
+                                aria-label="{{ __('orders.add_named', ['name' => $item->name]) }}">{{ __('orders.add') }}</button>
+                        </form>
+                    @endif
+                @elseif (!$item->is_available)
+                    <span
+                        class="rounded-full bg-charcoal/10 px-3 py-1 text-xs font-semibold">{{ __('menu.sold_out') }}</span>
+                @endif
+            </div>
     </div>
 </article>

@@ -2,6 +2,8 @@
 
 use App\Models\RestaurantSetting;
 
+use Illuminate\Support\Facades\Storage;
+
 if (! function_exists('setting')) {
     function setting(string $key, ?string $default = null): ?string
     {
@@ -25,5 +27,20 @@ if (! function_exists('money_c')) {
     function money_c(int $cents): string
     {
         return money($cents / 100);
+    }
+}
+
+if (! function_exists('image_thumb')) {
+    /** URL of the 480px thumbnail made by ImageService, or null for older uploads that have none. */
+    function image_thumb(?string $path): ?string
+    {
+        if (! $path || ! str_ends_with($path, '.webp')) {
+            return null;
+        }
+
+        $thumb = substr($path, 0, -5) . '-480.webp';
+        $disk = Storage::disk('public');
+
+        return $disk->exists($thumb) ? $disk->url($thumb) : null;
     }
 }
