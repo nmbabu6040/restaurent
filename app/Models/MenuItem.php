@@ -11,10 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MenuItem extends Model
 {
-    use LogsActivity, SoftDeletes, Translatable;
+    use HasFactory, LogsActivity, SoftDeletes, Translatable;
 
     protected $fillable = [
         'menu_category_id',

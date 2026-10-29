@@ -7,10 +7,13 @@ import { initLightbox } from "./modules/lightbox";
 import { initConfirm } from "./modules/confirm";
 import { initAdmin } from "./modules/admin";
 import { initAdminOptions } from "./modules/admin-options";
+import { initAdminShell } from "./modules/admin-shell";
 import { initCart } from "./modules/cart";
 import { initItemOptions } from "./modules/item-options";
 import { initCheckout } from "./modules/checkout";
 import { initOrderStatus } from "./modules/order-status";
+import { initBackToTop } from "./modules/scroll-top";
+import { initShare } from "./modules/share";
 import { toast } from "./modules/toast";
 
 window.$ = window.jQuery = $;
@@ -31,10 +34,13 @@ $(() => {
     initConfirm();
     initAdmin();
     initAdminOptions();
+    initAdminShell();
     initCart();
     initItemOptions();
     initCheckout();
     initOrderStatus();
+    initBackToTop();
+    initShare();
 
     const flash = document.getElementById("flash-message");
     if (flash)

@@ -1,6 +1,21 @@
 <?php
 
 return [
+    'back_to_top' => 'Back to top',
+    'whatsapp' => 'Chat with us on WhatsApp',
+    'credit' => 'Website by',
+    'share' => [
+        'title' => 'Share this dish',
+        'on' => 'Share on :network',
+        'copy' => 'Copy link',
+        'copied' => 'Link copied',
+        'more' => 'More…',
+    ],
+    'maintenance' => [
+        'title' => 'We will be back soon',
+        'text' => 'Our website is being updated. Please check back in a little while.',
+        'contact' => 'Need us urgently? Call',
+    ],
     'skip' => 'Skip to content',
     'nav' => [
         'home' => 'Home',

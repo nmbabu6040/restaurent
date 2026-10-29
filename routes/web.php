@@ -13,6 +13,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Middleware\EnsureOrderingEnabled;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SeoController;
+use App\Http\Controllers\NotFoundController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -80,4 +81,4 @@ Route::prefix('payments/sslcommerz')->middleware('throttle:120,1')->name('paymen
 
 require __DIR__ . '/admin.php';
 
-Route::fallback(fn() => abort(404));
+Route::fallback(NotFoundController::class);

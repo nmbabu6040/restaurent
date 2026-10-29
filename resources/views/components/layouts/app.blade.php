@@ -12,6 +12,8 @@
     $metaDescription = $description ?: setting('tagline', '');
     $page = (int) request('page', 1);
     $canonicalUrl = $canonical ?: url()->current() . ($page > 1 ? '?page=' . $page : '');
+    $favicon = setting_image('favicon');
+    $author = setting('author_name');
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -20,9 +22,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="theme-color" content="#172B4D">
+    <meta name="theme-color" content="{{ section_theme('header')['bg'] }}">
     <title>{{ $title ? $title . ' | ' : '' }}{{ $siteName }}</title>
     <meta name="description" content="{{ $metaDescription }}">
+    @if ($author)
+        <meta name="author" content="{{ $author }}">
+    @endif
+    @if ($favicon)
+        <link rel="icon" href="{{ $favicon }}">
+        <link rel="apple-touch-icon" href="{{ $favicon }}">
+    @endif
     @if ($noindex)
         <meta name="robots" content="noindex,nofollow">
     @else
@@ -53,6 +62,8 @@
     <main id="main" tabindex="-1" class="flex-1 focus:outline-none">{{ $slot }}</main>
 
     <x-site.footer />
+
+    <x-site.floating-actions />
 
     @if (session('status'))
         <div id="flash-message" data-message="{{ session('status') }}" hidden></div>

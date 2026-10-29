@@ -143,6 +143,8 @@
                     </ul>
                 @endif
 
+                <x-site.share :url="route('menu.show', $item->slug)" :title="$item->name" />
+
                 @if ($item->tr('ingredients'))
                     <h2 class="mt-8 text-xl font-semibold">{{ __('menu.ingredients') }}</h2>
                     <p class="mt-2 text-sm">{{ $item->tr('ingredients') }}</p>

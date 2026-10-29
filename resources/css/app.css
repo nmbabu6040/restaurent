@@ -46,9 +46,9 @@
     h2,
     h3,
     h4 {
-        @apply font-heading text-navy;
+        @apply font-heading;
+        color: var(--heading, var(--color-navy));
     }
-
     :focus-visible {
         @apply outline-2 outline-offset-2 outline-terracotta;
     }
@@ -66,8 +66,21 @@
     @apply btn bg-terracotta-dark text-white hover:bg-terracotta;
 }
 
+@utility on-light {
+    color: var(--color-charcoal);
+    --heading: var(--color-navy);
+    --accent: #a34f2d;
+}
+
 @utility card {
-    @apply bg-surface rounded-(--radius-card) shadow-card;
+    @apply bg-surface rounded-(--radius-card) shadow-card on-light;
+}
+
+/* A button that inverts the colors of the section it sits in, so it is visible on any background. */
+@utility btn-contrast {
+    @apply btn;
+    background-color: var(--sec-fg);
+    color: var(--sec-bg);
 }
 
 @utility chip {
@@ -101,4 +114,65 @@ input[aria-invalid="true"],
 select[aria-invalid="true"],
 textarea[aria-invalid="true"] {
     border-color: var(--color-red-700);
+}
+
+/* Frontend sections: the background comes from Admin > Appearance; text colors follow automatically. */
+.section-themed {
+    background-color: var(--sec-bg);
+    color: var(--sec-fg);
+    --heading: var(--sec-heading);
+    --accent: var(--sec-accent);
+}
+.section-themed[data-tone="light"] {
+    --sec-fg: #292d32;
+    --sec-heading: #172b4d;
+    --sec-accent: #a34f2d;
+}
+.section-themed[data-tone="dark"] {
+    --sec-fg: #ffffff;
+    --sec-heading: #ffffff;
+    --sec-accent: #e39a7b;
+}
+
+/* Admin dark theme: re-map the theme colors, then fix the few places that use them as a background. */
+.when-dark {
+    display: none;
+}
+[data-theme="dark"] .when-dark {
+    display: inline;
+}
+[data-theme="dark"] .when-light {
+    display: none;
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+    --color-warm: #0b1220;
+    --color-surface: #131c2e;
+    --color-navy: #e6ebf5;
+    --color-charcoal: #c5cedd;
+}
+[data-theme="dark"] #admin-sidebar {
+    background-color: #0a101c;
+}
+[data-theme="dark"] .bg-navy,
+[data-theme="dark"] .btn-primary {
+    background-color: #2f4a7d;
+    color: #ffffff;
+}
+[data-theme="dark"] .bg-charcoal {
+    background-color: #475569;
+}
+[data-theme="dark"] .file\:bg-navy::file-selector-button {
+    background-color: #2f4a7d;
+}
+[data-theme="dark"] .text-red-700 {
+    color: #fca5a5;
+}
+[data-theme="dark"] .text-green-800 {
+    color: #86efac;
+}
+[data-theme="dark"] .text-terracotta-dark,
+[data-theme="dark"] .hover\:text-terracotta-dark:hover {
+    color: #e39a7b;
 }

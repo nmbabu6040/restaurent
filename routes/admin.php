@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Support\AdminResources;
+use App\Http\Controllers\Admin\AppearanceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin/login', [AuthController::class, 'create'])->middleware('guest')->name('login');
@@ -59,6 +60,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
     Route::middleware('can:manage-settings')->group(function () {
         Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+        Route::get('appearance', [AppearanceController::class, 'edit'])->name('appearance.edit');
+        Route::put('appearance', [AppearanceController::class, 'update'])->name('appearance.update');
     });
 
     Route::middleware('can:manage-users')->group(function () {

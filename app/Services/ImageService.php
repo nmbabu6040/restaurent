@@ -111,4 +111,33 @@ class ImageService
 
         return (string) ob_get_clean();
     }
+
+    /** Square PNG for site icons. Browsers handle PNG favicons everywhere, unlike WebP in older Safari. */
+    public function storeIcon(UploadedFile $file, string $dir, int $size = 256): string
+    {
+        $source = extension_loaded('gd') ? $this->load($file) : null;
+
+        if (! $source) {
+            return $file->store($dir, 'public');
+        }
+
+        $w = imagesx($source);
+        $h = imagesy($source);
+        $side = min($w, $h);
+
+        $dst = imagecreatetruecolor($size, $size);
+        imagealphablending($dst, false);
+        imagesavealpha($dst, true);
+        imagefill($dst, 0, 0, imagecolorallocatealpha($dst, 0, 0, 0, 127));
+        imagecopyresampled($dst, $source, 0, 0, intdiv($w - $side, 2), intdiv($h - $side, 2), $size, $size, $side, $side);
+
+        ob_start();
+        imagepng($dst);
+        $png = (string) ob_get_clean();
+
+        $path = $dir . '/' . Str::random(40) . '.png';
+        Storage::disk('public')->put($path, $png);
+
+        return $path;
+    }
 }

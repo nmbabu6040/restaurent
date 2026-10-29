@@ -14,8 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\SecurityHeaders::class,
+            \App\Http\Middleware\MaintenanceMode::class,
         ]);
         $middleware->validateCsrfTokens(except: ['payments/sslcommerz/*']);
+        // The admin dark-mode choice is a plain cookie written by JavaScript.
+        $middleware->encryptCookies(except: ['admin_theme']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

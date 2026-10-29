@@ -1,6 +1,6 @@
 @if (config('restaurant.ordering_enabled'))
     @php $count = app(\App\Services\CartService::class)->count(); @endphp
-    <a href="{{ route('cart.show') }}" class="relative rounded-full p-2 text-white hover:bg-white/10"
+    <a href="{{ route('cart.show') }}" class="relative rounded-full p-2 hover:bg-current/10"
         aria-label="{{ __('orders.cart') }}">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round"

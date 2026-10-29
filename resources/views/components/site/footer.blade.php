@@ -1,32 +1,44 @@
-<footer class="bg-navy text-white/90">
+@php
+    $brand = setting('name', config('app.name'));
+    $logo = setting_image('logo_footer') ?: setting_image('logo_header');
+    $authorName = setting('author_name');
+    $authorUrl = setting('author_url');
+@endphp
+
+<x-site.section name="footer" as="footer">
     <div class="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-2 lg:grid-cols-4">
         <div>
-            <p class="font-heading text-2xl font-bold text-white">{{ setting('name', config('app.name')) }}</p>
-            <p class="mt-3 text-sm text-white/70">{{ setting('tagline') }}</p>
+            @if ($logo)
+                <img src="{{ $logo }}" alt="{{ $brand }}" height="48" loading="lazy" class="h-12 w-auto">
+            @else
+                <p class="font-heading text-2xl font-bold">{{ $brand }}</p>
+            @endif
+            <p class="mt-3 text-sm opacity-80">{{ setting('tagline') }}</p>
             <div class="mt-4 flex gap-4 text-sm">
-                <a href="{{ setting('facebook', '#') }}" class="hover:text-terracotta-light" rel="noopener">Facebook</a>
-                <a href="{{ setting('instagram', '#') }}" class="hover:text-terracotta-light" rel="noopener">Instagram</a>
+                <a href="{{ setting('facebook', '#') }}" class="hover:text-(color:--accent)" rel="noopener">Facebook</a>
+                <a href="{{ setting('instagram', '#') }}" class="hover:text-(color:--accent)"
+                    rel="noopener">Instagram</a>
             </div>
         </div>
 
         <div>
-            <h2 class="font-heading text-lg text-white">{{ __('site.footer.contact') }}</h2>
-            <ul class="mt-3 space-y-2 text-sm text-white/70">
+            <h2 class="font-heading text-lg">{{ __('site.footer.contact') }}</h2>
+            <ul class="mt-3 space-y-2 text-sm opacity-80">
                 <li>{{ setting('address') }}</li>
                 <li><a href="tel:{{ preg_replace('/[^+\d]/', '', setting('phone', '')) }}"
-                        class="hover:text-white">{{ setting('phone') }}</a></li>
-                <li><a href="mailto:{{ setting('email') }}" class="hover:text-white">{{ setting('email') }}</a></li>
+                        class="hover:underline">{{ setting('phone') }}</a></li>
+                <li><a href="mailto:{{ setting('email') }}" class="hover:underline">{{ setting('email') }}</a></li>
             </ul>
         </div>
 
         <div>
-            <h2 class="font-heading text-lg text-white">{{ __('site.footer.hours') }}</h2>
-            <p class="mt-3 text-sm text-white/70">{!! nl2br(e(setting('hours', __('site.footer.hours_placeholder')))) !!}</p>
+            <h2 class="font-heading text-lg">{{ __('site.footer.hours') }}</h2>
+            <p class="mt-3 text-sm opacity-80">{!! nl2br(e(setting('hours', __('site.footer.hours_placeholder')))) !!}</p>
         </div>
 
         <div>
-            <h2 class="font-heading text-lg text-white">{{ __('forms.newsletter.title') }}</h2>
-            <p class="mt-3 text-sm text-white/70">{{ __('forms.newsletter.text') }}</p>
+            <h2 class="font-heading text-lg">{{ __('forms.newsletter.title') }}</h2>
+            <p class="mt-3 text-sm opacity-80">{{ __('forms.newsletter.text') }}</p>
             <form method="POST" action="{{ route('newsletter.store') }}" data-ajax-form
                 data-msg-error="{{ __('forms.common.error') }}"
                 data-msg-throttled="{{ __('forms.common.throttled') }}" class="mt-3">
@@ -42,19 +54,30 @@
                 </div>
                 <div class="hidden" aria-hidden="true"><input type="text" name="website" tabindex="-1"
                         autocomplete="off"></div>
-                <p id="email-error-footer" data-error-for="email" class="mt-1 text-sm text-red-200"></p>
+                <p id="email-error-footer" data-error-for="email"
+                    class="mt-1 text-sm font-semibold text-(color:--accent)"></p>
             </form>
         </div>
     </div>
-    <div class="border-t border-white/10 px-6 py-5 text-center text-xs text-white/60">
+
+    <div class="border-t border-current/10 px-6 py-5 text-center text-xs opacity-80">
         <nav aria-label="Footer" class="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-2">
-            <a href="{{ route('orders.track') }}" class="hover:text-white">{{ __('orders.track_link') }}</a>
-            <a href="{{ route('offers') }}" class="hover:text-white">{{ __('pages.links.offers') }}</a>
-            <a href="{{ route('testimonials') }}" class="hover:text-white">{{ __('pages.links.testimonials') }}</a>
-            <a href="{{ route('faq') }}" class="hover:text-white">{{ __('pages.links.faq') }}</a>
-            <a href="{{ route('privacy') }}" class="hover:text-white">{{ __('pages.links.privacy') }}</a>
-            <a href="{{ route('terms') }}" class="hover:text-white">{{ __('pages.links.terms') }}</a>
+            <a href="{{ route('offers') }}" class="hover:underline">{{ __('pages.links.offers') }}</a>
+            <a href="{{ route('testimonials') }}" class="hover:underline">{{ __('pages.links.testimonials') }}</a>
+            <a href="{{ route('faq') }}" class="hover:underline">{{ __('pages.links.faq') }}</a>
+            <a href="{{ route('orders.track') }}" class="hover:underline">{{ __('orders.track_link') }}</a>
+            <a href="{{ route('privacy') }}" class="hover:underline">{{ __('pages.links.privacy') }}</a>
+            <a href="{{ route('terms') }}" class="hover:underline">{{ __('pages.links.terms') }}</a>
         </nav>
-        &copy; {{ date('Y') }} {{ setting('name', config('app.name')) }}. {{ __('site.footer.rights') }}
+        &copy; {{ date('Y') }} {{ $brand }}. {{ __('site.footer.rights') }}
+        @if ($authorName)
+            &middot; {{ __('site.credit') }}
+            @if ($authorUrl)
+                <a href="{{ $authorUrl }}" target="_blank" rel="noopener noreferrer"
+                    class="font-semibold hover:underline">{{ $authorName }}</a>
+            @else
+                <span class="font-semibold">{{ $authorName }}</span>
+            @endif
+        @endif
     </div>
-</footer>
+</x-site.section>

@@ -8,6 +8,27 @@
         <p class="mt-4 text-lg">{!! nl2br(e(setting('about_story', __('pages.about.story_text', ['name' => $brand])))) !!}</p>
     </section>
 
+    @if (setting('owner_name'))
+        @php $photo = setting_image('owner_photo'); @endphp
+        <section class="mx-auto max-w-3xl px-6 pb-4" aria-labelledby="owner-title">
+            <div class="card flex flex-col items-center gap-6 p-8 text-center sm:flex-row sm:text-left">
+                @if ($photo)
+                    <img src="{{ $photo }}" alt="{{ setting('owner_name') }}" width="160" height="160"
+                        loading="lazy" class="h-32 w-32 shrink-0 rounded-full object-cover">
+                @endif
+                <div>
+                    <h2 id="owner-title" class="text-2xl font-semibold">{{ setting('owner_name') }}</h2>
+                    @if (setting('owner_title'))
+                        <p class="text-sm font-semibold text-terracotta-dark">{{ setting('owner_title') }}</p>
+                    @endif
+                    @if (setting('owner_bio'))
+                        <p class="mt-3 text-sm">{{ setting('owner_bio') }}</p>
+                    @endif
+                </div>
+            </div>
+        </section>
+    @endif
+
     <section class="mx-auto grid max-w-5xl gap-6 px-6 md:grid-cols-2">
         <div class="card p-8">
             <h2 class="text-2xl font-semibold">{{ __('pages.about.mission_title') }}</h2>
