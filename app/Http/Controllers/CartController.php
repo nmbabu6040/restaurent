@@ -41,6 +41,16 @@ class CartController extends Controller
 
         [$variationId, $addonIds] = $this->cart->resolveSelection($item, $data['variation_id'] ?? null, $data['addons'] ?? []);
 
+        if ($item->stock_mode === 'quantity') {
+            $wanted = $this->cart->quantityOf($item->id) + ($data['quantity'] ?? 1);
+
+            if ($wanted > (int) $item->stock_qty) {
+                throw ValidationException::withMessages([
+                    'quantity' => __('orders.errors.stock', ['item' => $item->name, 'count' => (int) $item->stock_qty]),
+                ]);
+            }
+        }
+
         $this->cart->add($item->id, $variationId, $addonIds, $data['quantity'] ?? 1);
         $message = __('orders.added', ['name' => $item->name]);
 

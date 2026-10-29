@@ -21,6 +21,7 @@ return [
     'related' => 'আরও যা পছন্দ হতে পারে',
     'page_of' => 'পৃষ্ঠা :page / :last',
     'results' => ':count টি খাবার পাওয়া গেছে|:count টি খাবার পাওয়া গেছে',
+    'only_left' => 'মাত্র :count টি বাকি',
     'dietary' => [
         'vegetarian' => 'নিরামিষ',
         'halal' => 'হালাল',

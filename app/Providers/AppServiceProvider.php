@@ -48,5 +48,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('manage-users', fn(User $u) => $is($u, UserRole::Admin));
         Gate::define('view-logs', fn(User $u) => $is($u, UserRole::Admin));
         Gate::define('view-reports', fn(User $u) => $is($u, UserRole::Admin, UserRole::Manager));
+        Gate::define('manage-inventory', fn(User $u) => $is($u, UserRole::Admin, UserRole::Manager));
     }
 }

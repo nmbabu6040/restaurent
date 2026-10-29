@@ -112,6 +112,8 @@ return [
         'too_many' => 'Your cart has too many different items.',
         'choose_variation' => 'Please choose a size.',
         'bad_addon' => 'One of the selected extras is not available.',
+        'stock' => 'Only :count left of :item. Please reduce the quantity.',
+        'out_of_stock' => 'Sorry, we cannot prepare this right now: :items.',
     ],
     'mail' => [
         'subject_placed' => 'Your order :reference at :name',

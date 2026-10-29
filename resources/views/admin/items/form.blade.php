@@ -12,10 +12,17 @@
                     'name_bn' => $o->name_bn,
                     'price' => $o->price,
                     'is_active' => $o->is_active,
+                    'portion_factor' => $o->portion_factor ?? null,
+                    'cost_price' => $o->cost_price ?? null,
                 ],
             )
             ->all(),
     );
+    $recipeRows = old(
+        'recipe',
+        $item->recipeLines->map(fn($l) => ['ingredient_id' => $l->ingredient_id, 'quantity' => $l->quantity])->all(),
+    );
+    $stockMode = old('stock_mode', $item->stock_mode ?: 'none');
     $variationRows = $rowsFor('variations', $item->variations);
     $addonRows = $rowsFor('addons', $item->addons);
     $nextIndex = fn(array $rows) => $rows ? max(array_keys($rows)) + 1 : 0;
@@ -26,6 +33,7 @@
         action="{{ $editing ? route('admin.items.update', $item) : route('admin.items.store') }}"
         class="card mt-6 space-y-6 p-6 sm:p-8">
         @csrf
+        <input type="hidden" name="recipe_form" value="1">
         @if ($editing)
             @method('PUT')
         @endif
@@ -69,6 +77,58 @@
 
         <x-form.field name="slug" label="URL slug (auto from English name if empty)" :value="$item->slug"
             maxlength="160" />
+
+        <fieldset class="rounded-xl border border-navy/10 p-4">
+            <legend class="px-1 font-heading text-lg text-navy">Stock and cost</legend>
+            <div class="grid gap-5 md:grid-cols-3">
+                <div>
+                    <label for="stock_mode" class="block text-sm font-medium text-navy">Stock tracking</label>
+                    <select id="stock_mode" name="stock_mode" data-stock-mode
+                        class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta">
+                        <option value="none" @selected($stockMode === 'none')>None (always available)</option>
+                        <option value="quantity" @selected($stockMode === 'quantity')>Dish quantity (e.g. 50 plates today)
+                        </option>
+                        <option value="recipe" @selected($stockMode === 'recipe')>Recipe (uses ingredient stock)</option>
+                    </select>
+                    <p class="mt-1 text-sm text-red-700">{{ $errors->first('stock_mode') }}</p>
+                </div>
+                <div data-show-for="quantity">
+                    <x-form.field name="stock_qty" type="number" label="Plates in stock" :value="$item->stock_qty"
+                        min="0" max="1000000" />
+                    <p class="mt-1 text-xs">At 0 the dish shows "Sold out" by itself. After restocking, tick "Available"
+                        below.</p>
+                </div>
+                <div data-show-for="none quantity">
+                    <x-form.field name="cost_price" type="number" label="Cost per portion" :value="$item->cost_price"
+                        step="0.01" min="0" />
+                    <p class="mt-1 text-xs">What one portion costs you to make. Used in profit and loss.</p>
+                </div>
+            </div>
+
+            <div data-show-for="recipe" class="mt-5">
+                <h3 class="font-heading text-base text-navy">Recipe (per standard portion)</h3>
+                <p class="text-sm">Amounts are in each ingredient's own unit. Sizes use their "Portion x" below (Half =
+                    0.6 means 60% of this recipe).
+                    @if ($item->exists && $item->recipeLines->isNotEmpty())
+                        Calculated cost per portion: <strong>{{ money($item->recipeCost()) }}</strong>.
+                    @endif
+                </p>
+                <div data-option-list="recipe" data-next-index="{{ $nextIndex($recipeRows) }}" class="mt-3 space-y-3">
+                    @foreach ($recipeRows as $i => $row)
+                        @include('admin.items._recipe-row', ['i' => $i, 'row' => $row])
+                    @endforeach
+                </div>
+                <template id="tpl-recipe">
+                    @include('admin.items._recipe-row', ['i' => '__INDEX__', 'row' => []])
+                </template>
+                <button type="button" data-add-option="recipe" class="btn mt-3 border border-navy/20 text-navy">Add
+                    ingredient</button>
+                @if ($ingredients->isEmpty())
+                    <p class="mt-2 text-sm">No ingredients yet. <a href="{{ route('admin.ingredients.create') }}"
+                            class="font-semibold text-navy underline">Add one first</a>.</p>
+                @endif
+            </div>
+        </fieldset>
 
         <fieldset class="rounded-xl border border-navy/10 p-4">
             <legend class="px-1 font-heading text-lg text-navy">Sizes / portions</legend>

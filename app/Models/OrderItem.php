@@ -20,6 +20,8 @@ class OrderItem extends Model
         'unit_price',
         'quantity',
         'line_total',
+        'unit_cost',
+        'consumed',
     ];
 
     protected function casts(): array
@@ -29,6 +31,8 @@ class OrderItem extends Model
             'unit_price' => 'decimal:2',
             'line_total' => 'decimal:2',
             'quantity' => 'integer',
+            'unit_cost' => 'decimal:2',
+            'consumed' => 'array'
         ];
     }
 

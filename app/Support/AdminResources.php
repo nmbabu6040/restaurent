@@ -8,6 +8,7 @@ use App\Models\Promotion;
 use App\Models\TeamMember;
 use App\Models\Testimonial;
 use App\Models\Coupon;
+use App\Models\Supplier;
 use Closure;
 
 final class AdminResources
@@ -158,6 +159,22 @@ final class AdminResources
                     self::area('bio_en', 'Bio (English)', false, 600),
                     self::area('bio_bn', 'Bio (বাংলা)', false, 600),
                     self::order(),
+                    self::active(),
+                ],
+            ],
+
+            'suppliers' => [
+                'model' => Supplier::class,
+                'title' => 'Suppliers',
+                'singular' => 'supplier',
+                'image' => null,
+                'order' => ['name', 'asc'],
+                'columns' => ['name' => 'Name', 'phone' => 'Phone', 'email' => 'Email'],
+                'fields' => [
+                    self::text('name', 'Supplier name', true, 120),
+                    ['name' => 'phone', 'label' => 'Phone', 'type' => 'text', 'required' => false, 'rules' => ['nullable', 'string', 'max:30']],
+                    ['name' => 'email', 'label' => 'Email', 'type' => 'text', 'required' => false, 'rules' => ['nullable', 'email:rfc', 'max:150']],
+                    self::area('notes', 'Notes', false, 500),
                     self::active(),
                 ],
             ],

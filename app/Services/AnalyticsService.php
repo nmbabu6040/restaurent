@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Order;
 use Carbon\Carbon;
+use App\Models\Expense;
+use App\Models\StockMovement;
 use Illuminate\Support\Facades\DB;
 
 class AnalyticsService
@@ -17,6 +19,113 @@ class AnalyticsService
         'last_month' => 'Last month',
         'custom' => 'Custom dates',
     ];
+
+    /**
+     * Revenue minus food cost, wastage and expenses.
+     * Food cost uses the cost saved on each order line when it was placed.
+     * With $full = false only the summary is built (cheaper, used on the dashboard).
+     */
+    public function profitLoss(Carbon $from, Carbon $to, string $group, bool $full = true): array
+    {
+        $sales = $this->summary($from, $to);
+        $lines = fn() => $this->salesWhere(DB::table('order_items')->join('orders', 'orders.id', '=', 'order_items.order_id'))
+            ->whereBetween('orders.created_at', [$from, $to]);
+
+        $cost = $lines()
+            ->selectRaw('COALESCE(SUM(order_items.unit_cost * order_items.quantity), 0) as cost,
+                COALESCE(SUM(CASE WHEN order_items.unit_cost <= 0 THEN 1 ELSE 0 END), 0) as uncosted')
+            ->first();
+
+        $wasteRows = StockMovement::query()->where('type', 'waste')->whereBetween('created_at', [$from, $to])
+            ->get(['quantity', 'unit_cost', 'created_at']);
+        $wastage = $wasteRows->sum(fn($m) => abs((float) $m->quantity) * (float) $m->unit_cost);
+
+        $expenseRows = Expense::query()->whereBetween('expense_date', [$from->toDateString(), $to->toDateString()])
+            ->get(['expense_date', 'category', 'amount']);
+        $expenses = (float) $expenseRows->sum('amount');
+
+        $revenue = $sales['revenue'];
+        $cogs = round((float) $cost->cost, 2);
+        $gross = round($revenue - $cogs, 2);
+        $net = round($gross - $wastage - $expenses, 2);
+
+        $result = ['summary' => [
+            'revenue' => round($revenue, 2),
+            'cogs' => $cogs,
+            'gross' => $gross,
+            'gross_margin' => $revenue > 0 ? round($gross / $revenue * 100, 1) : 0.0,
+            'wastage' => round($wastage, 2),
+            'expenses' => round($expenses, 2),
+            'net' => $net,
+            'net_margin' => $revenue > 0 ? round($net / $revenue * 100, 1) : 0.0,
+            'uncosted' => (int) $cost->uncosted,
+        ]];
+
+        if (! $full) {
+            return $result;
+        }
+
+        $revenueSeries = $this->series($from, $to, $group);
+        $buckets = [];
+        foreach (array_keys($this->periods($from, $to, $group)) as $i => $key) {
+            $buckets[$key] = ['label' => $revenueSeries[$i]['label'], 'revenue' => $revenueSeries[$i]['revenue'], 'costs' => 0.0];
+        }
+
+        $lineRows = $lines()->get(['orders.created_at as at', 'order_items.unit_cost as cost', 'order_items.quantity as qty']);
+        foreach ($lineRows as $row) {
+            $key = $this->key(Carbon::parse($row->at), $group);
+            if (isset($buckets[$key])) {
+                $buckets[$key]['costs'] += (float) $row->cost * (int) $row->qty;
+            }
+        }
+        foreach ($wasteRows as $m) {
+            $key = $this->key($m->created_at, $group);
+            if (isset($buckets[$key])) {
+                $buckets[$key]['costs'] += abs((float) $m->quantity) * (float) $m->unit_cost;
+            }
+        }
+        foreach ($expenseRows as $e) {
+            $key = $this->key($e->expense_date, $group);
+            if (isset($buckets[$key])) {
+                $buckets[$key]['costs'] += (float) $e->amount;
+            }
+        }
+
+        $result['series'] = array_values(array_map(fn($b) => [
+            'label' => $b['label'],
+            'revenue' => round($b['revenue'], 2),
+            'costs' => round($b['costs'], 2),
+            'profit' => round($b['revenue'] - $b['costs'], 2),
+        ], $buckets));
+
+        $result['expense_categories'] = $expenseRows->groupBy('category')
+            ->map(fn($g) => round((float) $g->sum('amount'), 2))->sortDesc()->all();
+
+        // Dish margins are before order-level discounts and delivery fees.
+        $result['dishes'] = $lines()
+            ->selectRaw('order_items.name_en as name, SUM(order_items.quantity) as qty, SUM(order_items.line_total) as revenue,
+                SUM(order_items.unit_cost * order_items.quantity) as cost')
+            ->groupBy('order_items.name_en')
+            ->orderByDesc('revenue')
+            ->limit(30)
+            ->get()
+            ->map(function ($r) {
+                $revenue = (float) $r->revenue;
+                $cost = (float) $r->cost;
+
+                return [
+                    'name' => $r->name,
+                    'qty' => (int) $r->qty,
+                    'revenue' => $revenue,
+                    'cost' => $cost,
+                    'profit' => $revenue - $cost,
+                    'margin' => $revenue > 0 ? round(($revenue - $cost) / $revenue * 100, 1) : null,
+                    'costed' => $cost > 0,
+                ];
+            })->all();
+
+        return $result;
+    }
 
     /** @return array{0: Carbon, 1: Carbon} start of the first day, end of the last day */
     public function resolveRange(string $preset, ?string $from = null, ?string $to = null): array

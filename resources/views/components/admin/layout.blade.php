@@ -6,6 +6,7 @@
     $unread = \App\Models\ContactMessage::whereNull('read_at')->count();
     $pendingOrders = \App\Models\Order::needsAttention()->count();
     $maintenance = setting('maintenance_enabled') === '1';
+    $lowStock = auth()->user()->can('manage-inventory') ? \App\Models\Ingredient::low()->count() : 0;
 
     $groups = [
         'Operations' => [
@@ -48,6 +49,34 @@
                 'url' => route('admin.customers.index'),
                 'active' => request()->routeIs('admin.customers.*'),
                 'label' => 'Customers',
+                'can' => 'view-reports',
+            ],
+        ],
+
+        'Inventory & finance' => [
+            [
+                'url' => route('admin.ingredients.index'),
+                'active' => request()->routeIs('admin.ingredients.*'),
+                'label' => 'Ingredients & stock',
+                'can' => 'manage-inventory',
+                'badge' => $lowStock,
+            ],
+            [
+                'url' => route('admin.content.index', 'suppliers'),
+                'active' => request()->is('admin/content/suppliers*'),
+                'label' => 'Suppliers',
+                'can' => 'manage-inventory',
+            ],
+            [
+                'url' => route('admin.expenses.index'),
+                'active' => request()->routeIs('admin.expenses.*'),
+                'label' => 'Expenses',
+                'can' => 'view-reports',
+            ],
+            [
+                'url' => route('admin.profit.index'),
+                'active' => request()->routeIs('admin.profit.*'),
+                'label' => 'Profit & loss',
                 'can' => 'view-reports',
             ],
         ],

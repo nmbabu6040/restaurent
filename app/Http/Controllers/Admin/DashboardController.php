@@ -12,6 +12,7 @@ use App\Models\Reservation;
 use App\Services\AnalyticsService;
 use App\Support\Chart;
 use Carbon\Carbon;
+use App\Models\Ingredient;
 use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
@@ -49,6 +50,13 @@ class DashboardController extends Controller
             $data += $this->analytics($analytics);
         }
 
+        if (auth()->user()->can('manage-inventory')) {
+            $data['lowIngredients'] = Ingredient::low()->orderBy('name')->limit(8)->get();
+            $data['lowDishes'] = MenuItem::where('stock_mode', 'quantity')
+                ->where('stock_qty', '<=', config('restaurant.inventory.low_dish_stock'))
+                ->orderBy('stock_qty')->limit(8)->get();
+        }
+
         return view('admin.dashboard', $data);
     }
 
@@ -72,6 +80,9 @@ class DashboardController extends Controller
             fn() => $a->customerReport($from30, $endToday, 'monthly')['summary']
         );
 
+        $profit = $a->profitLoss($from30, $endToday, 'daily', false)['summary'];
+        $profitPrev = $a->profitLoss($prevFrom30, $prevTo30, 'daily', false)['summary'];
+
         $series = $a->series($from30, $endToday, 'daily');
         $breakdown = $a->breakdown($from30, $endToday);
         $statuses = $a->statusCounts($from30, $endToday);
@@ -80,11 +91,54 @@ class DashboardController extends Controller
 
         return [
             'kpis' => [
-                ['label' => "Today's sales", 'value' => money($todayNow['revenue']), 'icon' => 'cash', 'tone' => 'indigo', 'change' => AnalyticsService::change($todayNow['revenue'], $todayPrev['revenue']), 'sub' => 'vs yesterday'],
-                ['label' => "Today's orders", 'value' => number_format($todayNow['orders']), 'icon' => 'receipt', 'tone' => 'emerald', 'change' => AnalyticsService::change($todayNow['orders'], $todayPrev['orders']), 'sub' => 'vs yesterday'],
-                ['label' => 'Revenue, last 30 days', 'value' => money($now30['revenue']), 'icon' => 'trend', 'tone' => 'amber', 'change' => AnalyticsService::change($now30['revenue'], $prev30['revenue']), 'sub' => 'vs previous 30 days'],
-                ['label' => 'Average order value', 'value' => money($now30['aov']), 'icon' => 'chart', 'tone' => 'cyan', 'change' => AnalyticsService::change($now30['aov'], $prev30['aov']), 'sub' => 'last 30 days'],
-                ['label' => 'New customers, 30 days', 'value' => number_format($customers['new']), 'icon' => 'users', 'tone' => 'pink', 'change' => null, 'sub' => number_format($customers['returning']) . ' returning'],
+                [
+                    'label' => "Today's sales",
+                    'value' => money($todayNow['revenue']),
+                    'icon' => 'cash',
+                    'tone' => 'indigo',
+                    'change' => AnalyticsService::change($todayNow['revenue'], $todayPrev['revenue']),
+                    'sub' => 'vs yesterday'
+                ],
+                [
+                    'label' => "Today's orders",
+                    'value' => number_format($todayNow['orders']),
+                    'icon' => 'receipt',
+                    'tone' => 'emerald',
+                    'change' => AnalyticsService::change($todayNow['orders'], $todayPrev['orders']),
+                    'sub' => 'vs yesterday'
+                ],
+                [
+                    'label' => 'Revenue, last 30 days',
+                    'value' => money($now30['revenue']),
+                    'icon' => 'trend',
+                    'tone' => 'amber',
+                    'change' => AnalyticsService::change($now30['revenue'], $prev30['revenue']),
+                    'sub' => 'vs previous 30 days'
+                ],
+                [
+                    'label' => 'Average order value',
+                    'value' => money($now30['aov']),
+                    'icon' => 'chart',
+                    'tone' => 'cyan',
+                    'change' => AnalyticsService::change($now30['aov'], $prev30['aov']),
+                    'sub' => 'last 30 days'
+                ],
+                [
+                    'label' => 'New customers, 30 days',
+                    'value' => number_format($customers['new']),
+                    'icon' => 'users',
+                    'tone' => 'pink',
+                    'change' => null,
+                    'sub' => number_format($customers['returning']) . ' returning'
+                ],
+                [
+                    'label' => 'Net profit, last 30 days',
+                    'value' => money($profit['net']),
+                    'icon' => 'trend',
+                    'tone' => $profit['net'] >= 0 ? 'emerald' : 'rose',
+                    'change' => AnalyticsService::change($profit['net'], $profitPrev['net']),
+                    'sub' => $profit['net_margin'] . '% margin'
+                ],
             ],
             'revenueChart' => Chart::line(
                 array_column($series, 'label'),

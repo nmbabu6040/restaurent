@@ -21,6 +21,15 @@
                 <span
                     class="rounded-full bg-navy px-2.5 py-1 text-xs font-semibold text-white">{{ __('menu.special') }}</span>
             @endif
+
+            @if (
+                $item->stock_mode === 'quantity' &&
+                    $item->is_available &&
+                    $item->stock_qty > 0 &&
+                    $item->stock_qty <= config('restaurant.inventory.low_dish_stock'))
+                <span
+                    class="rounded-full bg-red-700 px-2.5 py-1 text-xs font-semibold text-white">{{ __('menu.only_left', ['count' => $item->stock_qty]) }}</span>
+            @endif
         </div>
     </div>
 

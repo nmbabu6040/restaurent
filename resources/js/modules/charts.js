@@ -79,7 +79,7 @@ function build(canvas, cfg, colors) {
         return {
             label: ds.label,
             data: ds.data,
-            backgroundColor: color,
+            backgroundColor: ds.colors && ds.colors.length ? ds.colors : color,
             borderRadius: 6,
             maxBarThickness: 36,
         };

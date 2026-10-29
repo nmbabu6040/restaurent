@@ -71,5 +71,8 @@ class Order extends Model
         if ($this->coupon_code) {
             Coupon::where('code', $this->coupon_code)->where('used_count', '>', 0)->decrement('used_count');
         }
+
+        // Give the stock back (dish counts and ingredients) that this order took.
+        app(\App\Services\InventoryService::class)->restore($this->loadMissing('items'));
     }
 }

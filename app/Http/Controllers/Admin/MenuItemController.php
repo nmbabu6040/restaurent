@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MenuItemRequest;
+use App\Models\Ingredient;
 use App\Models\MenuCategory;
 use App\Models\MenuItem;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use App\Services\ImageService;
-use Illuminate\Support\Facades\Storage;
 
 class MenuItemController extends Controller
 {
@@ -44,14 +44,15 @@ class MenuItemController extends Controller
     public function create()
     {
         return view('admin.items.form', [
-            'item' => new MenuItem(['is_available' => true, 'sort_order' => 0]),
+            'item' => new MenuItem(['is_available' => true, 'sort_order' => 0, 'stock_mode' => 'none', 'stock_qty' => 0, 'cost_price' => 0]),
             'categories' => MenuCategory::ordered()->get(),
+            'ingredients' => Ingredient::orderBy('name')->get(['id', 'name', 'unit']),
         ]);
     }
 
     public function store(MenuItemRequest $request)
     {
-        $data = $this->payload($request);
+        $data = $this->payload($request, true);
 
         if ($request->hasFile('image')) {
             $data['image_path'] = app(ImageService::class)->store($request->file('image'), 'menu');
@@ -60,6 +61,7 @@ class MenuItemController extends Controller
         DB::transaction(function () use ($data, $request) {
             $item = MenuItem::create($data);
             $this->syncOptions($item, $request->validated());
+            $this->syncRecipe($item, $request);
         });
 
         return redirect()->route('admin.items.index')->with('status', 'Menu item created.');
@@ -68,14 +70,15 @@ class MenuItemController extends Controller
     public function edit(MenuItem $item)
     {
         return view('admin.items.form', [
-            'item' => $item,
+            'item' => $item->load('recipeLines.ingredient'),
             'categories' => MenuCategory::ordered()->get(),
+            'ingredients' => Ingredient::orderBy('name')->get(['id', 'name', 'unit']),
         ]);
     }
 
     public function update(MenuItemRequest $request, MenuItem $item)
     {
-        $data = $this->payload($request);
+        $data = $this->payload($request, false);
 
         if ($request->hasFile('image')) {
             $this->deleteImage($item->image_path);
@@ -88,6 +91,7 @@ class MenuItemController extends Controller
         DB::transaction(function () use ($item, $data, $request) {
             $item->update($data);
             $this->syncOptions($item, $request->validated());
+            $this->syncRecipe($item, $request);
         });
 
         return redirect()->route('admin.items.index')->with('status', 'Menu item updated.');
@@ -111,11 +115,21 @@ class MenuItemController extends Controller
         ]);
     }
 
-    private function payload(MenuItemRequest $request): array
+    private function payload(MenuItemRequest $request, bool $creating): array
     {
-        $data = Arr::except($request->validated(), ['image', 'remove_image', 'variations', 'addons']);
+        $data = Arr::except($request->validated(), ['image', 'remove_image', 'variations', 'addons', 'recipe', 'recipe_form']);
         $data['dietary'] = array_values(array_filter($data['dietary'] ?? []));
         $data['sort_order'] = $data['sort_order'] ?? 0;
+
+        if ($creating) {
+            $data['stock_mode'] = $data['stock_mode'] ?? 'none';
+        }
+
+        foreach (['stock_qty' => 0, 'cost_price' => 0] as $field => $default) {
+            if (array_key_exists($field, $data) || $creating) {
+                $data[$field] = $data[$field] ?? $default;
+            }
+        }
 
         return $data;
     }
@@ -131,7 +145,7 @@ class MenuItemController extends Controller
             $keep = [];
 
             foreach (($validated[$key] ?? []) as $position => $row) {
-                $attrs = [
+                $attributes = [
                     'name_en' => $row['name_en'],
                     'name_bn' => $row['name_bn'] ?? null,
                     'price' => $row['price'],
@@ -139,12 +153,19 @@ class MenuItemController extends Controller
                     'sort_order' => $position,
                 ];
 
+                if ($key === 'variations') {
+                    $attributes['portion_factor'] = $row['portion_factor'] ?? 1;
+                    $attributes['cost_price'] = $row['cost_price'] ?? null;
+                } else {
+                    $attributes['cost_price'] = $row['cost_price'] ?? 0;
+                }
+
                 $model = ! empty($row['id']) ? $relation()->whereKey($row['id'])->first() : null;
 
                 if ($model) {
-                    $model->update($attrs);
+                    $model->update($attributes);
                 } else {
-                    $model = $relation()->create($attrs);
+                    $model = $relation()->create($attributes);
                 }
 
                 $keep[] = $model->id;
@@ -152,6 +173,25 @@ class MenuItemController extends Controller
 
             $relation()->whereNotIn('id', $keep)->delete();
         }
+    }
+
+    /** Only touched when the form says it sent the recipe section (an empty list then means "remove all"). */
+    private function syncRecipe(MenuItem $item, MenuItemRequest $request): void
+    {
+        if (! $request->boolean('recipe_form')) {
+            return;
+        }
+
+        $rows = collect($request->validated('recipe') ?? []);
+
+        foreach ($rows as $row) {
+            $item->recipeLines()->updateOrCreate(
+                ['ingredient_id' => $row['ingredient_id']],
+                ['quantity' => $row['quantity']],
+            );
+        }
+
+        $item->recipeLines()->whereNotIn('ingredient_id', $rows->pluck('ingredient_id'))->delete();
     }
 
     private function deleteImage(?string $path): void

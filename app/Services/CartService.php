@@ -288,4 +288,10 @@ class CartService
     {
         return (int) config('restaurant.ordering.max_qty');
     }
+
+    /** How many portions of a dish (all sizes together) are already in the cart. */
+    public function quantityOf(int $itemId): int
+    {
+        return (int) collect($this->raw())->where('item', $itemId)->sum('qty');
+    }
 }

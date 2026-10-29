@@ -18,6 +18,9 @@ class MenuItem extends Model
     use HasFactory, LogsActivity, SoftDeletes, Translatable;
 
     protected $fillable = [
+        'stock_mode',
+        'stock_qty',
+        'cost_price',
         'menu_category_id',
         'name_en',
         'name_bn',
@@ -45,7 +48,22 @@ class MenuItem extends Model
             'is_available' => 'boolean',
             'is_featured' => 'boolean',
             'is_special' => 'boolean',
+            'stock_qty' => 'integer',
+            'cost_price' => 'decimal:2',
         ];
+    }
+
+    public function recipeLines(): HasMany
+    {
+        return $this->hasMany(RecipeLine::class);
+    }
+
+    /** Ingredient cost of one standard portion, from the recipe. */
+    public function recipeCost(): float
+    {
+        $this->loadMissing('recipeLines.ingredient');
+
+        return (float) $this->recipeLines->sum(fn($l) => (float) $l->quantity * (float) ($l->ingredient?->unit_cost ?? 0));
     }
 
     public function category(): BelongsTo

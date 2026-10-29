@@ -21,6 +21,7 @@ return [
     'allergens' => 'Allergen information',
     'related' => 'You may also like',
     'results' => ':count dish found|:count dishes found',
+    'only_left' => 'Only :count left',
     'dietary' => [
         'vegetarian' => 'Vegetarian',
         'halal' => 'Halal',

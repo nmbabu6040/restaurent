@@ -16,7 +16,11 @@ use App\Support\AdminResources;
 use App\Http\Controllers\Admin\AppearanceController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\SalesController;
+use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\IngredientController;
+use App\Http\Controllers\Admin\ProfitLossController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/admin/login', [AuthController::class, 'create'])->middleware('guest')->name('login');
 Route::post('/admin/login', [AuthController::class, 'store'])->middleware(['guest', 'throttle:20,1'])->name('login.store');
@@ -75,6 +79,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('sales/export', [SalesController::class, 'export'])->name('sales.export');
         Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
         Route::get('customers/export', [CustomerController::class, 'export'])->name('customers.export');
+        Route::resource('expenses', ExpenseController::class)->except('show');
+        Route::get('profit-loss', [ProfitLossController::class, 'index'])->name('profit.index');
+        Route::get('profit-loss/export', [ProfitLossController::class, 'export'])->name('profit.export');
+    });
+
+    Route::middleware('can:manage-inventory')->group(function () {
+        Route::resource('ingredients', IngredientController::class)->parameters(['ingredients' => 'ingredient']);
+        Route::post('ingredients/{ingredient}/receive', [IngredientController::class, 'receive'])->name('ingredients.receive');
+        Route::post('ingredients/{ingredient}/waste', [IngredientController::class, 'waste'])->name('ingredients.waste');
+        Route::post('ingredients/{ingredient}/count', [IngredientController::class, 'count'])->name('ingredients.count');
     });
 
     Route::get('activity', [ActivityLogController::class, 'index'])->middleware('can:view-logs')->name('activity.index');

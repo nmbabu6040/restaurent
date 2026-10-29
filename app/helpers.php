@@ -87,3 +87,13 @@ if (! function_exists('whatsapp_link')) {
         return 'https://wa.me/' . $number . ($text ? '?text=' . rawurlencode($text) : '');
     }
 }
+
+if (! function_exists('qty')) {
+    /** A quantity without useless trailing zeros: 250.000 => 250, 0.300 => 0.3 */
+    function qty(int|float|string|null $value): string
+    {
+        $text = rtrim(rtrim(number_format((float) $value, 3, '.', ','), '0'), '.');
+
+        return in_array($text, ['', '-'], true) ? '0' : $text;
+    }
+}

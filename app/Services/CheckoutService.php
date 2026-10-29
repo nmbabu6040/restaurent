@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 
 class CheckoutService
 {
-    public function __construct(private CartService $cart, private CouponService $coupons) {}
+    public function __construct(private CartService $cart, private CouponService $coupons, private InventoryService $inventory) {}
 
     /** @return array<int, OrderType> */
     public function availableTypes(): array
@@ -90,6 +90,9 @@ class CheckoutService
                 'locale' => $locale,
             ]);
 
+            // Takes stock and returns each line's cost snapshot. Throws (and rolls everything back) on a shortage.
+            $plan = $this->inventory->apply($order, $summary['lines']);
+
             foreach ($summary['lines'] as $line) {
                 $order->items()->create([
                     'menu_item_id' => $line['item']->id,
@@ -105,6 +108,8 @@ class CheckoutService
                             'price' => (float) $a->price,
                         ])->values()->all(),
                     'unit_price' => $dec($line['unit']),
+                    'unit_cost' => $plan[$line['key']]['unit_cost'],
+                    'consumed' => $plan[$line['key']]['consumed'],
                     'quantity' => $line['qty'],
                     'line_total' => $dec($line['total']),
                 ]);

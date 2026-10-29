@@ -31,6 +31,13 @@ return [
         'min_notice_minutes' => 120,
     ],
 
+    'inventory' => [
+        // false: recipe-mode orders are never blocked, stock may go below zero (and shows as low stock).
+        // true: an order is refused when an ingredient is not enough.
+        'enforce_recipe_stock' => (bool) env('INVENTORY_ENFORCE_RECIPE', false),
+        'low_dish_stock' => 5,
+    ],
+
     'admin' => [
         'email' => env('ADMIN_EMAIL', 'admin@meher.test'),
         'password' => env('ADMIN_PASSWORD'),
