@@ -17,7 +17,7 @@
                 @php
                     $value = $record->{$f['name']} ?? ($f['default'] ?? null);
                     if ($value instanceof \DateTimeInterface) {
-                        $value = $value->format('Y-m-d\TH:i');
+                        $value = $value->format($f['type'] === 'date' ? 'Y-m-d' : 'Y-m-d\TH:i');
                     }
                 @endphp
 

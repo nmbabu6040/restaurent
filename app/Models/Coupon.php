@@ -31,4 +31,25 @@ class Coupon extends Model
             'is_active' => 'boolean',
         ];
     }
+
+    public function statusLabel(): string
+    {
+        if (! $this->is_active) {
+            return 'Hidden';
+        }
+
+        if ($this->starts_at?->isFuture()) {
+            return 'Scheduled';
+        }
+
+        if ($this->ends_at?->isPast()) {
+            return 'Expired';
+        }
+
+        if ($this->usage_limit !== null && $this->used_count >= $this->usage_limit) {
+            return 'Used up';
+        }
+
+        return 'Live';
+    }
 }

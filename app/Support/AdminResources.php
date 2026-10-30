@@ -125,8 +125,22 @@ final class AdminResources
                     self::text('title_bn', 'Title (বাংলা)'),
                     self::area('description_en', 'Description (English)', false, 500),
                     self::area('description_bn', 'Description (বাংলা)', false, 500),
-                    ['name' => 'starts_at', 'label' => 'Starts (optional)', 'type' => 'datetime-local', 'required' => false, 'rules' => ['nullable', 'date']],
-                    ['name' => 'ends_at', 'label' => 'Ends (optional)', 'type' => 'datetime-local', 'required' => false, 'rules' => ['nullable', 'date', 'after_or_equal:starts_at']],
+                    [
+                        'name' => 'starts_at',
+                        'label' => 'Starts on (optional, from the beginning of that day)',
+                        'type' => 'date',
+                        'required' => false,
+                        'bound' => 'start',
+                        'rules' => ['nullable', 'date_format:Y-m-d']
+                    ],
+                    [
+                        'name' => 'ends_at',
+                        'label' => 'Ends on (optional, until the end of that day)',
+                        'type' => 'date',
+                        'required' => false,
+                        'bound' => 'end',
+                        'rules' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:starts_at']
+                    ],
                     self::order(),
                     self::active(),
                 ],
@@ -232,8 +246,22 @@ final class AdminResources
                         'step' => '0.01',
                         'rules' => ['nullable', 'numeric', 'min:0', 'max:99999999', 'decimal:0,2']
                     ],
-                    ['name' => 'starts_at', 'label' => 'Starts (optional)', 'type' => 'datetime-local', 'required' => false, 'rules' => ['nullable', 'date']],
-                    ['name' => 'ends_at', 'label' => 'Ends (optional)', 'type' => 'datetime-local', 'required' => false, 'rules' => ['nullable', 'date', 'after_or_equal:starts_at']],
+                    [
+                        'name' => 'starts_at',
+                        'label' => 'Starts on (optional, from the beginning of that day)',
+                        'type' => 'date',
+                        'required' => false,
+                        'bound' => 'start',
+                        'rules' => ['nullable', 'date_format:Y-m-d']
+                    ],
+                    [
+                        'name' => 'ends_at',
+                        'label' => 'Ends on (optional, until the end of that day)',
+                        'type' => 'date',
+                        'required' => false,
+                        'bound' => 'end',
+                        'rules' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:starts_at']
+                    ],
                     [
                         'name' => 'usage_limit',
                         'label' => 'Total uses allowed (optional)',

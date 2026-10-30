@@ -35,6 +35,23 @@ class Promotion extends Model
         ];
     }
 
+    public function statusLabel(): string
+    {
+        if (! $this->is_active) {
+            return 'Hidden';
+        }
+
+        if ($this->starts_at?->isFuture()) {
+            return 'Scheduled: starts ' . $this->starts_at->format('d M Y');
+        }
+
+        if ($this->ends_at?->isPast()) {
+            return 'Expired on ' . $this->ends_at->format('d M Y');
+        }
+
+        return 'Live';
+    }
+
     protected function imageUrl(): Attribute
     {
         return Attribute::get(

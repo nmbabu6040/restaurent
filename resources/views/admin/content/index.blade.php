@@ -42,7 +42,9 @@
                                 @endif
                             </td>
                         @endforeach
-                        <td class="p-4">{{ $record->is_active ? 'Visible' : 'Hidden' }}</td>
+                        <td class="p-4">
+                            {{ method_exists($record, 'statusLabel') ? $record->statusLabel() : ($record->is_active ? 'Visible' : 'Hidden') }}
+                        </td>
                         <td class="p-4">
                             <div class="flex justify-end gap-3">
                                 <a href="{{ route('admin.content.edit', [$key, $record->id]) }}"

@@ -18,11 +18,23 @@ class HomeController extends Controller
             ->where('is_available', true)
             ->orderBy('sort_order');
 
+        // $allPromotions = Promotion::all();
+
+        // $currentPromotions = Promotion::current()->get();
+
+        // dd([
+        //     'total_promotions' => $allPromotions->count(),
+        //     'current_promotions' => $currentPromotions->count(),
+        //     'all_data' => $allPromotions->toArray(),
+        //     'current_data' => $currentPromotions->toArray(),
+        // ]);
+
         return view('home', [
             'categories' => MenuCategory::active()->ordered()->get(),
             'featured' => $available()->where('is_featured', true)->limit(6)->get(),
             'chefPicks' => $available()->where('is_special', true)->limit(3)->get(),
-            'promotions' => Promotion::current()->ordered()->limit(3)->get(),
+            'promotions' => Promotion::current()->ordered()->limit(6)->get(),
+            // 'promotions' => Promotion::query()->orderBy('sort_order')->limit(3)->get(),
             'gallery' => GalleryImage::active()->ordered()->limit(8)->get(),
             'testimonials' => Testimonial::active()->ordered()->limit(6)->get(),
         ]);

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Services\ImageService;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class ContentController extends Controller
 {
@@ -42,7 +43,7 @@ class ContentController extends Controller
     public function store(Request $request, string $resource)
     {
         $cfg = $this->cfg($resource);
-        $data = $this->prepare($request->validate($this->rules($cfg, true)));
+        $data = $this->prepare($request->validate($this->rules($cfg, true)), $cfg);
 
         if ($file = $request->file('image')) {
             $data[$cfg['image']['field']] = app(ImageService::class)->store($file, $cfg['image']['dir']);
@@ -68,7 +69,7 @@ class ContentController extends Controller
     {
         $cfg = $this->cfg($resource);
         $record = $cfg['model']::findOrFail($id);
-        $data = $this->prepare($request->validate($this->rules($cfg, false, $id)));
+        $data = $this->prepare($request->validate($this->rules($cfg, false, $id)), $cfg);
         $img = $cfg['image'];
 
         if ($img && $request->hasFile('image')) {
@@ -134,7 +135,7 @@ class ContentController extends Controller
         return $rules;
     }
 
-    private function prepare(array $data): array
+    private function prepare(array $data, array $cfg): array
     {
         unset($data['image'], $data['remove_image']);
 
@@ -144,6 +145,14 @@ class ContentController extends Controller
 
         if (isset($data['code'])) {
             $data['code'] = Str::upper(trim($data['code']));
+        }
+
+        // A "starts on" date means the start of that day, an "ends on" date means its last second.
+        foreach ($cfg['fields'] as $field) {
+            if (isset($field['bound']) && filled($data[$field['name']] ?? null)) {
+                $day = Carbon::createFromFormat('Y-m-d', $data[$field['name']]);
+                $data[$field['name']] = $field['bound'] === 'end' ? $day->endOfDay() : $day->startOfDay();
+            }
         }
 
         return $data;
