@@ -156,6 +156,12 @@
                 'label' => 'Subscribers',
                 'can' => 'manage-content',
             ],
+            [
+                'url' => route('admin.qr.index'),
+                'active' => request()->routeIs('admin.qr.*'),
+                'label' => 'QR codes',
+                'can' => 'manage-content',
+            ],
         ],
         'System' => [
             [
@@ -175,6 +181,12 @@
                 'active' => request()->routeIs('admin.users.*'),
                 'label' => 'Users',
                 'can' => 'manage-users',
+            ],
+            [
+                'url' => route('admin.backups.index'),
+                'active' => request()->routeIs('admin.backups.*'),
+                'label' => 'Backups',
+                'can' => 'manage-settings',
             ],
             [
                 'url' => route('admin.activity.index'),
@@ -243,6 +255,14 @@
         </nav>
 
         <div class="space-y-1 border-t border-white/10 p-3">
+            @can('handle-guests')
+                <button type="button" data-sound-toggle aria-pressed="false"
+                    class="w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-white/10">
+                    <span data-sound-label>New order alert sound: off</span>
+                </button>
+                <div data-alert-url="{{ route('admin.orders.poll') }}" hidden></div>
+            @endcan
+
             <button type="button" data-theme-toggle
                 class="w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-white/10">
                 <span class="when-light">Switch to dark mode</span><span class="when-dark">Switch to light mode</span>

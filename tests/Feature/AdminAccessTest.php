@@ -102,10 +102,12 @@ class AdminAccessTest extends TestCase
             '/admin/expenses',
             '/admin/profit-loss',
             '/admin/content/suppliers',
+            '/admin/backups',
+            '/admin/qr',
             '/admin/riders',
             '/admin/reviews'
         ];
-        $managerOnly = ['/admin/settings', '/admin/users', '/admin/activity'];
+        $managerOnly = ['/admin/settings', '/admin/users', '/admin/activity', '/admin/backups'];
         $guestHandling = [
             '/admin',
             '/admin/reservations',

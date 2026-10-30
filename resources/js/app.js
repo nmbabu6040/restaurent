@@ -14,6 +14,8 @@ import { initCart } from "./modules/cart";
 import { initItemOptions } from "./modules/item-options";
 import { initCheckout } from "./modules/checkout";
 import { initOrderStatus } from "./modules/order-status";
+import { initPrint } from "./modules/print";
+import { initAdminAlerts } from "./modules/alerts";
 import { initBackToTop } from "./modules/scroll-top";
 import { initShare } from "./modules/share";
 import { toast } from "./modules/toast";
@@ -45,6 +47,8 @@ $(() => {
     initRider();
     initBackToTop();
     initShare();
+    initPrint();
+    initAdminAlerts();
 
     const flash = document.getElementById("flash-message");
     if (flash)

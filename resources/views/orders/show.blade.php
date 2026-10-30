@@ -50,6 +50,14 @@
                 </ol>
             @endif
 
+            <div class="mt-4 flex flex-wrap gap-3">
+                <a href="{{ route('admin.orders.print', ['order' => $order, 'type' => 'kot', 'autoprint' => 1]) }}"
+                    target="_blank" rel="noopener" class="btn border border-navy/30 !py-2 text-navy">Print kitchen
+                    ticket</a>
+                <a href="{{ route('admin.orders.print', ['order' => $order, 'type' => 'receipt', 'autoprint' => 1]) }}"
+                    target="_blank" rel="noopener" class="btn border border-navy/30 !py-2 text-navy">Print receipt</a>
+            </div>
+
             @if ($showRider)
                 <div class="mt-6 rounded-lg bg-warm p-4 text-sm">
                     <p class="font-semibold text-navy">{{ __('orders.rider.title') }}</p>

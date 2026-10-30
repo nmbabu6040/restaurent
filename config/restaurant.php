@@ -44,7 +44,17 @@ return [
         'moderation' => env('REVIEWS_MODERATION', 'unverified'),
         'per_page' => 8,
     ],
+    'backup' => [
+        'path' => env('BACKUP_PATH'),              // empty = storage/app/backups (private, not on the web)
+        'enabled' => (bool) env('BACKUP_ENABLED', true),
+        'time' => env('BACKUP_TIME', '03:30'),
+        'keep' => (int) env('BACKUP_KEEP', 14),    // how many database and photo backups to keep
+    ],
 
+    'reports' => [
+        'daily_email' => env('DAILY_REPORT_EMAIL'), // empty = no daily email
+        'daily_time' => env('DAILY_REPORT_TIME', '23:30'),
+    ],
     'admin' => [
         'email' => env('ADMIN_EMAIL', 'admin@meher.test'),
         'password' => env('ADMIN_PASSWORD'),

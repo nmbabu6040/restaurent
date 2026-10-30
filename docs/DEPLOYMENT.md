@@ -246,6 +246,7 @@ The app never trusts the browser or the callback body: every payment is confirme
 
 ## 7. Backups and restore
 
+“The website can also back itself up: Admin > Backups, and a daily backup:run through the scheduler. These files stay on the server, so still copy them off-site.”
 One-time setup on the server:
 
 ```sql

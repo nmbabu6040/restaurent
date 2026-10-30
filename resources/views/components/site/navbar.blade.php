@@ -15,7 +15,7 @@
     <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <a href="{{ route('home') }}" class="flex items-center gap-2 font-heading text-2xl font-bold tracking-wide">
             @if ($logo)
-                <img src="{{ $logo }}" alt="{{ $brand }}" height="40" class="h-10 w-auto">
+                <img src="{{ $logo }}" alt="{{ $brand }}" height="60" class="h-12 w-auto">
             @else
                 {{ $brand }}
             @endif

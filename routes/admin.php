@@ -21,6 +21,8 @@ use App\Http\Controllers\Admin\IngredientController;
 use App\Http\Controllers\Admin\ProfitLossController;
 use App\Http\Controllers\Admin\RiderController;
 use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Admin\BackupController;
+use App\Http\Controllers\Admin\QrController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,6 +41,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('messages', [ContactMessageController::class, 'index'])->name('messages.index');
         Route::get('messages/{message}', [ContactMessageController::class, 'show'])->name('messages.show');
         Route::delete('messages/{message}', [ContactMessageController::class, 'destroy'])->name('messages.destroy');
+
+        Route::get('orders/poll', [OrderController::class, 'poll'])->name('orders.poll');
+        Route::get('orders/{order}/print/{type}', [OrderController::class, 'print'])
+            ->whereNumber('order')->whereIn('type', ['kot', 'receipt'])->name('orders.print');
         Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
@@ -62,6 +68,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('subscribers/export', [SubscriberController::class, 'export'])->name('subscribers.export');
         Route::delete('subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
+        Route::get('qr', [QrController::class, 'index'])->name('qr.index');
+        Route::get('qr/download', [QrController::class, 'download'])->name('qr.download');
+        Route::get('qr/print', [QrController::class, 'print'])->name('qr.print');
+
         Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->whereNumber('review')->name('reviews.destroy');
         Route::delete('review-replies/{reply}', [ReviewController::class, 'destroyReply'])->whereNumber('reply')->name('review-replies.destroy');
 
@@ -80,6 +90,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
         Route::get('appearance', [AppearanceController::class, 'edit'])->name('appearance.edit');
         Route::put('appearance', [AppearanceController::class, 'update'])->name('appearance.update');
+
+        Route::get('backups', [BackupController::class, 'index'])->name('backups.index');
+        Route::post('backups', [BackupController::class, 'run'])->name('backups.run');
+        Route::get('backups/{name}', [BackupController::class, 'download'])->where('name', '[A-Za-z0-9._-]+')->name('backups.download');
+        Route::delete('backups/{name}', [BackupController::class, 'destroy'])->where('name', '[A-Za-z0-9._-]+')->name('backups.destroy');
     });
 
     Route::middleware('can:manage-users')->group(function () {

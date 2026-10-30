@@ -6,6 +6,7 @@ use App\Models\TeamMember;
 use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Console\Command;
+use App\Services\BackupService;
 use Illuminate\Support\Facades\DB;
 
 class Preflight extends Command
@@ -52,22 +53,86 @@ class Preflight extends Command
 
         // [label, passed, how to fix]
         $required = [
-            ['APP_ENV is production', app()->isProduction(), 'Set APP_ENV=production'],
-            ['APP_DEBUG is off', ! config('app.debug'), 'Set APP_DEBUG=false'],
-            ['APP_KEY is set', filled(config('app.key')), 'Run php artisan key:generate --force (only on a new install)'],
-            ['APP_URL uses https', str_starts_with($url, 'https://'), 'Set APP_URL=https://your-domain'],
-            ['APP_URL is not a local address', ! preg_match('/localhost|127\.0\.0\.1|\.test$/', $host), 'Set APP_URL to your real domain'],
-            ['Session cookie is HTTPS-only', config('session.secure') === true, 'Set SESSION_SECURE_COOKIE=true'],
-            ['Mail sends for real', ! in_array(config('mail.default'), ['log', 'array'], true), 'Configure SMTP in .env (MAIL_MAILER=smtp ...)'],
-            ['Database is reachable', $dbOk, 'Check DB_* in .env and run php artisan migrate --force'],
-            ['storage and bootstrap/cache are writable', is_writable(storage_path()) && is_writable(base_path('bootstrap/cache')), 'Fix folder permissions (docs/DEPLOYMENT.md)'],
-            ['public/storage link exists', file_exists(public_path('storage')), 'Run php artisan storage:link'],
-            ['Front-end build exists', file_exists(public_path('build/manifest.json')), 'Run npm run build'],
-            ['No Vite dev-server file (public/hot)', ! file_exists(public_path('hot')), 'Delete public/hot'],
-            ['No static public/robots.txt', ! file_exists(public_path('robots.txt')), 'Delete public/robots.txt (the site generates one)'],
-            ['An active admin exists', $db(fn() => User::where('role', 'admin')->where('is_active', true)->exists()), 'Run php artisan db:seed --class=AdminSeeder --force'],
-            ['No admin uses the sample @meher.test email', $db(fn() => ! User::where('email', 'like', '%@meher.test')->exists()), 'Create a real admin, then delete the sample one'],
-            ['Phone, email and address are real', $dbOk && ! $placeholders, 'Edit them in Admin > Settings'],
+            [
+                'APP_ENV is production',
+                app()->isProduction(),
+                'Set APP_ENV=production'
+            ],
+            [
+                'APP_DEBUG is off',
+                ! config('app.debug'),
+                'Set APP_DEBUG=false'
+            ],
+            [
+                'APP_KEY is set',
+                filled(config('app.key')),
+                'Run php artisan key:generate --force (only on a new install)'
+            ],
+            [
+                'APP_URL uses https',
+                str_starts_with($url, 'https://'),
+                'Set APP_URL=https://your-domain'
+            ],
+            [
+                'APP_URL is not a local address',
+                ! preg_match('/localhost|127\.0\.0\.1|\.test$/', $host),
+                'Set APP_URL to your real domain'
+            ],
+            [
+                'Session cookie is HTTPS-only',
+                config('session.secure') === true,
+                'Set SESSION_SECURE_COOKIE=true'
+            ],
+            [
+                'Mail sends for real',
+                ! in_array(config('mail.default'), ['log', 'array'], true),
+                'Configure SMTP in .env (MAIL_MAILER=smtp ...)'
+            ],
+            [
+                'Database is reachable',
+                $dbOk,
+                'Check DB_* in .env and run php artisan migrate --force'
+            ],
+            [
+                'storage and bootstrap/cache are writable',
+                is_writable(storage_path()) && is_writable(base_path('bootstrap/cache')),
+                'Fix folder permissions (docs/DEPLOYMENT.md)'
+            ],
+            [
+                'public/storage link exists',
+                file_exists(public_path('storage')),
+                'Run php artisan storage:link'
+            ],
+            [
+                'Front-end build exists',
+                file_exists(public_path('build/manifest.json')),
+                'Run npm run build'
+            ],
+            [
+                'No Vite dev-server file (public/hot)',
+                ! file_exists(public_path('hot')),
+                'Delete public/hot'
+            ],
+            [
+                'No static public/robots.txt',
+                ! file_exists(public_path('robots.txt')),
+                'Delete public/robots.txt (the site generates one)'
+            ],
+            [
+                'An active admin exists',
+                $db(fn() => User::where('role', 'admin')->where('is_active', true)->exists()),
+                'Run php artisan db:seed --class=AdminSeeder --force'
+            ],
+            [
+                'No admin uses the sample @meher.test email',
+                $db(fn() => ! User::where('email', 'like', '%@meher.test')->exists()),
+                'Create a real admin, then delete the sample one'
+            ],
+            [
+                'Phone, email and address are real',
+                $dbOk && ! $placeholders,
+                'Edit them in Admin > Settings'
+            ],
         ];
 
         if ($online) {
@@ -77,6 +142,7 @@ class Preflight extends Command
         }
 
         $recommended = [
+            ['A backup was made in the last 3 days', $dbOk && collect(app(BackupService::class)->list())->contains(fn($f) => $f['time']->gt(now()->subDays(3))), 'Run php artisan backup:run, and make sure the scheduler cron job is set (docs/DEPLOYMENT.md)'],
             ['Configuration is cached', app()->configurationIsCached(), 'Run php artisan optimize'],
             ['Routes are cached', app()->routesAreCached(), 'Run php artisan optimize'],
             ['Queue is not "sync"', config('queue.default') !== 'sync', 'Set QUEUE_CONNECTION=database and run a worker'],

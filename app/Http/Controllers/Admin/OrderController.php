@@ -14,6 +14,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Reservation;
 use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
@@ -123,5 +124,32 @@ class OrderController extends Controller
         }
 
         return back()->with('status', $message);
+    }
+
+    /** Cheap check the admin pages call every 20 seconds, to play the new-order alert. */
+    public function poll()
+    {
+        $orders = Order::needsAttention();
+        $reservations = Reservation::where('status', 'pending');
+
+        return response()->json([
+            'orders' => $orders->count(),
+            'latest' => (int) $orders->max('id'),
+            'reservations' => $reservations->count(),
+            'reservation_latest' => (int) $reservations->max('id'),
+        ])->header('Cache-Control', 'no-store');
+    }
+
+    public function print(Request $request, Order $order, string $type)
+    {
+        abort_unless(in_array($type, ['kot', 'receipt'], true), 404);
+
+        ActivityLog::record('order.printed', "Printed {$type} for {$order->reference}", $order);
+
+        return view('admin.orders.print', [
+            'order' => $order->load('items', 'delivery.rider'),
+            'type' => $type,
+            'autoprint' => $request->boolean('autoprint'),
+        ]);
     }
 }
