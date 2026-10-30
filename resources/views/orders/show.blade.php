@@ -82,18 +82,21 @@
                     <dt class="font-semibold text-navy">{{ __('orders.show.placed') }}</dt>
                     <dd>{{ $order->created_at->translatedFormat('d M Y, g:i A') }}</dd>
                 </div>
+
                 @if ($order->address)
                     <div class="sm:col-span-2">
                         <dt class="font-semibold text-navy">{{ __('orders.show.address') }}</dt>
                         <dd>{{ $order->address }}</dd>
                     </div>
                 @endif
+
                 @if ($order->notes)
                     <div class="sm:col-span-2">
                         <dt class="font-semibold text-navy">{{ __('orders.show.notes') }}</dt>
                         <dd>{{ $order->notes }}</dd>
                     </div>
                 @endif
+
                 <div class="sm:col-span-2">
                     <dt class="font-semibold text-navy">{{ __('orders.show.payment') }}</dt>
                     <dd>{{ __('orders.payment.' . $order->payment_method) }} &middot;
@@ -119,6 +122,7 @@
                     <dt>{{ __('orders.subtotal') }}</dt>
                     <dd>{{ money($order->subtotal) }}</dd>
                 </div>
+
                 @if ((float) $order->discount > 0)
                     <div class="flex justify-between">
                         <dt>{{ __('orders.discount') }}@if ($order->coupon_code)
@@ -128,15 +132,39 @@
                         <dd>&minus;{{ money($order->discount) }}</dd>
                     </div>
                 @endif
+
                 <div class="flex justify-between">
                     <dt>{{ __('orders.delivery_fee') }}</dt>
                     <dd>{{ (float) $order->delivery_fee > 0 ? money($order->delivery_fee) : __('orders.free') }}</dd>
                 </div>
+
                 <div class="flex justify-between text-base font-semibold text-navy">
                     <dt>{{ __('orders.total') }}</dt>
                     <dd>{{ money($order->total) }}</dd>
                 </div>
             </dl>
+
+            @if ($order->status->value === 'completed')
+                @php $rateable = $order->items->filter(fn ($l) => $l->menuItem)->unique('menu_item_id'); @endphp
+                @if ($rateable->isNotEmpty())
+                    <section class="mt-8 border-t border-navy/10 pt-6" aria-labelledby="rate-title">
+                        <h2 id="rate-title" class="text-xl font-semibold">{{ __('reviews.rate_dishes') }}</h2>
+                        <ul class="mt-3 space-y-2 text-sm">
+                            @foreach ($rateable as $line)
+                                <li class="flex flex-wrap items-center justify-between gap-2">
+                                    <span>{{ $line->tr('name') }}</span>
+                                    @if (in_array($line->menu_item_id, $reviewed, true))
+                                        <span class="font-semibold text-green-800">{{ __('reviews.reviewed') }}</span>
+                                    @else
+                                        <a href="{{ route('menu.show', $line->menuItem->slug) }}?order={{ $order->token }}#write-review"
+                                            class="btn-primary !px-4 !py-2">{{ __('reviews.rate_dish') }}</a>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    </section>
+                @endif
+            @endif
 
             <a href="{{ route('orders.track') }}"
                 class="mt-6 inline-block text-sm font-semibold text-navy hover:text-terracotta-dark">{{ __('orders.show.track_other') }}</a>

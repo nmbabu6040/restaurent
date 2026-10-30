@@ -6,6 +6,10 @@
     $unread = \App\Models\ContactMessage::whereNull('read_at')->count();
     $pendingOrders = \App\Models\Order::needsAttention()->count();
     $maintenance = setting('maintenance_enabled') === '1';
+    $reviewAlerts = auth()->user()->can('handle-guests')
+        ? \App\Models\Review::where('status', 'pending')->count() +
+            \App\Models\ReviewReply::where('status', 'pending')->count()
+        : 0;
     $riderAlerts = auth()->user()->can('manage-riders') ? \App\Models\Delivery::where('status', 'failed')->count() : 0;
     $lowStock = auth()->user()->can('manage-inventory') ? \App\Models\Ingredient::low()->count() : 0;
 
@@ -37,6 +41,13 @@
                 'label' => 'Messages',
                 'can' => 'handle-guests',
                 'badge' => $unread,
+            ],
+            [
+                'url' => route('admin.reviews.index'),
+                'active' => request()->routeIs('admin.reviews.*'),
+                'label' => 'Reviews',
+                'can' => 'handle-guests',
+                'badge' => $reviewAlerts,
             ],
             [
                 'url' => route('admin.riders.index'),

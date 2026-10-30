@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\MenuCategory;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
+use App\Models\Review;
+use App\Services\ReviewService;
 
 class MenuController extends Controller
 {
@@ -43,7 +45,7 @@ class MenuController extends Controller
         ]);
     }
 
-    public function show(MenuItem $item)
+    public function show(Request $request, MenuItem $item, ReviewService $reviewService)
     {
         abort_unless($item->category()->where('is_active', true)->exists(), 404);
 
@@ -56,9 +58,20 @@ class MenuController extends Controller
             ->limit(3)
             ->get();
 
+        // A "rate this dish" link from the customer's finished order unlocks a verified-buyer review.
+        $orderForReview = $reviewService->verifiedOrder($item, $request->query('order'));
+        $alreadyReviewed = $orderForReview !== null && $reviewService->alreadyReviewed($orderForReview, $item);
+
         return view('menu.show', [
             'item' => $item->load('category', 'activeVariations', 'activeAddons'),
             'related' => $related,
+            'reviews' => Review::where('menu_item_id', $item->id)->approved()
+                ->with('approvedReplies')->latest('id')
+                ->paginate(config('restaurant.reviews.per_page'), ['*'], 'reviews')->fragment('reviews'),
+            'distribution' => Review::where('menu_item_id', $item->id)->approved()->toBase()
+                ->selectRaw('rating, COUNT(*) as c')->groupBy('rating')->pluck('c', 'rating')->all(),
+            'orderForReview' => $alreadyReviewed ? null : $orderForReview,
+            'alreadyReviewed' => $alreadyReviewed,
         ]);
     }
 }

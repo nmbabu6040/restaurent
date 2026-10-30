@@ -36,6 +36,12 @@ class OrderItem extends Model
         ];
     }
 
+    /** The dish this line was for (null once the dish is deleted). */
+    public function menuItem(): BelongsTo
+    {
+        return $this->belongsTo(MenuItem::class, 'menu_item_id');
+    }
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);

@@ -4,13 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\Review;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
     public function show(Order $order)
     {
-        return view('orders.show', ['order' => $order->load('items', 'delivery.rider')]);
+        $order->load('items.menuItem', 'delivery.rider');
+
+        return view('orders.show', [
+            'order' => $order,
+            // Dishes of a finished order that already have a review from it.
+            'reviewed' => $order->status->value === 'completed'
+                ? Review::where('order_id', $order->id)->pluck('menu_item_id')->all()
+                : [],
+        ]);
     }
 
     public function status(Order $order)

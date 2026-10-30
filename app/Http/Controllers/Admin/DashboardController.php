@@ -41,12 +41,55 @@ class DashboardController extends Controller
                     'tone' => 'rose',
                     'href' => route('admin.orders.index', ['status' => 'pending'])
                 ],
-                ['label' => 'Need a rider', 'value' => Order::needsRider()->count(), 'icon' => 'truck', 'tone' => 'indigo', 'href' => route('admin.orders.index', ['needs_rider' => 1])],
-                ['label' => 'Pending reservations', 'value' => Reservation::where('status', ReservationStatus::Pending->value)->count(), 'icon' => 'clock', 'tone' => 'amber', 'href' => route('admin.reservations.index', ['status' => 'pending'])],
-                ['label' => "Today's reservations", 'value' => Reservation::blocking()->whereDate('reserved_at', now()->toDateString())->count(), 'icon' => 'calendar', 'tone' => 'cyan', 'href' => route('admin.reservations.index', ['date' => now()->toDateString()])],
-                ['label' => 'Unread messages', 'value' => ContactMessage::whereNull('read_at')->count(), 'icon' => 'mail', 'tone' => 'violet', 'href' => route('admin.messages.index')],
-                ['label' => 'Menu items', 'value' => MenuItem::count(), 'icon' => 'utensils', 'tone' => 'teal', 'href' => null],
-                ['label' => 'Newsletter subscribers', 'value' => NewsletterSubscriber::whereNull('unsubscribed_at')->count(), 'icon' => 'users', 'tone' => 'pink', 'href' => null],
+                [
+                    'label' => 'Need a rider',
+                    'value' => Order::needsRider()->count(),
+                    'icon' => 'truck',
+                    'tone' => 'indigo',
+                    'href' => route('admin.orders.index', ['needs_rider' => 1])
+                ],
+                [
+                    'label' => 'Pending reservations',
+                    'value' => Reservation::where('status', ReservationStatus::Pending->value)->count(),
+                    'icon' => 'clock',
+                    'tone' => 'amber',
+                    'href' => route('admin.reservations.index', ['status' => 'pending'])
+                ],
+                [
+                    'label' => "Today's reservations",
+                    'value' => Reservation::blocking()->whereDate('reserved_at', now()->toDateString())->count(),
+                    'icon' => 'calendar',
+                    'tone' => 'cyan',
+                    'href' => route('admin.reservations.index', ['date' => now()->toDateString()])
+                ],
+                [
+                    'label' => 'Unread messages',
+                    'value' => ContactMessage::whereNull('read_at')->count(),
+                    'icon' => 'mail',
+                    'tone' => 'violet',
+                    'href' => route('admin.messages.index')
+                ],
+                [
+                    'label' => 'Reviews to approve',
+                    'value' => \App\Models\Review::where('status', 'pending')->count() + \App\Models\ReviewReply::where('status', 'pending')->count(),
+                    'icon' => 'star',
+                    'tone' => 'amber',
+                    'href' => route('admin.reviews.index')
+                ],
+                [
+                    'label' => 'Menu items',
+                    'value' => MenuItem::count(),
+                    'icon' => 'utensils',
+                    'tone' => 'teal',
+                    'href' => null
+                ],
+                [
+                    'label' => 'Newsletter subscribers',
+                    'value' => NewsletterSubscriber::whereNull('unsubscribed_at')->count(),
+                    'icon' => 'users',
+                    'tone' => 'pink',
+                    'href' => null
+                ],
             ],
             'upcoming' => Reservation::blocking()->where('reserved_at', '>=', now())->orderBy('reserved_at')->limit(5)->get(),
             'messages' => ContactMessage::latest()->limit(5)->get(),

@@ -14,6 +14,7 @@ use App\Http\Middleware\EnsureOrderingEnabled;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\NotFoundController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -22,6 +23,9 @@ Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 
 Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 Route::get('/menu/{item:slug}', [MenuController::class, 'show'])->name('menu.show');
+
+Route::post('/menu/{item:slug}/reviews', [ReviewController::class, 'store'])->middleware('throttle:reviews')->name('reviews.store');
+Route::post('/reviews/{review}/replies', [ReviewController::class, 'reply'])->whereNumber('review')->middleware('throttle:review-replies')->name('reviews.reply');
 
 Route::get('/reservations', [ReservationController::class, 'create'])->name('reservations.create');
 Route::get('/reservations/availability', [ReservationController::class, 'availability'])

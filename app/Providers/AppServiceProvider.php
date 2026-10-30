@@ -37,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('orders', fn(Request $r) => Limit::perMinutes(10, 5)->by($r->ip()));
         RateLimiter::for('order-track', fn(Request $r) => Limit::perMinutes(5, 5)->by($r->ip()));
         RateLimiter::for('payments', fn(Request $r) => Limit::perMinutes(10, 10)->by($r->ip()));
+        RateLimiter::for('reviews', fn(Request $r) => Limit::perMinutes(10, 3)->by($r->ip()));
+        RateLimiter::for('review-replies', fn(Request $r) => Limit::perMinutes(10, 5)->by($r->ip()));
 
         $is = fn(User $u, UserRole ...$roles) => $u->is_active && in_array($u->role, $roles, true);
 

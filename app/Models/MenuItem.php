@@ -50,7 +50,14 @@ class MenuItem extends Model
             'is_special' => 'boolean',
             'stock_qty' => 'integer',
             'cost_price' => 'decimal:2',
+            'reviews_count' => 'integer',
+            'rating_avg' => 'decimal:2',
         ];
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 
     public function recipeLines(): HasMany

@@ -38,6 +38,13 @@ return [
         'low_dish_stock' => 5,
     ],
 
+    'reviews' => [
+        // all: every review and reply waits for approval. unverified: verified buyers go live at once,
+        // everything else waits. none: everything goes live at once.
+        'moderation' => env('REVIEWS_MODERATION', 'unverified'),
+        'per_page' => 8,
+    ],
+
     'admin' => [
         'email' => env('ADMIN_EMAIL', 'admin@meher.test'),
         'password' => env('ADMIN_PASSWORD'),

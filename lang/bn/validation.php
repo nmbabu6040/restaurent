@@ -25,5 +25,8 @@ return [
         'party_size' => 'অতিথির সংখ্যা',
         'message' => 'বার্তা',
         'subject' => 'বিষয়',
+        'rating' => 'রেটিং',
+        'comment' => 'মতামত',
+        'body' => 'উত্তর',
     ],
 ];

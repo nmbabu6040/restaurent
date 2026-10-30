@@ -40,6 +40,12 @@
                 class="after:absolute after:inset-0 hover:text-terracotta-dark">{{ $item->name }}</a>
             </{{ $heading }}>
 
+            @if ($item->reviews_count > 0)
+                <p class="mt-1 flex items-center gap-1 text-sm">
+                    <x-site.stars :rating="$item->rating_avg" />
+                    <span>{{ number_format((float) $item->rating_avg, 1) }} ({{ $item->reviews_count }})</span>
+                </p>
+            @endif
 
             <p class="mt-2 line-clamp-3 text-sm">{{ $item->description }}</p>
 

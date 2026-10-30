@@ -157,6 +157,8 @@
             </div>
         </div>
 
+        @include('menu._reviews')
+
         @if ($related->isNotEmpty())
             <section class="mt-16" aria-labelledby="related-title">
                 <h3 id="related-title" class="text-2xl font-bold">{{ __('menu.related') }}</h3>

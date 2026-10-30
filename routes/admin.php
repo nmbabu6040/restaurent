@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\IngredientController;
 use App\Http\Controllers\Admin\ProfitLossController;
 use App\Http\Controllers\Admin\RiderController;
+use App\Http\Controllers\Admin\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -42,6 +43,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
         Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
         Route::post('orders/{order}/rider', [OrderController::class, 'assignRider'])->name('orders.rider');
+
+        Route::get('reviews', [ReviewController::class, 'index'])->name('reviews.index');
+        Route::get('reviews/{review}', [ReviewController::class, 'show'])->whereNumber('review')->name('reviews.show');
+        Route::patch('reviews/{review}/status', [ReviewController::class, 'status'])->whereNumber('review')->name('reviews.status');
+        Route::post('reviews/{review}/replies', [ReviewController::class, 'reply'])->whereNumber('review')->name('reviews.reply');
+        Route::patch('review-replies/{reply}/status', [ReviewController::class, 'replyStatus'])->whereNumber('reply')->name('review-replies.status');
     });
 
     Route::middleware('can:manage-menu')->group(function () {
@@ -54,6 +61,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
         Route::get('subscribers/export', [SubscriberController::class, 'export'])->name('subscribers.export');
         Route::delete('subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
+
+        Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->whereNumber('review')->name('reviews.destroy');
+        Route::delete('review-replies/{reply}', [ReviewController::class, 'destroyReply'])->whereNumber('reply')->name('review-replies.destroy');
 
         Route::prefix('content/{resource}')->name('content.')->whereIn('resource', array_keys(AdminResources::all()))->group(function () {
             Route::get('/', [ContentController::class, 'index'])->name('index');
