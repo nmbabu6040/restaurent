@@ -12,6 +12,7 @@ use App\Mail\OrderUpdateMail;
 use App\Models\ActivityLog;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Services\PdfService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Reservation;
@@ -151,5 +152,15 @@ class OrderController extends Controller
             'type' => $type,
             'autoprint' => $request->boolean('autoprint'),
         ]);
+    }
+
+    public function invoice(Order $order, PdfService $pdf)
+    {
+        return $pdf->invoice($order)->download('invoice-' . $order->reference . '.pdf');
+    }
+
+    public function challan(Order $order, PdfService $pdf)
+    {
+        return $pdf->challan($order)->download('challan-' . $order->reference . '.pdf');
     }
 }

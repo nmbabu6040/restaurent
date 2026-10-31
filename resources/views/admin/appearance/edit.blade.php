@@ -13,6 +13,7 @@
             <legend class="px-1 font-heading text-lg text-navy">Logos and icon</legend>
             <div class="mt-3 grid gap-6 md:grid-cols-2">
                 @foreach ($images as $key => $cfg)
+                    @continue($key === 'hero_image')
                     @php $url = setting_image($key); @endphp
                     <div>
                         <label for="{{ $key }}"
@@ -35,6 +36,57 @@
                 @endforeach
             </div>
             <p class="mt-3 text-xs">JPG, PNG or WebP, up to 2 MB. Logos keep their transparency.</p>
+        </fieldset>
+
+        <fieldset class="card p-6">
+            <legend class="px-1 font-heading text-lg text-navy">Hero (top banner on the home page)</legend>
+            @php $heroUrl = setting_image('hero_image'); @endphp
+            <div class="mt-3 grid gap-6 md:grid-cols-2">
+                <div>
+                    <label for="hero_image" class="block text-sm font-medium text-navy">Background photo (JPG, PNG or
+                        WebP, up to 2 MB; wide photos work best)</label>
+                    @if ($heroUrl)
+                        <img src="{{ $heroUrl }}" alt="Current hero photo" class="mt-2 h-24 w-auto rounded">
+                        <input type="hidden" name="remove_hero_image" value="0">
+                        <label class="mt-2 flex items-center gap-2 text-sm"><input type="checkbox"
+                                name="remove_hero_image" value="1" class="accent-navy"> Remove (go back to a plain
+                            color)</label>
+                    @endif
+                    <input id="hero_image" name="hero_image" type="file" accept="image/jpeg,image/png,image/webp"
+                        class="mt-2 block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-navy file:px-4 file:py-2 file:text-white">
+                    <p class="mt-1 text-sm text-red-700">{{ $errors->first('hero_image') }}</p>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="hero_overlay_color" class="block text-sm font-medium text-navy">Overlay color
+                            (darkens the photo so the text stays readable)</label>
+                        <input id="hero_overlay_color" type="color" name="hero_overlay_color"
+                            value="{{ old('hero_overlay_color', $v('hero_overlay_color') ?: '#172B4D') }}"
+                            class="mt-1 h-10 w-16 rounded border border-navy/20 p-0.5">
+                    </div>
+                    <x-form.field name="hero_overlay_opacity" type="number" label="Overlay strength, 0 to 90 (percent)"
+                        :value="$v('hero_overlay_opacity') !== '' ? $v('hero_overlay_opacity') : 55" min="0" max="90" />
+                    <div>
+                        <label for="hero_text_tone" class="block text-sm font-medium text-navy">Text color on the
+                            photo</label>
+                        <select id="hero_text_tone" name="hero_text_tone"
+                            class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm">
+                            <option value="light" @selected(old('hero_text_tone', $v('hero_text_tone') ?: 'light') === 'light')>Light text (for dark overlays)</option>
+                            <option value="dark" @selected(old('hero_text_tone', $v('hero_text_tone')) === 'dark')>Dark text (for light overlays)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="hero_height" class="block text-sm font-medium text-navy">Banner height</label>
+                        <select id="hero_height" name="hero_height"
+                            class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm">
+                            @foreach (['compact' => 'Compact', 'normal' => 'Normal', 'tall' => 'Tall'] as $value => $label)
+                                <option value="{{ $value }}" @selected(old('hero_height', $v('hero_height') ?: 'normal') === $value)>{{ $label }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
         </fieldset>
 
         <fieldset class="card p-6">
@@ -83,7 +135,8 @@
 
         <fieldset class="card p-6">
             <legend class="px-1 font-heading text-lg text-navy">Section background colors</legend>
-            <p class="text-sm">Text color is chosen automatically so it stays readable. Colors that would make text hard
+            <p class="text-sm">Text color is chosen automatically so it stays readable. Colors that would make text
+                hard
                 to read are not accepted.</p>
             <div class="mt-4 grid gap-4 md:grid-cols-2">
                 @foreach ($sections as $key => $section)

@@ -15,6 +15,7 @@ return [
     'chef_title' => 'শেফের সুপারিশ',
     'chef_text' => 'আমাদের রান্নাঘরের বাছাই করা পদ।',
     'offers_title' => 'বিশেষ অফার',
+    'dish_count' => ':count টি খাবার|:count টি খাবার',
     'valid_until' => ':date পর্যন্ত',
     'gallery_title' => 'আমাদের রান্নাঘর ও টেবিল থেকে',
     'testimonials_title' => 'অতিথিরা যা বলেন',

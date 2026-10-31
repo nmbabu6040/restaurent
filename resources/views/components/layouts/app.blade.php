@@ -8,12 +8,13 @@
 ])
 
 @php
+    $seo = seo_meta($title, $description, $image);
     $siteName = setting('name', config('app.name'));
-    $metaDescription = $description ?: setting('tagline', '');
     $page = (int) request('page', 1);
     $canonicalUrl = $canonical ?: url()->current() . ($page > 1 ? '?page=' . $page : '');
     $favicon = setting_image('favicon');
     $author = setting('author_name');
+    $hidden = $noindex || $seo['noindex'];
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -23,16 +24,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="{{ section_theme('header')['bg'] }}">
-    <title>{{ $title ? $title . ' | ' : '' }}{{ $siteName }}</title>
-    <meta name="description" content="{{ $metaDescription }}">
+    <title>{{ $seo['title'] }}</title>
+    <meta name="description" content="{{ $seo['description'] }}">
     @if ($author)
         <meta name="author" content="{{ $author }}">
+    @endif
+    @if ($seo['google'])
+        <meta name="google-site-verification" content="{{ $seo['google'] }}">
+    @endif
+    @if ($seo['bing'])
+        <meta name="msvalidate.01" content="{{ $seo['bing'] }}">
     @endif
     @if ($favicon)
         <link rel="icon" href="{{ $favicon }}">
         <link rel="apple-touch-icon" href="{{ $favicon }}">
     @endif
-    @if ($noindex)
+    @if ($hidden)
         <meta name="robots" content="noindex,nofollow">
     @else
         <link rel="canonical" href="{{ $canonicalUrl }}">
@@ -40,14 +47,14 @@
 
     <meta property="og:site_name" content="{{ $siteName }}">
     <meta property="og:type" content="{{ $type }}">
-    <meta property="og:title" content="{{ $title ?: $siteName }}">
-    <meta property="og:description" content="{{ $metaDescription }}">
+    <meta property="og:title" content="{{ $seo['title'] }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
     <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:locale" content="{{ app()->getLocale() === 'bn' ? 'bn_BD' : 'en_US' }}">
-    @if ($image)
-        <meta property="og:image" content="{{ $image }}">
+    @if ($seo['image'])
+        <meta property="og:image" content="{{ $seo['image'] }}">
     @endif
-    <meta name="twitter:card" content="{{ $image ? 'summary_large_image' : 'summary' }}">
+    <meta name="twitter:card" content="{{ $seo['image'] ? 'summary_large_image' : 'summary' }}">
 
     @stack('head')
     @vite(['resources/css/app.css', 'resources/js/app.js'])

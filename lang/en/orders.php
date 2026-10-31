@@ -107,6 +107,7 @@ return [
         'payment' => 'Payment',
         'cancelled' => 'This order was cancelled. Please contact us if you have questions.',
         'track_other' => 'Track another order',
+        'invoice' => 'Download bill (PDF)',
     ],
     'track' => [
         'title' => 'Track Your Order',

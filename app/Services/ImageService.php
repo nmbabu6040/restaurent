@@ -140,4 +140,37 @@ class ImageService
 
         return $path;
     }
+
+    /** Center-cropped 1200x630 JPEG for link previews (Facebook, WhatsApp and others read JPEG most reliably). */
+    public function storeSocial(UploadedFile $file, string $dir): string
+    {
+        $source = extension_loaded('gd') ? $this->load($file) : null;
+
+        if (! $source) {
+            return $file->store($dir, 'public');
+        }
+
+        $w = imagesx($source);
+        $h = imagesy($source);
+        $ratio = 1200 / 630;
+
+        if ($w / $h > $ratio) {
+            $cropH = $h;
+            $cropW = (int) round($h * $ratio);
+        } else {
+            $cropW = $w;
+            $cropH = (int) round($w / $ratio);
+        }
+
+        $image = imagecreatetruecolor(1200, 630);
+        imagefill($image, 0, 0, imagecolorallocate($image, 255, 255, 255));
+        imagecopyresampled($image, $source, 0, 0, intdiv($w - $cropW, 2), intdiv($h - $cropH, 2), 1200, 630, $cropW, $cropH);
+
+        ob_start();
+        imagejpeg($image, null, 85);
+        $path = $dir . '/' . Str::random(40) . '.jpg';
+        Storage::disk('public')->put($path, (string) ob_get_clean());
+
+        return $path;
+    }
 }

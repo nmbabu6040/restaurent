@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\ImageService;
 use App\Support\AdminResources;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Services\ImageService;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 class ContentController extends Controller
 {
@@ -21,7 +20,7 @@ class ContentController extends Controller
         return view('admin.content.index', [
             'key' => $resource,
             'cfg' => $cfg,
-            'records' => $cfg['model']::query()->orderBy($column, $direction)->orderBy('id')->paginate(20),
+            'records' => $cfg['model']::query()->where($cfg['where'] ?? [])->orderBy($column, $direction)->orderBy('id')->paginate(20),
         ]);
     }
 
@@ -49,7 +48,7 @@ class ContentController extends Controller
             $data[$cfg['image']['field']] = app(ImageService::class)->store($file, $cfg['image']['dir']);
         }
 
-        $cfg['model']::create($data);
+        $cfg['model']::create($data + ($cfg['where'] ?? []));
 
         return redirect()->route('admin.content.index', $resource)->with('status', ucfirst($cfg['singular']) . ' created.');
     }
@@ -61,14 +60,14 @@ class ContentController extends Controller
         return view('admin.content.form', [
             'key' => $resource,
             'cfg' => $cfg,
-            'record' => $cfg['model']::findOrFail($id),
+            'record' => $cfg['model']::where($cfg['where'] ?? [])->findOrFail($id),
         ]);
     }
 
     public function update(Request $request, string $resource, int $id)
     {
         $cfg = $this->cfg($resource);
-        $record = $cfg['model']::findOrFail($id);
+        $record = $cfg['model']::where($cfg['where'] ?? [])->findOrFail($id);
         $data = $this->prepare($request->validate($this->rules($cfg, false, $id)), $cfg);
         $img = $cfg['image'];
 
@@ -88,7 +87,7 @@ class ContentController extends Controller
     public function destroy(string $resource, int $id)
     {
         $cfg = $this->cfg($resource);
-        $record = $cfg['model']::findOrFail($id);
+        $record = $cfg['model']::where($cfg['where'] ?? [])->findOrFail($id);
 
         if ($cfg['image']) {
             $this->deleteFile($record->{$cfg['image']['field']});

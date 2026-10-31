@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             MenuSeeder::class,
             ContentSeeder::class,
             TeamSeeder::class,
+            PageSeeder::class
         ]);
     }
 }

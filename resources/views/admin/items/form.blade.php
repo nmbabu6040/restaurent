@@ -206,6 +206,18 @@
             @endforeach
         </div>
 
+        <details class="rounded-xl border border-navy/10 p-4">
+            <summary class="cursor-pointer font-heading text-lg text-navy">Search engine text (optional)</summary>
+            <div class="mt-3 grid gap-5 md:grid-cols-2">
+                <x-form.field name="seo_title_en" label="SEO title (English)" :value="$item->seo_title_en" maxlength="160" />
+                <x-form.field name="seo_title_bn" label="SEO title (বাংলা)" :value="$item->seo_title_bn" maxlength="160" />
+                <x-form.textarea name="seo_description_en" label="SEO description (English)" :value="$item->seo_description_en"
+                    rows="2" maxlength="300" />
+                <x-form.textarea name="seo_description_bn" label="SEO description (বাংলা)" :value="$item->seo_description_bn"
+                    rows="2" maxlength="300" />
+            </div>
+        </details>
+
         <div>
             <label for="image" class="block text-sm font-medium text-navy">Image (JPG, PNG or WebP, max 2
                 MB)</label>

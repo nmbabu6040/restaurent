@@ -97,3 +97,50 @@ if (! function_exists('qty')) {
         return in_array($text, ['', '-'], true) ? '0' : $text;
     }
 }
+
+if (! function_exists('setting_en')) {
+    /** The English value of a setting, for documents such as PDFs that cannot show Bangla. */
+    function setting_en(string $key, ?string $default = null): ?string
+    {
+        $value = \App\Models\RestaurantSetting::cached()[$key]['en'] ?? null;
+
+        return filled($value) ? $value : $default;
+    }
+}
+
+if (! function_exists('pdf_money')) {
+    function pdf_money(int|float|string $amount): string
+    {
+        return config('restaurant.pdf_currency', 'Tk') . ' ' . number_format((float) $amount, 2);
+    }
+}
+
+if (! function_exists('seo_meta')) {
+    /** Final title, description and image for the page being shown, with the admin's SEO settings applied. */
+    function seo_meta(?string $title, ?string $description, ?string $image): array
+    {
+        $site = setting('name', config('app.name'));
+        $keys = [
+            'home' => 'home',
+            'menu.index' => 'menu',
+            'about' => 'about',
+            'gallery' => 'gallery',
+            'offers' => 'offers',
+            'testimonials' => 'testimonials',
+            'faq' => 'faq',
+            'contact.create' => 'contact',
+            'reservations.create' => 'reservations',
+        ];
+        $key = $keys[request()->route()?->getName() ?? ''] ?? null;
+
+        return [
+            'title' => ($key ? setting("seo_{$key}_title") : null) ?: (($title ? $title . ' | ' : '') . $site),
+            'description' => ($key ? setting("seo_{$key}_description") : null)
+                ?: ($description ?: (setting('seo_default_description') ?: (string) setting('tagline', ''))),
+            'image' => $image ?: setting_image('seo_default_image'),
+            'noindex' => setting('seo_noindex_all') === '1',
+            'google' => setting('seo_google_verification'),
+            'bing' => setting('seo_bing_verification'),
+        ];
+    }
+}

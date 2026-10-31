@@ -22,6 +22,7 @@ return [
     'hours' => 'Opening Hours',
     'address' => 'Address',
     'call' => 'Call us',
+    'dish_count' => ':count dish|:count dishes',
     'reserve_title' => 'Planning a visit? Reserve your table.',
     'reserve_text' => 'Book ahead for family dinners, celebrations and group gatherings.',
     'stars' => ':count out of 5 stars',

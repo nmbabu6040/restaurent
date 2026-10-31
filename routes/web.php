@@ -14,6 +14,7 @@ use App\Http\Middleware\EnsureOrderingEnabled;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\NotFoundController;
+use App\Http\Controllers\CmsPageController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,8 +50,9 @@ Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/offers', [PageController::class, 'offers'])->name('offers');
 Route::get('/testimonials', [PageController::class, 'testimonials'])->name('testimonials');
 Route::get('/faq', [PageController::class, 'faq'])->name('faq');
-Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
-Route::view('/terms-and-conditions', 'pages.terms')->name('terms');
+Route::get('/page/{slug}', [CmsPageController::class, 'show'])->where('slug', '[a-z0-9-]+')->name('pages.show');
+Route::get('/privacy-policy', [CmsPageController::class, 'privacy'])->name('privacy');
+Route::get('/terms-and-conditions', [CmsPageController::class, 'terms'])->name('terms');
 
 Route::get('/lang/{locale}', LocaleController::class)->name('lang.switch');
 
@@ -72,6 +74,7 @@ Route::middleware([EnsureOrderingEnabled::class, 'throttle:120,1'])->group(funct
 Route::get('/orders/track', [OrderController::class, 'track'])->name('orders.track');
 Route::post('/orders/track', [OrderController::class, 'lookup'])->middleware('throttle:order-track')->name('orders.lookup');
 Route::get('/orders/{order:token}', [OrderController::class, 'show'])->middleware('throttle:60,1')->name('orders.show');
+Route::get('/orders/{order:token}/invoice', [OrderController::class, 'invoice'])->middleware('throttle:30,1')->name('orders.invoice');
 Route::get('/orders/{order:token}/status', [OrderController::class, 'status'])->middleware('throttle:60,1')->name('orders.status');
 
 Route::post('/orders/{order:token}/pay', [PaymentController::class, 'start'])->middleware('throttle:payments')->name('payments.start');

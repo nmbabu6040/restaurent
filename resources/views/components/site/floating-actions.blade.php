@@ -4,7 +4,7 @@
 @endphp
 
 @if ($whatsapp || $backToTop)
-    <div class="fixed bottom-4 left-4 z-40 flex flex-col items-center gap-3">
+    <div class="fixed bottom-4 right-4 z-40 flex flex-col items-center gap-3">
         @if ($backToTop)
             <div data-back-to-top-wrap class="hidden">
                 <button type="button" aria-label="{{ __('site.back_to_top') }}"

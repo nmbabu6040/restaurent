@@ -6,6 +6,7 @@ use App\Models\Faq;
 use App\Models\GalleryImage;
 use App\Models\Promotion;
 use App\Models\TeamMember;
+use App\Models\Feature;
 use App\Models\Testimonial;
 
 class PageController extends Controller
@@ -15,6 +16,7 @@ class PageController extends Controller
         return view('pages.about', [
             'team' => TeamMember::active()->ordered()->get(),
             'gallery' => GalleryImage::active()->ordered()->limit(4)->get(),
+            'values' => Feature::active()->ordered()->where('group', 'value')->get(),
         ]);
     }
 

@@ -9,8 +9,9 @@ class SeoController extends Controller
 {
     public function robots()
     {
+
         // Never let a staging or local copy be indexed.
-        if (! app()->isProduction()) {
+        if (! app()->isProduction() || setting('seo_noindex_all') === '1') {
             return response("User-agent: *\nDisallow: /\n", 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
         }
 
@@ -47,6 +48,11 @@ class SeoController extends Controller
                 route('privacy'),
                 route('terms'),
             ])->map(fn($loc) => ['loc' => $loc, 'lastmod' => null]);
+
+            \App\Models\Page::active()->get(['slug', 'updated_at'])->each(fn($page) => $urls->push([
+                'loc' => route('pages.show', $page->slug),
+                'lastmod' => $page->updated_at?->toAtomString(),
+            ]));
 
             MenuItem::query()
                 ->whereHas('category', fn($q) => $q->where('is_active', true))

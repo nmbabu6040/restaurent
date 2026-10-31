@@ -55,6 +55,7 @@ return [
         'daily_email' => env('DAILY_REPORT_EMAIL'), // empty = no daily email
         'daily_time' => env('DAILY_REPORT_TIME', '23:30'),
     ],
+    'pdf_currency' => env('PDF_CURRENCY', 'Tk'),
     'admin' => [
         'email' => env('ADMIN_EMAIL', 'admin@meher.test'),
         'password' => env('ADMIN_PASSWORD'),

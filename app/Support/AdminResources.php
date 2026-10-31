@@ -10,6 +10,7 @@ use App\Models\Testimonial;
 use App\Models\Coupon;
 use App\Models\Supplier;
 use App\Models\DeliveryZone;
+use App\Models\Feature;
 use Closure;
 
 final class AdminResources
@@ -74,6 +75,38 @@ final class AdminResources
     public static function all(): array
     {
         return [
+            'usps' => [
+                'model' => Feature::class,
+                'where' => ['group' => 'usp'],
+                'title' => 'Home highlights',
+                'singular' => 'highlight',
+                'image' => null,
+                'columns' => ['title_en' => 'Title', 'text_en' => 'Text'],
+                'fields' => [
+                    self::text('title_en', 'Title (English)', true, 120),
+                    self::text('title_bn', 'Title (বাংলা)', false, 120),
+                    self::text('text_en', 'Text (English)', true, 400),
+                    self::text('text_bn', 'Text (বাংলা)', false, 400),
+                    self::order(),
+                    self::active(),
+                ],
+            ],
+            'values' => [
+                'model' => Feature::class,
+                'where' => ['group' => 'value'],
+                'title' => 'About page values',
+                'singular' => 'value',
+                'image' => null,
+                'columns' => ['title_en' => 'Title', 'text_en' => 'Text'],
+                'fields' => [
+                    self::text('title_en', 'Title (English)', true, 120),
+                    self::text('title_bn', 'Title (বাংলা)', false, 120),
+                    self::text('text_en', 'Text (English)', true, 400),
+                    self::text('text_bn', 'Text (বাংলা)', false, 400),
+                    self::order(),
+                    self::active(),
+                ],
+            ],
             'gallery' => [
                 'model' => GalleryImage::class,
                 'title' => 'Gallery',

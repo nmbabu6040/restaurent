@@ -22,6 +22,10 @@ class AppearanceController extends Controller
         'whatsapp_number' => [false, ['nullable', 'regex:/^\+?[0-9\s\-()]{8,20}$/']],
         'whatsapp_message' => [true, ['nullable', 'string', 'max:200']],
         'maintenance_message' => [true, ['nullable', 'string', 'max:500']],
+        'hero_overlay_color' => [false, ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/']],
+        'hero_overlay_opacity' => [false, ['nullable', 'integer', 'between:0,90']],
+        'hero_text_tone' => [false, ['nullable', 'in:light,dark']],
+        'hero_height' => [false, ['nullable', 'in:compact,normal,tall']],
     ];
 
     private const FLAGS = ['whatsapp_enabled', 'back_to_top_enabled', 'maintenance_enabled'];
@@ -31,6 +35,7 @@ class AppearanceController extends Controller
         'logo_footer' => ['label' => 'Footer logo (empty = header logo is used)', 'icon' => false],
         'favicon' => ['label' => 'Site icon / favicon (square image)', 'icon' => true],
         'owner_photo' => ['label' => 'Owner photo (shown on the About page)', 'icon' => false],
+        'hero_image' => ['label' => 'Hero background photo', 'icon' => false],
     ];
 
     public function edit()

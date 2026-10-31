@@ -32,21 +32,21 @@
     <section class="mx-auto grid max-w-5xl gap-6 px-6 md:grid-cols-2">
         <div class="card p-8">
             <h2 class="text-2xl font-semibold">{{ __('pages.about.mission_title') }}</h2>
-            <p class="mt-3">{{ __('pages.about.mission_text') }}</p>
+            {{ setting('about_mission', __('pages.about.mission_text')) }}
         </div>
         <div class="card p-8">
             <h2 class="text-2xl font-semibold">{{ __('pages.about.vision_title') }}</h2>
-            <p class="mt-3">{{ __('pages.about.vision_text') }}</p>
+            {{ setting('about_vision', __('pages.about.vision_text')) }}
         </div>
     </section>
 
     <section class="mx-auto max-w-5xl px-6 py-14">
         <h2 class="text-center text-3xl font-bold">{{ __('pages.about.values_title') }}</h2>
         <ul class="mt-8 grid gap-8 md:grid-cols-3">
-            @foreach (__('pages.about.values') as $value)
+            @foreach ($values as $value)
                 <li class="text-center">
-                    <h3 class="text-xl font-semibold">{{ $value['title'] }}</h3>
-                    <p class="mt-2 text-sm">{{ $value['text'] }}</p>
+                    <h3 class="text-xl font-semibold">{{ $value->tr('title') }}</h3>
+                    <p class="mt-2 text-sm">{{ $value->tr('text') }}</p>
                 </li>
             @endforeach
         </ul>

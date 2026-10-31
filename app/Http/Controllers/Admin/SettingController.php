@@ -27,6 +27,10 @@ class SettingController extends Controller
             'facebook' => ['label' => 'Facebook URL', 'type' => 'text', 'translatable' => false, 'required' => false, 'rules' => ['max:255', 'regex:/^(#|https?:\/\/\S+)$/']],
             'instagram' => ['label' => 'Instagram URL', 'type' => 'text', 'translatable' => false, 'required' => false, 'rules' => ['max:255', 'regex:/^(#|https?:\/\/\S+)$/']],
             'map_embed_url' => ['label' => 'Google Maps embed URL (starts with https://www.google.com/maps/embed)', 'type' => 'text', 'translatable' => false, 'required' => false, 'rules' => ['max:1000', 'starts_with:https://www.google.com/maps/embed']],
+            'about_mission' => ['label' => 'About page: mission', 'type' => 'textarea', 'translatable' => true, 'required' => false, 'rules' => ['max:600']],
+            'about_vision' => ['label' => 'About page: vision', 'type' => 'textarea', 'translatable' => true, 'required' => false, 'rules' => ['max:600']],
+            'invoice_bin' => ['label' => 'Business ID (BIN) printed on bills', 'type' => 'text', 'translatable' => false, 'required' => false, 'rules' => ['max:40']],
+            'invoice_note' => ['label' => 'Note printed at the bottom of bills', 'type' => 'textarea', 'translatable' => true, 'required' => false, 'rules' => ['max:300']],
         ];
     }
 

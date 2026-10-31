@@ -36,6 +36,10 @@ class MenuItem extends Model
         'dietary',
         'is_available',
         'is_featured',
+        'seo_title_en',
+        'seo_title_bn',
+        'seo_description_en',
+        'seo_description_bn',
         'is_special',
         'sort_order',
     ];

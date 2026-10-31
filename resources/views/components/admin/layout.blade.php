@@ -1,205 +1,112 @@
 @props(['title' => 'Dashboard'])
 
 @php
+    $user = auth()->user();
     $theme = request()->cookie('admin_theme') === 'dark' ? 'dark' : 'light';
-    $pending = \App\Models\Reservation::where('status', 'pending')->count();
-    $unread = \App\Models\ContactMessage::whereNull('read_at')->count();
-    $pendingOrders = \App\Models\Order::needsAttention()->count();
     $maintenance = setting('maintenance_enabled') === '1';
-    $reviewAlerts = auth()->user()->can('handle-guests')
-        ? \App\Models\Review::where('status', 'pending')->count() +
-            \App\Models\ReviewReply::where('status', 'pending')->count()
-        : 0;
-    $riderAlerts = auth()->user()->can('manage-riders') ? \App\Models\Delivery::where('status', 'failed')->count() : 0;
-    $lowStock = auth()->user()->can('manage-inventory') ? \App\Models\Ingredient::low()->count() : 0;
+
+    $badge = [
+        'orders' => \App\Models\Order::needsAttention()->count(),
+        'reservations' => \App\Models\Reservation::where('status', 'pending')->count(),
+        'messages' => \App\Models\ContactMessage::whereNull('read_at')->count(),
+        'reviews' => $user->can('handle-guests')
+            ? \App\Models\Review::where('status', 'pending')->count() +
+                \App\Models\ReviewReply::where('status', 'pending')->count()
+            : 0,
+        'riders' => $user->can('manage-riders') ? \App\Models\Delivery::where('status', 'failed')->count() : 0,
+        'stock' => $user->can('manage-inventory') ? \App\Models\Ingredient::low()->count() : 0,
+    ];
+
+    $c = fn(string $res) => route('admin.content.index', $res);
+    $is = fn(string $pattern) => request()->routeIs($pattern);
+    $isContent = fn(string $res) => request()->is('admin/content/' . $res . '*');
 
     $groups = [
         'Operations' => [
+            ['Dashboard', 'grid', route('admin.dashboard'), $is('admin.dashboard'), 'access-admin'],
+            ['Orders', 'bag', route('admin.orders.index'), $is('admin.orders.*'), 'handle-guests', $badge['orders']],
             [
-                'url' => route('admin.dashboard'),
-                'active' => request()->routeIs('admin.dashboard'),
-                'label' => 'Dashboard',
-                'can' => 'access-admin',
+                'Reservations',
+                'calendar',
+                route('admin.reservations.index'),
+                $is('admin.reservations.*'),
+                'handle-guests',
+                $badge['reservations'],
             ],
             [
-                'url' => route('admin.orders.index'),
-                'active' => request()->routeIs('admin.orders.*'),
-                'label' => 'Orders',
-                'can' => 'handle-guests',
-                'badge' => $pendingOrders,
+                'Messages',
+                'mail',
+                route('admin.messages.index'),
+                $is('admin.messages.*'),
+                'handle-guests',
+                $badge['messages'],
             ],
             [
-                'url' => route('admin.reservations.index'),
-                'active' => request()->routeIs('admin.reservations.*'),
-                'label' => 'Reservations',
-                'can' => 'handle-guests',
-                'badge' => $pending,
+                'Reviews',
+                'star',
+                route('admin.reviews.index'),
+                $is('admin.reviews.*'),
+                'handle-guests',
+                $badge['reviews'],
             ],
-            [
-                'url' => route('admin.messages.index'),
-                'active' => request()->routeIs('admin.messages.*'),
-                'label' => 'Messages',
-                'can' => 'handle-guests',
-                'badge' => $unread,
-            ],
-            [
-                'url' => route('admin.reviews.index'),
-                'active' => request()->routeIs('admin.reviews.*'),
-                'label' => 'Reviews',
-                'can' => 'handle-guests',
-                'badge' => $reviewAlerts,
-            ],
-            [
-                'url' => route('admin.riders.index'),
-                'active' => request()->routeIs('admin.riders.*'),
-                'label' => 'Riders',
-                'can' => 'manage-riders',
-                'badge' => $riderAlerts,
-            ],
-            [
-                'url' => route('admin.content.index', 'zones'),
-                'active' => request()->is('admin/content/zones*'),
-                'label' => 'Delivery areas',
-                'can' => 'manage-content',
-            ],
-        ],
-        'Reports' => [
-            [
-                'url' => route('admin.sales.index'),
-                'active' => request()->routeIs('admin.sales.*'),
-                'label' => 'Sales',
-                'can' => 'view-reports',
-            ],
-            [
-                'url' => route('admin.customers.index'),
-                'active' => request()->routeIs('admin.customers.*'),
-                'label' => 'Customers',
-                'can' => 'view-reports',
-            ],
-        ],
-
-        'Inventory & finance' => [
-            [
-                'url' => route('admin.ingredients.index'),
-                'active' => request()->routeIs('admin.ingredients.*'),
-                'label' => 'Ingredients & stock',
-                'can' => 'manage-inventory',
-                'badge' => $lowStock,
-            ],
-            [
-                'url' => route('admin.content.index', 'suppliers'),
-                'active' => request()->is('admin/content/suppliers*'),
-                'label' => 'Suppliers',
-                'can' => 'manage-inventory',
-            ],
-            [
-                'url' => route('admin.expenses.index'),
-                'active' => request()->routeIs('admin.expenses.*'),
-                'label' => 'Expenses',
-                'can' => 'view-reports',
-            ],
-            [
-                'url' => route('admin.profit.index'),
-                'active' => request()->routeIs('admin.profit.*'),
-                'label' => 'Profit & loss',
-                'can' => 'view-reports',
-            ],
+            ['Riders', 'truck', route('admin.riders.index'), $is('admin.riders.*'), 'manage-riders', $badge['riders']],
+            ['Delivery areas', 'pin', $c('zones'), $isContent('zones'), 'manage-content'],
         ],
         'Menu' => [
-            [
-                'url' => route('admin.items.index'),
-                'active' => request()->routeIs('admin.items.*'),
-                'label' => 'Menu items',
-                'can' => 'manage-menu',
-            ],
-            [
-                'url' => route('admin.categories.index'),
-                'active' => request()->routeIs('admin.categories.*'),
-                'label' => 'Categories',
-                'can' => 'manage-menu',
-            ],
-            [
-                'url' => route('admin.content.index', 'coupons'),
-                'active' => request()->is('admin/content/coupons*'),
-                'label' => 'Coupons',
-                'can' => 'manage-content',
-            ],
+            ['Menu items', 'utensils', route('admin.items.index'), $is('admin.items.*'), 'manage-menu'],
+            ['Categories', 'layers', route('admin.categories.index'), $is('admin.categories.*'), 'manage-menu'],
+            ['Coupons', 'tag', $c('coupons'), $isContent('coupons'), 'manage-content'],
         ],
         'Website' => [
+            ['Pages', 'file', route('admin.pages.index'), $is('admin.pages.*'), 'manage-content'],
             [
-                'url' => route('admin.content.index', 'gallery'),
-                'active' => request()->is('admin/content/gallery*'),
-                'label' => 'Gallery',
-                'can' => 'manage-content',
+                'Home sections',
+                'layout',
+                route('admin.home-sections.index'),
+                $is('admin.home-sections.*'),
+                'manage-content',
             ],
+            ['Home highlights', 'check', $c('usps'), $isContent('usps'), 'manage-content'],
+            ['About values', 'heart', $c('values'), $isContent('values'), 'manage-content'],
+            ['Gallery', 'image', $c('gallery'), $isContent('gallery'), 'manage-content'],
+            ['Offers', 'percent', $c('promotions'), $isContent('promotions'), 'manage-content'],
+            ['Testimonials', 'message', $c('testimonials'), $isContent('testimonials'), 'manage-content'],
+            ['FAQ', 'help', $c('faqs'), $isContent('faqs'), 'manage-content'],
+            ['Team', 'users', $c('team'), $isContent('team'), 'manage-content'],
+            ['Subscribers', 'at', route('admin.subscribers.index'), $is('admin.subscribers.*'), 'manage-content'],
+            ['QR codes', 'qr', route('admin.qr.index'), $is('admin.qr.*'), 'manage-content'],
+        ],
+        'Inventory & finance' => [
             [
-                'url' => route('admin.content.index', 'promotions'),
-                'active' => request()->is('admin/content/promotions*'),
-                'label' => 'Offers',
-                'can' => 'manage-content',
+                'Ingredients & stock',
+                'package',
+                route('admin.ingredients.index'),
+                $is('admin.ingredients.*'),
+                'manage-inventory',
+                $badge['stock'],
             ],
-            [
-                'url' => route('admin.content.index', 'testimonials'),
-                'active' => request()->is('admin/content/testimonials*'),
-                'label' => 'Testimonials',
-                'can' => 'manage-content',
-            ],
-            [
-                'url' => route('admin.content.index', 'faqs'),
-                'active' => request()->is('admin/content/faqs*'),
-                'label' => 'FAQ',
-                'can' => 'manage-content',
-            ],
-            [
-                'url' => route('admin.content.index', 'team'),
-                'active' => request()->is('admin/content/team*'),
-                'label' => 'Team',
-                'can' => 'manage-content',
-            ],
-            [
-                'url' => route('admin.subscribers.index'),
-                'active' => request()->routeIs('admin.subscribers.*'),
-                'label' => 'Subscribers',
-                'can' => 'manage-content',
-            ],
-            [
-                'url' => route('admin.qr.index'),
-                'active' => request()->routeIs('admin.qr.*'),
-                'label' => 'QR codes',
-                'can' => 'manage-content',
-            ],
+            ['Suppliers', 'briefcase', $c('suppliers'), $isContent('suppliers'), 'manage-inventory'],
+            ['Expenses', 'wallet', route('admin.expenses.index'), $is('admin.expenses.*'), 'view-reports'],
+            ['Profit & loss', 'pie', route('admin.profit.index'), $is('admin.profit.*'), 'view-reports'],
+        ],
+        'Reports' => [
+            ['Sales', 'trend', route('admin.sales.index'), $is('admin.sales.*'), 'view-reports'],
+            ['Customers', 'users', route('admin.customers.index'), $is('admin.customers.*'), 'view-reports'],
+            ['Downloads', 'download', route('admin.downloads.index'), $is('admin.downloads.*'), 'view-reports'],
         ],
         'System' => [
             [
-                'url' => route('admin.appearance.edit'),
-                'active' => request()->routeIs('admin.appearance.*'),
-                'label' => 'Appearance & site',
-                'can' => 'manage-settings',
+                'Appearance & site',
+                'palette',
+                route('admin.appearance.edit'),
+                $is('admin.appearance.*'),
+                'manage-settings',
             ],
-            [
-                'url' => route('admin.settings.edit'),
-                'active' => request()->routeIs('admin.settings.*'),
-                'label' => 'Settings',
-                'can' => 'manage-settings',
-            ],
-            [
-                'url' => route('admin.users.index'),
-                'active' => request()->routeIs('admin.users.*'),
-                'label' => 'Users',
-                'can' => 'manage-users',
-            ],
-            [
-                'url' => route('admin.backups.index'),
-                'active' => request()->routeIs('admin.backups.*'),
-                'label' => 'Backups',
-                'can' => 'manage-settings',
-            ],
-            [
-                'url' => route('admin.activity.index'),
-                'active' => request()->routeIs('admin.activity.*'),
-                'label' => 'Activity log',
-                'can' => 'view-logs',
-            ],
+            ['SEO', 'search', route('admin.seo.edit'), $is('admin.seo.*'), 'manage-settings'],
+            ['Settings', 'sliders', route('admin.settings.edit'), $is('admin.settings.*'), 'manage-settings'],
+            ['Users', 'shield', route('admin.users.index'), $is('admin.users.*'), 'manage-users'],
+            ['Backups', 'database', route('admin.backups.index'), $is('admin.backups.*'), 'manage-settings'],
+            ['Activity log', 'activity', route('admin.activity.index'), $is('admin.activity.*'), 'view-logs'],
         ],
     ];
 @endphp
@@ -227,35 +134,52 @@
 
     <aside id="admin-sidebar" data-open="false"
         class="fixed inset-y-0 left-0 z-40 flex w-64 -translate-x-full flex-col bg-[#172B4D] text-white transition-transform data-[open=true]:translate-x-0 lg:static lg:translate-x-0">
-        <div class="px-5 py-4">
+        <div class="px-5 pb-2 pt-4">
             <p class="font-heading text-xl font-bold">{{ setting('name', config('app.name')) }}</p>
-            <p class="text-xs text-white/70">Admin &middot; {{ auth()->user()->name }}
-                ({{ auth()->user()->role->value }})</p>
+            <p class="text-xs text-white/70">Admin &middot; {{ $user->name }} ({{ $user->role->value }})</p>
         </div>
 
-        <nav aria-label="Admin" class="flex-1 space-y-4 overflow-y-auto px-3 pb-4">
+        <div class="px-3 pb-2">
+            <label for="nav-filter" class="sr-only">Find a menu</label>
+            <input id="nav-filter" type="search" data-nav-filter placeholder="Find a menu…  ( / )" autocomplete="off"
+                class="w-full rounded-lg border-0 bg-white/10 px-3 py-2 text-sm text-white placeholder-white/60 focus:bg-white/20">
+        </div>
+
+        <nav aria-label="Admin" data-admin-nav class="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
             @foreach ($groups as $group => $links)
-                @php $visible = collect($links)->filter(fn ($l) => auth()->user()->can($l['can'])); @endphp
+                @php
+                    $visible = collect($links)->filter(fn($l) => $user->can($l[4]));
+                    $hasActive = $visible->contains(fn($l) => $l[3]);
+                @endphp
                 @if ($visible->isNotEmpty())
-                    <div>
-                        <p class="px-3 text-xs font-semibold uppercase tracking-wider text-white/60">{{ $group }}
-                        </p>
-                        <ul class="mt-1 space-y-0.5">
+                    <details data-nav-group="{{ \Illuminate\Support\Str::slug($group) }}"
+                        @if ($hasActive || $loop->first) open @endif>
+                        <summary
+                            class="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white">
+                            <span>{{ $group }}</span>
+                            <x-admin.icon name="chevron" class="chev h-4 w-4" />
+                        </summary>
+                        <ul class="mt-0.5 space-y-0.5">
                             @foreach ($visible as $link)
-                                <li>
-                                    <a href="{{ $link['url'] }}"
-                                        @if ($link['active']) aria-current="page" @endif
-                                        class="flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-white/10 {{ $link['active'] ? 'bg-white/15 font-semibold' : '' }}">
-                                        {{ $link['label'] }}
-                                        @if (!empty($link['badge']))
+                                @php
+                                    [$label, $icon, $url, $active, $gate, $count] = $link + [5 => 0];
+                                @endphp
+                                <li data-nav-item="{{ strtolower($label) }}">
+                                    <a href="{{ $url }}"
+                                        @if ($active) aria-current="page" @endif
+                                        class="group flex items-center gap-3 rounded-lg border-l-4 px-3 py-2 text-sm transition hover:bg-white/10 {{ $active ? 'border-[#E39A7B] bg-white/15 font-semibold' : 'border-transparent' }}">
+                                        <x-admin.icon :name="$icon"
+                                            class="h-5 w-5 shrink-0 opacity-80 transition group-hover:scale-110 group-hover:opacity-100" />
+                                        <span class="flex-1">{{ $label }}</span>
+                                        @if (!empty($count))
                                             <span
-                                                class="rounded-full bg-terracotta-dark px-2 py-0.5 text-xs text-white">{{ $link['badge'] }}</span>
+                                                class="rounded-full bg-terracotta-dark px-2 py-0.5 text-xs font-semibold text-white">{{ $count }}</span>
                                         @endif
                                     </a>
                                 </li>
                             @endforeach
                         </ul>
-                    </div>
+                    </details>
                 @endif
             @endforeach
         </nav>
@@ -263,22 +187,26 @@
         <div class="space-y-1 border-t border-white/10 p-3">
             @can('handle-guests')
                 <button type="button" data-sound-toggle aria-pressed="false"
-                    class="w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-white/10">
-                    <span data-sound-label>New order alert sound: off</span>
+                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm hover:bg-white/10">
+                    <x-admin.icon name="bell" class="h-5 w-5 opacity-80" /><span data-sound-label>New order alert sound:
+                        off</span>
                 </button>
                 <div data-alert-url="{{ route('admin.orders.poll') }}" hidden></div>
             @endcan
-
             <button type="button" data-theme-toggle
-                class="w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-white/10">
-                <span class="when-light">Switch to dark mode</span><span class="when-dark">Switch to light mode</span>
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm hover:bg-white/10">
+                <x-admin.icon name="moon" class="h-5 w-5 opacity-80" />
+                <span><span class="when-light">Switch to dark mode</span><span class="when-dark">Switch to light
+                        mode</span></span>
             </button>
             <a href="{{ route('home') }}" target="_blank" rel="noopener"
-                class="block rounded-lg px-3 py-2 text-sm hover:bg-white/10">View site</a>
+                class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-white/10"><x-admin.icon
+                    name="external" class="h-5 w-5 opacity-80" /> View site</a>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
-                <button type="submit" class="w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-white/10">Log
-                    out</button>
+                <button type="submit"
+                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm hover:bg-white/10"><x-admin.icon
+                        name="logout" class="h-5 w-5 opacity-80" /> Log out</button>
             </form>
         </div>
     </aside>

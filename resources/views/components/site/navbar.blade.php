@@ -9,6 +9,7 @@
     $current = app()->getLocale();
     $brand = setting('name', config('app.name'));
     $logo = setting_image('logo_header');
+    $pageLinks = \App\Models\Page::menu('header');
 @endphp
 
 <x-site.section name="header" as="header" class="sticky top-0 z-40 shadow-md">
@@ -28,6 +29,12 @@
                     class="text-sm font-medium transition hover:text-(color:--accent) {{ $active ? 'text-(color:--accent)' : 'opacity-90' }}">
                     {{ $link['label'] }}
                 </a>
+            @endforeach
+
+            @foreach ($pageLinks as $p)
+                <a href="{{ route('pages.show', $p->slug) }}"
+                    @if (request()->is('page/' . $p->slug)) aria-current="page" @endif
+                    class="text-sm font-medium opacity-90 transition hover:text-(color:--accent)">{{ $p->tr('title') }}</a>
             @endforeach
         </nav>
 
@@ -61,6 +68,12 @@
             @foreach ($links as $link)
                 <a href="{{ route($link['route']) }}"
                     class="rounded px-2 py-3 text-base hover:bg-current/10">{{ $link['label'] }}</a>
+            @endforeach
+
+            @foreach ($pageLinks as $p)
+                <a href="{{ route('pages.show', $p->slug) }}"
+                    @if (request()->is('page/' . $p->slug)) aria-current="page" @endif
+                    class="text-sm font-medium opacity-90 transition hover:text-(color:--accent)">{{ $p->tr('title') }}</a>
             @endforeach
         </nav>
         <div class="mt-4 flex items-center justify-between">

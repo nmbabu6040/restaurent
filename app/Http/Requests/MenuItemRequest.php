@@ -84,6 +84,11 @@ class MenuItemRequest extends FormRequest
             'recipe' => ['nullable', 'array', 'max:40'],
             'recipe.*.ingredient_id' => ['required', 'integer', 'distinct', Rule::exists('ingredients', 'id')->whereNull('deleted_at')],
             'recipe.*.quantity' => ['required', 'numeric', 'gt:0', 'max:1000000', 'decimal:0,3'],
+
+            'seo_title_en' => ['nullable', 'string', 'max:160'],
+            'seo_title_bn' => ['nullable', 'string', 'max:160'],
+            'seo_description_en' => ['nullable', 'string', 'max:300'],
+            'seo_description_bn' => ['nullable', 'string', 'max:300'],
         ];
     }
 }

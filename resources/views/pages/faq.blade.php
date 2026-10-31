@@ -1,4 +1,22 @@
 <x-layouts.app :title="__('pages.faq.title')" :description="__('pages.faq.subtitle')">
+
+    @push('head')
+        <x-seo.json-ld :data="[
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => $faqs
+                ->map(
+                    fn($f) => [
+                        '@type' => 'Question',
+                        'name' => $f->question_en,
+                        'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f->answer_en],
+                    ],
+                )
+                ->values()
+                ->all(),
+        ]" />
+    @endpush
+
     <x-site.page-header :title="__('pages.faq.title')" :subtitle="__('pages.faq.subtitle')" />
 
     <section class="mx-auto max-w-3xl px-6 py-12">

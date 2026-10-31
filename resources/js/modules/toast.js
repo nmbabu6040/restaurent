@@ -6,7 +6,7 @@ function ensureRegion() {
     region.setAttribute("role", "status");
     region.setAttribute("aria-live", "polite");
     region.className =
-        "fixed bottom-4 right-4 z-50 flex max-w-sm flex-col gap-2";
+        "fixed bottom-4 left-1/2 z-50 flex w-full max-w-sm -translate-x-1/2 flex-col gap-2 px-4";
     document.body.appendChild(region);
     return region;
 }

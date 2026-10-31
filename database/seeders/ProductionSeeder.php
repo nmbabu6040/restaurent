@@ -12,6 +12,7 @@ class ProductionSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             RestaurantSettingSeeder::class,
+            PageSeeder::class
         ]);
     }
 }

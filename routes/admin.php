@@ -23,6 +23,10 @@ use App\Http\Controllers\Admin\RiderController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\QrController;
+use App\Http\Controllers\Admin\CmsPageController;
+use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Admin\HomeSectionController;
+use App\Http\Controllers\Admin\SeoController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -55,6 +59,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::patch('reviews/{review}/status', [ReviewController::class, 'status'])->whereNumber('review')->name('reviews.status');
         Route::post('reviews/{review}/replies', [ReviewController::class, 'reply'])->whereNumber('review')->name('reviews.reply');
         Route::patch('review-replies/{reply}/status', [ReviewController::class, 'replyStatus'])->whereNumber('reply')->name('review-replies.status');
+
+        Route::get('orders/{order}/invoice', [OrderController::class, 'invoice'])->whereNumber('order')->name('orders.invoice');
+        Route::get('orders/{order}/challan', [OrderController::class, 'challan'])->whereNumber('order')->name('orders.challan');
     });
 
     Route::middleware('can:manage-menu')->group(function () {
@@ -67,6 +74,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
         Route::get('subscribers/export', [SubscriberController::class, 'export'])->name('subscribers.export');
         Route::delete('subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
+
+        Route::resource('pages', CmsPageController::class)->except('show');
+        Route::resource('home-sections', HomeSectionController::class)->except('show')->parameters(['home-sections' => 'section']);
+        Route::post('home-sections/{section}/toggle', [HomeSectionController::class, 'toggle'])->name('home-sections.toggle');
+        Route::post('home-sections/{section}/move/{direction}', [HomeSectionController::class, 'move'])->whereIn('direction', ['up', 'down'])->name('home-sections.move');
 
         Route::get('qr', [QrController::class, 'index'])->name('qr.index');
         Route::get('qr/download', [QrController::class, 'download'])->name('qr.download');
@@ -91,6 +103,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('appearance', [AppearanceController::class, 'edit'])->name('appearance.edit');
         Route::put('appearance', [AppearanceController::class, 'update'])->name('appearance.update');
 
+        Route::get('seo', [SeoController::class, 'edit'])->name('seo.edit');
+        Route::put('seo', [SeoController::class, 'update'])->name('seo.update');
+
         Route::get('backups', [BackupController::class, 'index'])->name('backups.index');
         Route::post('backups', [BackupController::class, 'run'])->name('backups.run');
         Route::get('backups/{name}', [BackupController::class, 'download'])->where('name', '[A-Za-z0-9._-]+')->name('backups.download');
@@ -109,6 +124,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::resource('expenses', ExpenseController::class)->except('show');
         Route::get('profit-loss', [ProfitLossController::class, 'index'])->name('profit.index');
         Route::get('profit-loss/export', [ProfitLossController::class, 'export'])->name('profit.export');
+
+        Route::get('downloads', [ExportController::class, 'index'])->name('downloads.index');
+        Route::get('downloads/{dataset}', [ExportController::class, 'download'])->where('dataset', '[a-z_]+')->name('downloads.get');
     });
 
     Route::middleware('can:manage-inventory')->group(function () {

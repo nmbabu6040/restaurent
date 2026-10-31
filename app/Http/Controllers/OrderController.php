@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\Review;
+use App\Services\PdfService;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
@@ -55,5 +56,12 @@ class OrderController extends Controller
         }
 
         return redirect()->route('orders.show', $order->token);
+    }
+
+    public function invoice(Order $order, PdfService $pdf)
+    {
+        abort_if($order->status->value === 'cancelled', 404);
+
+        return $pdf->invoice($order)->download('invoice-' . $order->reference . '.pdf');
     }
 }

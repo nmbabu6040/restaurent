@@ -68,6 +68,10 @@
             <a href="{{ route('orders.track') }}" class="hover:underline">{{ __('orders.track_link') }}</a>
             <a href="{{ route('privacy') }}" class="hover:underline">{{ __('pages.links.privacy') }}</a>
             <a href="{{ route('terms') }}" class="hover:underline">{{ __('pages.links.terms') }}</a>
+
+            @foreach (\App\Models\Page::menu('footer') as $p)
+                <a href="{{ route('pages.show', $p->slug) }}" class="hover:underline">{{ $p->tr('title') }}</a>
+            @endforeach
         </nav>
         &copy; {{ date('Y') }} {{ $brand }}. {{ __('site.footer.rights') }}
         @if ($authorName)

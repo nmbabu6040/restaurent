@@ -19,6 +19,7 @@ import { initAdminAlerts } from "./modules/alerts";
 import { initBackToTop } from "./modules/scroll-top";
 import { initShare } from "./modules/share";
 import { toast } from "./modules/toast";
+import { initAdminNav } from "./modules/admin-nav";
 
 window.$ = window.jQuery = $;
 
@@ -49,6 +50,7 @@ $(() => {
     initShare();
     initPrint();
     initAdminAlerts();
+    initAdminNav();
 
     const flash = document.getElementById("flash-message");
     if (flash)

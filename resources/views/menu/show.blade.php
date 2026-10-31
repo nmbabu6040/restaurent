@@ -1,4 +1,4 @@
-<x-layouts.app :title="$item->name" :description="\Illuminate\Support\Str::limit(strip_tags((string) $item->description), 150)" :image="$item->image_url">
+<x-layouts.app :title="$item->tr('seo_title') ?: $item->name" :description="$item->tr('seo_description') ?: \Illuminate\Support\Str::limit(strip_tags((string) $item->description), 150)" :image="$item->image_url">
 
     @push('head')
         @php
