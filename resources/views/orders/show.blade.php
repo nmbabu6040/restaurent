@@ -3,17 +3,21 @@
 
     $steps = OrderStatus::steps($order->type);
     $current = array_search($order->status, $steps, true);
+
+    $needsPayment =
+        $order->payment_method === 'sslcommerz' &&
+        $order->payment_status !== 'paid' &&
+        $order->status !== OrderStatus::Cancelled &&
+        filled(config('services.sslcommerz.store_id'));
+
     $delivery = $order->delivery;
     $showRider =
         $delivery &&
         $delivery->rider &&
         in_array($delivery->status->value, ['assigned', 'picked_up'], true) &&
         in_array($order->status->value, ['confirmed', 'preparing', 'out_for_delivery'], true);
-    $needsPayment =
-        $order->payment_method === 'sslcommerz' &&
-        $order->payment_status !== 'paid' &&
-        $order->status !== OrderStatus::Cancelled &&
-        filled(config('services.sslcommerz.store_id'));
+
+    $reviewed = $reviewed ?? [];
 @endphp
 
 <x-layouts.app :title="__('orders.show.title')" :noindex="true">
@@ -34,8 +38,6 @@
                 </div>
             @endif
 
-            @include('admin.orders._delivery')
-
             @if ($order->status === OrderStatus::Cancelled)
                 <p class="mt-6 rounded-lg bg-charcoal p-4 text-sm font-semibold text-white">
                     {{ __('orders.show.cancelled') }}</p>
@@ -49,8 +51,6 @@
                     @endforeach
                 </ol>
             @endif
-
-
 
             @if ($showRider)
                 <div class="mt-6 rounded-lg bg-warm p-4 text-sm">
@@ -84,35 +84,24 @@
                     <dt class="font-semibold text-navy">{{ __('orders.show.placed') }}</dt>
                     <dd>{{ $order->created_at->translatedFormat('d M Y, g:i A') }}</dd>
                 </div>
-
                 @if ($order->address)
                     <div class="sm:col-span-2">
                         <dt class="font-semibold text-navy">{{ __('orders.show.address') }}</dt>
                         <dd>{{ $order->address }}</dd>
                     </div>
                 @endif
-
                 @if ($order->zoneName())
                     <div class="sm:col-span-2">
                         <dt class="font-semibold text-navy">{{ __('orders.zone.show') }}</dt>
                         <dd>{{ $order->zoneName() }}</dd>
                     </div>
                 @endif
-
-                @if ($order->zone_en)
-                    <div>
-                        <dt class="font-semibold text-navy">Delivery area</dt>
-                        <dd>{{ $order->zone_en }}</dd>
-                    </div>
-                @endif
-
                 @if ($order->notes)
                     <div class="sm:col-span-2">
                         <dt class="font-semibold text-navy">{{ __('orders.show.notes') }}</dt>
                         <dd>{{ $order->notes }}</dd>
                     </div>
                 @endif
-
                 <div class="sm:col-span-2">
                     <dt class="font-semibold text-navy">{{ __('orders.show.payment') }}</dt>
                     <dd>{{ __('orders.payment.' . $order->payment_method) }} &middot;
@@ -124,7 +113,9 @@
             <ul class="mt-3 space-y-2 text-sm">
                 @foreach ($order->items as $line)
                     <li class="flex justify-between gap-3">
-                        <span>{{ $line->quantity }} &times; {{ $line->tr('name') }}@if ($line->optionsLabel(app()->getLocale()))
+                        <span>
+                            {{ $line->quantity }} &times; {{ $line->tr('name') }}
+                            @if ($line->optionsLabel(app()->getLocale()))
                                 <span
                                     class="block text-xs text-charcoal/80">{{ $line->optionsLabel(app()->getLocale()) }}</span>
                             @endif
@@ -133,12 +124,12 @@
                     </li>
                 @endforeach
             </ul>
+
             <dl class="mt-4 space-y-2 border-t border-navy/10 pt-4 text-sm">
                 <div class="flex justify-between">
                     <dt>{{ __('orders.subtotal') }}</dt>
                     <dd>{{ money($order->subtotal) }}</dd>
                 </div>
-
                 @if ((float) $order->discount > 0)
                     <div class="flex justify-between">
                         <dt>{{ __('orders.discount') }}@if ($order->coupon_code)
@@ -148,12 +139,10 @@
                         <dd>&minus;{{ money($order->discount) }}</dd>
                     </div>
                 @endif
-
                 <div class="flex justify-between">
                     <dt>{{ __('orders.delivery_fee') }}</dt>
                     <dd>{{ (float) $order->delivery_fee > 0 ? money($order->delivery_fee) : __('orders.free') }}</dd>
                 </div>
-
                 <div class="flex justify-between text-base font-semibold text-navy">
                     <dt>{{ __('orders.total') }}</dt>
                     <dd>{{ money($order->total) }}</dd>
@@ -182,13 +171,15 @@
                 @endif
             @endif
 
-            @if ($order->status->value !== 'cancelled')
+            @if ($order->status !== OrderStatus::Cancelled)
                 <a href="{{ route('orders.invoice', $order->token) }}"
-                    class="btn border border-navy/30 mt-6 text-navy">{{ __('orders.show.invoice') }}</a>
+                    class="btn mt-6 border border-navy/30 text-navy">{{ __('orders.show.invoice') }}</a>
             @endif
 
-            <a href="{{ route('orders.track') }}"
-                class="mt-6 inline-block text-sm font-semibold text-navy hover:text-terracotta-dark">{{ __('orders.show.track_other') }}</a>
+            <div>
+                <a href="{{ route('orders.track') }}"
+                    class="mt-6 inline-block text-sm font-semibold text-navy hover:text-terracotta-dark">{{ __('orders.show.track_other') }}</a>
+            </div>
         </div>
     </section>
 </x-layouts.app>

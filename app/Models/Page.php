@@ -39,7 +39,7 @@ class Page extends Model
     protected static function booted(): void
     {
         $flush = function () {
-            Cache::forget('pages.menu');
+            Cache::forget('pages.menu.v2');
             Cache::forget('sitemap.xml');
         };
 
@@ -53,20 +53,19 @@ class Page extends Model
         return Str::markdown((string) $this->tr('body'), ['html_input' => 'strip', 'allow_unsafe_links' => false]);
     }
 
-    /** Pages shown as links in the header or footer. */
+    /**
+     * Pages shown as links in the header or footer.
+     * Only plain arrays go into the cache: current Laravel versions refuse to rebuild objects from it.
+     */
     public static function menu(string $place): Collection
     {
-        $rows = Cache::rememberForever('pages.menu.v2', fn() => static::active()->ordered()->get([
-            'id',
-            'slug',
-            'title_en',
-            'title_bn',
-            'show_in_header',
-            'show_in_footer',
-        ])
-            ->toArray());
+        $rows = Cache::rememberForever('pages.menu.v2', fn() => static::active()->ordered()
+            ->get(['id', 'slug', 'title_en', 'title_bn', 'show_in_header', 'show_in_footer'])
+            ->map(fn($page) => $page->getAttributes())
+            ->all());
 
-        return static::hydrate($rows)->where($place === 'header' ? 'show_in_header' : 'show_in_footer', true)
+        return static::hydrate($rows)
+            ->where($place === 'header' ? 'show_in_header' : 'show_in_footer', true)
             ->values();
     }
 }
