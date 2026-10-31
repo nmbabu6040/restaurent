@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\OrderType;
 use App\Models\MenuItem;
+use App\Models\DeliveryZone;
 use Illuminate\Validation\ValidationException;
 
 class CartService
@@ -165,7 +166,7 @@ class CartService
      * Rebuild the cart from the database. Prices and discounts always come from here, never from the browser.
      * Lines whose item, size or extras are no longer orderable are dropped and reported in "removed".
      */
-    public function summary(?OrderType $type = null): array
+    public function summary(?OrderType $type = null, ?DeliveryZone $zone = null): array
     {
         $cart = $this->raw();
         $items = $cart
@@ -258,17 +259,19 @@ class CartService
             'min_order' => $this->minOrderCents(),
             'coupon' => $coupon,
             'coupon_error' => $couponError,
-        ] + $this->totals($subtotal, $type, $discount);
+        ] + $this->totals($subtotal, $type, $discount, $zone);
     }
 
+
     /** @return array{subtotal:int, delivery_fee:int, discount:int, total:int} all in paisa */
-    public function totals(int $subtotal, ?OrderType $type, int $discount = 0): array
+    public function totals(int $subtotal, ?OrderType $type, int $discount = 0, ?DeliveryZone $zone = null): array
     {
         $fee = 0;
 
         if ($type === OrderType::Delivery) {
-            $fee = self::cents(config('restaurant.ordering.delivery_fee'));
-            $freeOver = (float) config('restaurant.ordering.free_delivery_over');
+            // A delivery area has its own fee. Its free-delivery limit overrides the general one (0 = never free there).
+            $fee = self::cents($zone ? $zone->fee : config('restaurant.ordering.delivery_fee'));
+            $freeOver = (float) ($zone && $zone->free_over !== null ? $zone->free_over : config('restaurant.ordering.free_delivery_over'));
 
             // Free delivery is judged on the subtotal before any coupon.
             if ($freeOver > 0 && $subtotal >= self::cents($freeOver)) {

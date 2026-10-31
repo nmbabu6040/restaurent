@@ -98,6 +98,20 @@
                     </div>
                 @endif
 
+                @if ($order->zoneName())
+                    <div class="sm:col-span-2">
+                        <dt class="font-semibold text-navy">{{ __('orders.zone.show') }}</dt>
+                        <dd>{{ $order->zoneName() }}</dd>
+                    </div>
+                @endif
+
+                @if ($order->zone_en)
+                    <div>
+                        <dt class="font-semibold text-navy">Delivery area</dt>
+                        <dd>{{ $order->zone_en }}</dd>
+                    </div>
+                @endif
+
                 @if ($order->notes)
                     <div class="sm:col-span-2">
                         <dt class="font-semibold text-navy">{{ __('orders.show.notes') }}</dt>

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\OrderType;
 use App\Models\Coupon;
+use App\Models\DeliveryZone;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -22,12 +23,29 @@ class CheckoutService
         ]));
     }
 
+    /** The chosen delivery area. It is required when the restaurant has set up any active areas. */
+    public function zoneFor(OrderType $type, mixed $id): ?DeliveryZone
+    {
+        if ($type !== OrderType::Delivery || ! DeliveryZone::active()->exists()) {
+            return null;
+        }
+
+        $zone = filled($id) ? DeliveryZone::active()->find($id) : null;
+
+        if (! $zone) {
+            throw ValidationException::withMessages(['delivery_zone_id' => __('orders.errors.zone_required')]);
+        }
+
+        return $zone;
+    }
+
     public function place(array $data, string $locale): Order
     {
         $type = OrderType::from($data['type']);
+        $zone = $this->zoneFor($type, $data['delivery_zone_id'] ?? null);
 
-        $order = DB::transaction(function () use ($data, $type, $locale) {
-            $summary = $this->cart->summary($type);
+        $order = DB::transaction(function () use ($data, $type, $locale, $zone) {
+            $summary = $this->cart->summary($type, $zone);
 
             if ($summary['removed']) {
                 throw ValidationException::withMessages([
@@ -39,9 +57,12 @@ class CheckoutService
                 throw ValidationException::withMessages(['cart' => __('orders.errors.empty')]);
             }
 
-            if ($summary['subtotal'] < $summary['min_order']) {
+            // A delivery area can ask for its own minimum order.
+            $minimum = ($zone && $zone->min_order !== null) ? CartService::cents($zone->min_order) : $summary['min_order'];
+
+            if ($summary['subtotal'] < $minimum) {
                 throw ValidationException::withMessages([
-                    'cart' => __('orders.errors.min_order', ['amount' => money_c($summary['min_order'])]),
+                    'cart' => __('orders.errors.min_order', ['amount' => money_c($minimum)]),
                 ]);
             }
 
@@ -77,6 +98,9 @@ class CheckoutService
                 'phone' => $data['phone'],
                 'email' => $data['email'] ?? null,
                 'address' => $type === OrderType::Delivery ? ($data['address'] ?? null) : null,
+                'delivery_zone_id' => $zone?->id,
+                'zone_en' => $zone?->name_en,
+                'zone_bn' => $zone?->name_bn,
                 'notes' => $data['notes'] ?? null,
                 'subtotal' => $dec($summary['subtotal']),
                 'delivery_fee' => $dec($summary['delivery_fee']),

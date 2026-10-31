@@ -143,6 +143,9 @@
             @if ($order->address)
                 <p>{{ $order->address }}</p>
             @endif
+            @if ($order->zone_en)
+                <p>Area: {{ $order->zone_en }}</p>
+            @endif
         @endif
         <div class="rule"></div>
 

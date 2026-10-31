@@ -9,8 +9,10 @@
 
         <div class="mt-8 grid gap-8 lg:grid-cols-3">
             <form id="checkout-form" method="POST" action="{{ route('checkout.store') }}" data-ajax-form
-                data-totals="{{ json_encode($totals) }}" data-msg-error="{{ __('forms.common.error') }}"
-                data-msg-throttled="{{ __('forms.common.throttled') }}" class="card space-y-5 p-6 sm:p-8 lg:col-span-2">
+                data-totals="{{ json_encode($totals) }}"
+                @if ($zones->isNotEmpty()) data-zones="{{ json_encode($zoneTotals) }}" @endif
+                data-msg-error="{{ __('forms.common.error') }}" data-msg-throttled="{{ __('forms.common.throttled') }}"
+                class="card space-y-5 p-6 sm:p-8 lg:col-span-2">
                 @csrf
 
                 <p data-error-for="cart" role="alert" class="text-sm font-semibold text-red-700"></p>
@@ -41,6 +43,26 @@
                     <x-form.field name="email" type="email" :label="__('orders.form.email')" maxlength="150"
                         autocomplete="email" />
                 </div>
+
+                @if ($zones->isNotEmpty())
+                    <div id="zone-wrap" class="mb-5">
+                        <label for="delivery_zone_id"
+                            class="block text-sm font-medium text-navy">{{ __('orders.zone.label') }}<span
+                                aria-hidden="true" class="text-terracotta-dark"> *</span></label>
+                        <select id="delivery_zone_id" name="delivery_zone_id"
+                            class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta">
+                            <option value="">{{ __('orders.zone.choose') }}</option>
+                            @foreach ($zones as $zone)
+                                <option value="{{ $zone->id }}" @selected((int) old('delivery_zone_id') === $zone->id)>
+                                    {{ $zone->tr('name') }}
+                                    ({{ (float) $zone->fee > 0 ? money($zone->fee) : __('orders.free') }})</option>
+                            @endforeach
+                        </select>
+                        <p data-error-for="delivery_zone_id" class="mt-1 text-sm text-red-700"></p>
+                        <p id="zone-note" aria-live="polite" class="mt-1 text-sm font-semibold text-terracotta-dark">
+                        </p>
+                    </div>
+                @endif
 
                 <div id="address-wrap">
                     <x-form.textarea name="address" :label="__('orders.form.address')" rows="3" maxlength="300" />

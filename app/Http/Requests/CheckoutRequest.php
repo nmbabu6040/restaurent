@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Services\CheckoutService;
 use App\Services\PaymentService;
+use App\Models\DeliveryZone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -29,6 +30,11 @@ class CheckoutRequest extends FormRequest
             'phone' => ['required', 'string', 'regex:/^[0-9+\-\s()]{7,20}$/'],
             'email' => ['nullable', 'email:rfc', 'max:150'],
             'address' => [Rule::requiredIf($this->input('type') === 'delivery'), 'nullable', 'string', 'max:300'],
+            'delivery_zone_id' => [
+                Rule::requiredIf($this->input('type') === 'delivery' && DeliveryZone::active()->exists()),
+                'nullable',
+                Rule::exists('delivery_zones', 'id')->where('is_active', true),
+            ],
             'notes' => ['nullable', 'string', 'max:500'],
             'payment_method' => ['required', Rule::in($methods)],
             'website' => ['nullable', 'max:0'],

@@ -32,6 +32,9 @@ class Order extends Model
         'status',
         'status_changed_at',
         'locale',
+        'delivery_zone_id',
+        'zone_en',
+        'zone_bn'
     ];
 
     protected function casts(): array
@@ -45,6 +48,14 @@ class Order extends Model
             'discount' => 'decimal:2',
             'total' => 'decimal:2',
         ];
+    }
+
+    /** The delivery area saved on the order, in the visitor's language when a Bangla name exists. */
+    public function zoneName(?string $locale = null): ?string
+    {
+        $locale ??= app()->getLocale();
+
+        return ($locale === 'bn' && filled($this->zone_bn)) ? $this->zone_bn : $this->zone_en;
     }
 
     public function items(): HasMany

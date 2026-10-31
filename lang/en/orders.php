@@ -31,6 +31,12 @@ return [
     'unavailable' => 'Sorry, this item is not available right now.',
     'track_link' => 'Track an order',
     'type' => ['delivery' => 'Delivery', 'pickup' => 'Pickup'],
+    'zone' => [
+        'label' => 'Delivery area',
+        'choose' => 'Choose your area',
+        'show' => 'Delivery area',
+        'min_note' => 'The minimum order for this area is :amount.',
+    ],
     'status' => [
         'pending' => 'Order received',
         'confirmed' => 'Confirmed',
@@ -119,6 +125,7 @@ return [
         'bad_addon' => 'One of the selected extras is not available.',
         'stock' => 'Only :count left of :item. Please reduce the quantity.',
         'out_of_stock' => 'Sorry, we cannot prepare this right now: :items.',
+        'zone_required' => 'Please choose your delivery area.',
     ],
     'mail' => [
         'subject_placed' => 'Your order :reference at :name',

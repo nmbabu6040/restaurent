@@ -28,5 +28,6 @@ return [
         'rating' => 'রেটিং',
         'comment' => 'মতামত',
         'body' => 'উত্তর',
+        'delivery_zone_id' => 'ডেলিভারি এলাকা',
     ],
 ];

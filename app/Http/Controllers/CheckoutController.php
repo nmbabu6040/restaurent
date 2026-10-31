@@ -7,6 +7,8 @@ use App\Mail\OrderUpdateMail;
 use App\Services\CartService;
 use App\Services\CheckoutService;
 use App\Services\OrderNotifier;
+use App\Enums\OrderType;
+use App\Models\DeliveryZone;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Mail;
 
@@ -39,10 +41,26 @@ class CheckoutController extends Controller
             ];
         }
 
+        // With delivery areas set up, the fee depends on the area the customer picks.
+        $zones = DeliveryZone::active()->ordered()->get();
+        $zoneTotals = [];
+        foreach ($zones as $zone) {
+            $t = $this->cart->totals($summary['subtotal'], OrderType::Delivery, $summary['discount'], $zone);
+            $minimum = $zone->min_order !== null ? CartService::cents($zone->min_order) : $summary['min_order'];
+
+            $zoneTotals[$zone->id] = [
+                'fee' => $t['delivery_fee'] > 0 ? money_c($t['delivery_fee']) : __('orders.free'),
+                'total' => money_c($t['total']),
+                'note' => $summary['subtotal'] < $minimum ? __('orders.zone.min_note', ['amount' => money_c($minimum)]) : '',
+            ];
+        }
+
         return view('checkout.create', [
             'summary' => $summary,
             'types' => $types,
             'totals' => $totals,
+            'zones' => $zones,
+            'zoneTotals' => $zoneTotals,
             'onlinePayment' => $this->payments->enabled(),
         ]);
     }

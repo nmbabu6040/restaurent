@@ -25,6 +25,9 @@
         <div>
             <h2 class="text-lg font-semibold">Address</h2>
             <p class="mt-1 whitespace-pre-line text-sm">{{ $order->address }}</p>
+            @if ($order->zone_en)
+                <p class="mt-1 text-sm font-semibold">Area: {{ $order->zone_en }}</p>
+            @endif
             <a href="{{ $map }}" target="_blank" rel="noopener noreferrer"
                 class="btn mt-2 w-full border border-navy/30 text-navy">Open in Maps</a>
             @if ($order->notes)

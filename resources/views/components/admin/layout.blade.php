@@ -56,6 +56,12 @@
                 'can' => 'manage-riders',
                 'badge' => $riderAlerts,
             ],
+            [
+                'url' => route('admin.content.index', 'zones'),
+                'active' => request()->is('admin/content/zones*'),
+                'label' => 'Delivery areas',
+                'can' => 'manage-content',
+            ],
         ],
         'Reports' => [
             [

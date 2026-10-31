@@ -9,6 +9,7 @@ use App\Models\TeamMember;
 use App\Models\Testimonial;
 use App\Models\Coupon;
 use App\Models\Supplier;
+use App\Models\DeliveryZone;
 use Closure;
 
 final class AdminResources
@@ -84,6 +85,47 @@ final class AdminResources
                     self::text('alt_bn', 'Alt text (বাংলা)'),
                     self::text('title_en', 'Title (English)'),
                     self::text('title_bn', 'Title (বাংলা)'),
+                    self::order(),
+                    self::active(),
+                ],
+            ],
+            'zones' => [
+                'model' => DeliveryZone::class,
+                'title' => 'Delivery areas',
+                'singular' => 'delivery area',
+                'image' => null,
+                'columns' => ['name_en' => 'Area', 'fee' => 'Fee', 'min_order' => 'Minimum order', 'free_over' => 'Free above'],
+                'fields' => [
+                    self::text('name_en', 'Area name (English)', true, 100),
+                    self::text('name_bn', 'Area name (বাংলা)', false, 100),
+                    [
+                        'name' => 'fee',
+                        'label' => 'Delivery fee',
+                        'type' => 'number',
+                        'required' => true,
+                        'min' => 0,
+                        'step' => '0.01',
+                        'default' => 0,
+                        'rules' => ['required', 'numeric', 'min:0', 'max:100000', 'decimal:0,2']
+                    ],
+                    [
+                        'name' => 'min_order',
+                        'label' => 'Minimum order for this area (empty = the general minimum)',
+                        'type' => 'number',
+                        'required' => false,
+                        'min' => 0,
+                        'step' => '0.01',
+                        'rules' => ['nullable', 'numeric', 'min:0', 'max:1000000', 'decimal:0,2']
+                    ],
+                    [
+                        'name' => 'free_over',
+                        'label' => 'Free delivery above this amount (empty = the general rule, 0 = never free here)',
+                        'type' => 'number',
+                        'required' => false,
+                        'min' => 0,
+                        'step' => '0.01',
+                        'rules' => ['nullable', 'numeric', 'min:0', 'max:1000000', 'decimal:0,2']
+                    ],
                     self::order(),
                     self::active(),
                 ],
