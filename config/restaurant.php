@@ -57,7 +57,7 @@ return [
     ],
     'pdf_currency' => env('PDF_CURRENCY', 'Tk'),
     'admin' => [
-        'email' => env('ADMIN_EMAIL', 'admin@meher.test'),
+        'email' => env('ADMIN_EMAIL', 'nmbabu6040@gmail.com'),
         'password' => env('ADMIN_PASSWORD'),
     ],
 ];
