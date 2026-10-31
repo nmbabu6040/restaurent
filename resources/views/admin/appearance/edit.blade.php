@@ -20,7 +20,7 @@
                             class="block text-sm font-medium text-navy">{{ $cfg['label'] }}</label>
                         @if ($url)
                             <img src="{{ $url }}" alt="Current {{ $cfg['label'] }}"
-                                class="mt-2 h-16 w-auto max-w-full rounded bg-[repeating-conic-gradient(#ddd_0%_25%,#fff_0%_50%)] bg-[length:16px_16px] object-contain p-1">
+                                class="mt-2 h-16 w-auto max-w-full rounded bg-[repeating-conic-gradient(#ddd_0%_25%,#fff_0%_50%)] bg-size-[16px_16px] object-contain p-1">
                             <input type="hidden" name="remove_{{ $key }}" value="0">
                             <label class="mt-2 flex items-center gap-2 text-sm">
                                 <input type="checkbox" name="remove_{{ $key }}" value="1"

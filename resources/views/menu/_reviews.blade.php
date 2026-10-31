@@ -100,7 +100,7 @@
                             <div class="hidden" aria-hidden="true"><input type="text" name="website" tabindex="-1"
                                     autocomplete="off"></div>
                             <button type="submit"
-                                class="btn-primary !px-4 !py-2">{{ __('reviews.reply_submit') }}</button>
+                                class="btn-primary px-4! py-2!">{{ __('reviews.reply_submit') }}</button>
                         </form>
                     </details>
 

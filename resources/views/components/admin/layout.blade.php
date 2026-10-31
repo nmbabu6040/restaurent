@@ -133,7 +133,7 @@
     <div data-sidebar-overlay class="fixed inset-0 z-30 hidden bg-black/50 lg:hidden"></div>
 
     <aside id="admin-sidebar" data-open="false"
-        class="fixed inset-y-0 left-0 z-40 flex w-64 -translate-x-full flex-col bg-[#172B4D] text-white transition-transform data-[open=true]:translate-x-0 lg:static lg:translate-x-0">
+        class="fixed inset-y-0 left-0 z-40 flex w-64 -translate-x-full flex-col bg-navy text-white transition-transform data-[open=true]:translate-x-0 lg:static lg:translate-x-0">
         <div class="px-5 pb-2 pt-4">
             <p class="font-heading text-xl font-bold">{{ setting('name', config('app.name')) }}</p>
             <p class="text-xs text-white/70">Admin &middot; {{ $user->name }} ({{ $user->role->value }})</p>
@@ -167,7 +167,7 @@
                                 <li data-nav-item="{{ strtolower($label) }}">
                                     <a href="{{ $url }}"
                                         @if ($active) aria-current="page" @endif
-                                        class="group flex items-center gap-3 rounded-lg border-l-4 px-3 py-2 text-sm transition hover:bg-white/10 {{ $active ? 'border-[#E39A7B] bg-white/15 font-semibold' : 'border-transparent' }}">
+                                        class="group flex items-center gap-3 rounded-lg border-l-4 px-3 py-2 text-sm transition hover:bg-white/10 {{ $active ? 'border-terracotta-light bg-white/15 font-semibold' : 'border-transparent' }}">
                                         <x-admin.icon :name="$icon"
                                             class="h-5 w-5 shrink-0 opacity-80 transition group-hover:scale-110 group-hover:opacity-100" />
                                         <span class="flex-1">{{ $label }}</span>

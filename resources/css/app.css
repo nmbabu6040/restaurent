@@ -84,7 +84,7 @@
 }
 
 @utility chip {
-    @apply rounded-full bg-surface px-4 py-2 text-sm font-medium text-navy ring-1 ring-navy/15 transition hover:ring-terracotta aria-[current=true]:bg-navy aria-[current=true]:text-white aria-[current=true]:ring-navy;
+    @apply rounded-full bg-surface px-4 py-2 text-sm font-medium text-navy ring-1 ring-navy/15 transition hover:ring-terracotta aria-current:bg-navy aria-current:text-white aria-current:ring-navy;
 }
 
 @media (prefers-reduced-motion: reduce) {

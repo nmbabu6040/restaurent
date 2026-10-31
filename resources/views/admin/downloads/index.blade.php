@@ -11,7 +11,8 @@
                     <div class="mt-3 flex flex-wrap gap-3">
                         <div>
                             <label for="from-{{ $key }}" class="block text-xs font-medium text-navy">From
-                                (optional)</label>
+                                (optional)
+                            </label>
                             <input id="from-{{ $key }}" type="date" name="from"
                                 class="mt-1 rounded-lg border border-navy/20 bg-surface px-3 py-1.5 text-sm">
                         </div>
@@ -26,9 +27,9 @@
                     <p class="mt-2 text-sm">Everything, as it is now.</p>
                 @endif
                 <div class="mt-4 flex gap-3">
-                    <button type="submit" name="format" value="csv" class="btn-primary !py-2">CSV</button>
+                    <button type="submit" name="format" value="csv" class="btn-primary py-2!">CSV</button>
                     <button type="submit" name="format" value="pdf"
-                        class="btn border border-navy/30 !py-2 text-navy">PDF</button>
+                        class="btn border border-navy/30 py-2! text-navy">PDF</button>
                 </div>
             </form>
         @endforeach

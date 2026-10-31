@@ -16,7 +16,7 @@
                             <h3 class="text-xl font-semibold">{{ $promo->tr('title') }}</h3>
                             <p class="mt-2 text-sm opacity-80">{{ $promo->tr('description') }}</p>
                             @if ($promo->ends_at)
-                                <p class="mt-4 text-xs font-semibold uppercase tracking-wider text-(color:--accent)">
+                                <p class="mt-4 text-xs font-semibold uppercase tracking-wider text-(--accent)">
                                     {{ __('home.valid_until', ['date' => $promo->ends_at->translatedFormat('d M Y')]) }}
                                 </p>
                             @endif

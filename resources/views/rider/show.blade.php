@@ -59,14 +59,14 @@
         @if ($delivery->status->value === 'assigned')
             <form method="POST" action="{{ route('rider.deliveries.pickup', $delivery) }}">
                 @csrf
-                <button type="submit" class="btn-accent w-full !py-4 text-base">I have picked up the order</button>
+                <button type="submit" class="btn-accent w-full py-4! text-base">I have picked up the order</button>
             </form>
         @elseif ($delivery->status->value === 'picked_up')
             <form method="POST" action="{{ route('rider.deliveries.deliver', $delivery) }}"
                 data-confirm="{{ $cash ? 'Confirm you handed over the food and collected ' . money($order->total) . '?' : 'Confirm you handed over the food?' }}">
                 @csrf
                 <button type="submit"
-                    class="btn-accent w-full !py-4 text-base">Delivered{{ $cash ? ' and cash collected' : '' }}</button>
+                    class="btn-accent w-full py-4! text-base">Delivered{{ $cash ? ' and cash collected' : '' }}</button>
             </form>
         @endif
 

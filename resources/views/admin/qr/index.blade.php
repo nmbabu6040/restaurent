@@ -21,7 +21,7 @@
             <input id="label" name="label" value="{{ $label }}" maxlength="80"
                 class="mt-1 rounded-lg border border-navy/20 bg-surface px-3 py-2 text-sm">
         </div>
-        <button type="submit" class="btn-primary !py-2">Update</button>
+        <button type="submit" class="btn-primary py-2!">Update</button>
     </form>
 
     <div class="card mt-6 flex items-center gap-8 p-6">

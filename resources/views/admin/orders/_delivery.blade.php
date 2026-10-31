@@ -61,11 +61,12 @@
                         @foreach ($riders as $rider)
                             <option value="{{ $rider->id }}" @selected($delivery?->rider_id === $rider->id)>{{ $rider->name }}
                                 ({{ $rider->is_online ? 'online' : 'offline' }}, fee
-                                {{ money($rider->fee_per_delivery) }})</option>
+                                {{ money($rider->fee_per_delivery) }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
-                <button type="submit" class="btn-primary !py-2">{{ $delivery ? 'Reassign' : 'Assign' }}</button>
+                <button type="submit" class="btn-primary py-2!">{{ $delivery ? 'Reassign' : 'Assign' }}</button>
             </form>
             @if ($riders->isEmpty())
                 <p class="mt-2 text-sm">No active riders. <a href="{{ route('admin.riders.create') }}"

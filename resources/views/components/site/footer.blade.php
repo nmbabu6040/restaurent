@@ -15,9 +15,8 @@
             @endif
             <p class="mt-3 text-sm opacity-80">{{ setting('tagline') }}</p>
             <div class="mt-4 flex gap-4 text-sm">
-                <a href="{{ setting('facebook', '#') }}" class="hover:text-(color:--accent)" rel="noopener">Facebook</a>
-                <a href="{{ setting('instagram', '#') }}" class="hover:text-(color:--accent)"
-                    rel="noopener">Instagram</a>
+                <a href="{{ setting('facebook', '#') }}" class="hover:text-(--accent)" rel="noopener">Facebook</a>
+                <a href="{{ setting('instagram', '#') }}" class="hover:text-(--accent)" rel="noopener">Instagram</a>
             </div>
         </div>
 
@@ -50,12 +49,12 @@
                         aria-describedby="email-error-footer"
                         class="w-full rounded-full border-0 bg-white px-4 py-2 text-sm text-charcoal">
                     <button type="submit"
-                        class="btn-accent shrink-0 !px-4 !py-2">{{ __('forms.newsletter.subscribe') }}</button>
+                        class="btn-accent shrink-0 px-4! py-2!">{{ __('forms.newsletter.subscribe') }}</button>
                 </div>
                 <div class="hidden" aria-hidden="true"><input type="text" name="website" tabindex="-1"
                         autocomplete="off"></div>
-                <p id="email-error-footer" data-error-for="email"
-                    class="mt-1 text-sm font-semibold text-(color:--accent)"></p>
+                <p id="email-error-footer" data-error-for="email" class="mt-1 text-sm font-semibold text-(--accent)">
+                </p>
             </form>
         </div>
     </div>

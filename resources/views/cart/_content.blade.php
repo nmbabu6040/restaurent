@@ -101,7 +101,7 @@
                                 aria-describedby="coupon-code-error"
                                 class="w-full rounded-lg border border-navy/20 bg-surface px-3 py-2 text-sm uppercase focus:border-terracotta">
                             <button type="submit"
-                                class="btn-primary !px-4 !py-2">{{ __('orders.coupon.apply') }}</button>
+                                class="btn-primary px-4! py-2!">{{ __('orders.coupon.apply') }}</button>
                         </div>
                         <p id="coupon-code-error" class="mt-1 text-sm text-red-700">{{ $errors->first('code') }}</p>
                     </form>

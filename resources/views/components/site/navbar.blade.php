@@ -26,7 +26,7 @@
             @foreach ($links as $link)
                 @php $active = request()->routeIs($link['route']); @endphp
                 <a href="{{ route($link['route']) }}" @if ($active) aria-current="page" @endif
-                    class="text-sm font-medium transition hover:text-(color:--accent) {{ $active ? 'text-(color:--accent)' : 'opacity-90' }}">
+                    class="text-sm font-medium transition hover:text-(--accent) {{ $active ? 'text-(--accent)' : 'opacity-90' }}">
                     {{ $link['label'] }}
                 </a>
             @endforeach
@@ -34,7 +34,7 @@
             @foreach ($pageLinks as $p)
                 <a href="{{ route('pages.show', $p->slug) }}"
                     @if (request()->is('page/' . $p->slug)) aria-current="page" @endif
-                    class="text-sm font-medium opacity-90 transition hover:text-(color:--accent)">{{ $p->tr('title') }}</a>
+                    class="text-sm font-medium opacity-90 transition hover:text-(--accent)">{{ $p->tr('title') }}</a>
             @endforeach
         </nav>
 
@@ -73,7 +73,7 @@
             @foreach ($pageLinks as $p)
                 <a href="{{ route('pages.show', $p->slug) }}"
                     @if (request()->is('page/' . $p->slug)) aria-current="page" @endif
-                    class="text-sm font-medium opacity-90 transition hover:text-(color:--accent)">{{ $p->tr('title') }}</a>
+                    class="text-sm font-medium opacity-90 transition hover:text-(--accent)">{{ $p->tr('title') }}</a>
             @endforeach
         </nav>
         <div class="mt-4 flex items-center justify-between">

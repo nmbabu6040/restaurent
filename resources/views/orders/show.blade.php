@@ -162,7 +162,7 @@
                                         <span class="font-semibold text-green-800">{{ __('reviews.reviewed') }}</span>
                                     @else
                                         <a href="{{ route('menu.show', $line->menuItem->slug) }}?order={{ $order->token }}#write-review"
-                                            class="btn-primary !px-4 !py-2">{{ __('reviews.rate_dish') }}</a>
+                                            class="btn-primary px-4! py-2!">{{ __('reviews.rate_dish') }}</a>
                                     @endif
                                 </li>
                             @endforeach

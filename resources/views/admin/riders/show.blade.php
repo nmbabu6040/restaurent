@@ -24,7 +24,7 @@
                 <form method="POST" action="{{ route('admin.riders.settle', $rider) }}"
                     data-confirm="Settle {{ $unsettled->count() }} deliveries with {{ $rider->name }}? Cash {{ money($cash) }}, fees {{ money($fees) }}.">
                     @csrf
-                    <button type="submit" class="btn-primary !py-2">Settle all</button>
+                    <button type="submit" class="btn-primary py-2!">Settle all</button>
                 </form>
             @endif
         </div>

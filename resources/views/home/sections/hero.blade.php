@@ -24,7 +24,8 @@
         <h1 class="mt-5 text-4xl font-bold leading-tight sm:text-6xl">{{ setting('hero_title', __('site.hero.title')) }}
         </h1>
         <p class="mx-auto mt-5 max-w-xl text-lg">{{ setting('hero_subtitle', __('site.hero.subtitle')) }}</p>
-        <p class="mt-3 text-sm font-semibold uppercase tracking-widest text-(color:--accent)">{{ setting('cuisine') }}
+        <p class="mt-3 text-sm font-semibold uppercase tracking-widest text-(--accent)">
+            {{ setting('cuisine') }}
         </p>
         <div class="mt-8 flex flex-wrap justify-center gap-3">
             <a href="{{ route('menu.index') }}" class="btn-contrast">{{ __('site.hero.menu_cta') }}</a>

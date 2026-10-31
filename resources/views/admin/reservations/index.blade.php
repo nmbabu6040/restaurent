@@ -22,7 +22,7 @@
                 placeholder="Name, phone, email, reference"
                 class="mt-1 rounded-lg border border-navy/20 bg-surface px-3 py-2 text-sm">
         </div>
-        <button type="submit" class="btn-primary !py-2">Filter</button>
+        <button type="submit" class="btn-primary py-2!">Filter</button>
         @if (request()->hasAny(['date', 'status', 'q']))
             <a href="{{ route('admin.reservations.index') }}"
                 class="py-2 text-sm font-semibold text-navy hover:text-terracotta-dark">Reset</a>

@@ -17,7 +17,7 @@
                 <input type="checkbox" name="low" value="1" class="accent-navy" @checked(request()->boolean('low'))>
                 Low stock only
             </label>
-            <button type="submit" class="btn-primary !py-2">Filter</button>
+            <button type="submit" class="btn-primary py-2!">Filter</button>
         </form>
         <a href="{{ route('admin.ingredients.create') }}" class="btn-accent">Add ingredient</a>
     </div>

@@ -16,7 +16,7 @@
                     <option value="unsubscribed" @selected(request('status') === 'unsubscribed')>Unsubscribed</option>
                 </select>
             </div>
-            <button type="submit" class="btn-primary !py-2">Filter</button>
+            <button type="submit" class="btn-primary py-2!">Filter</button>
         </form>
         <a href="{{ route('admin.subscribers.export') }}" class="btn-accent">Export active (CSV)</a>
     </div>

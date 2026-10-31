@@ -23,7 +23,7 @@
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class="btn-primary !py-2">Show</button>
+            <button type="submit" class="btn-primary py-2!">Show</button>
         </form>
         <a href="{{ route('admin.expenses.create') }}" class="btn-accent">Add expense</a>
     </div>

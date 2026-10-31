@@ -27,7 +27,7 @@
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class="btn-primary !py-2">Filter</button>
+            <button type="submit" class="btn-primary py-2!">Filter</button>
             @if (request()->hasAny(['q', 'category']))
                 <a href="{{ route('admin.items.index') }}"
                     class="py-2 text-sm font-semibold text-navy hover:text-terracotta-dark">Reset</a>

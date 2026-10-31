@@ -39,7 +39,7 @@
         </nav>
 
         <div class="mt-8 grid gap-10 md:grid-cols-2">
-            <div class="aspect-[4/3] overflow-hidden rounded-2xl bg-navy/5">
+            <div class="aspect-4/3 overflow-hidden rounded-2xl bg-navy/5">
                 @if ($item->image_url)
                     <img src="{{ $item->image_url }}" alt="{{ $item->name }}" width="800" height="600"
                         class="h-full w-full object-cover">

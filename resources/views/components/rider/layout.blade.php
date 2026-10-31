@@ -21,7 +21,7 @@
         class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-3 focus:text-navy">Skip to
         content</a>
 
-    <header class="bg-[#172B4D] text-white">
+    <header class="bg-navy text-white">
         <div class="mx-auto flex max-w-2xl flex-wrap items-center justify-between gap-3 px-4 py-3">
             <a href="{{ route('rider.dashboard') }}"
                 class="font-heading text-lg font-bold">{{ setting('name', config('app.name')) }} &middot; Rider</a>

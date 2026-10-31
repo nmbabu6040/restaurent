@@ -3,7 +3,7 @@
 @php $canOrder = config('restaurant.ordering_enabled') && $item->is_available; @endphp
 
 <article class="card relative flex flex-col overflow-hidden {{ $item->is_available ? '' : 'opacity-75' }}">
-    <div class="relative aspect-[4/3] bg-navy/5">
+    <div class="relative aspect-4/3 bg-navy/5">
         @if ($item->image_url)
             <x-site.picture :path="$item->image_path" :url="$item->image_url" :alt="$item->name"
                 sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" class="h-full w-full object-cover" />
@@ -65,13 +65,13 @@
                 @if ($canOrder)
                     @if ($item->hasOptions())
                         <a href="{{ route('menu.show', $item->slug) }}"
-                            class="btn-primary relative z-10 !px-4 !py-2">{{ __('orders.choose_options') }}</a>
+                            class="btn-primary relative z-10 px-4! py-2!">{{ __('orders.choose_options') }}</a>
                     @else
                         <form method="POST" action="{{ route('cart.add') }}" data-cart-add class="relative z-10">
                             @csrf
                             <input type="hidden" name="item_id" value="{{ $item->id }}">
                             <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn-primary !px-4 !py-2"
+                            <button type="submit" class="btn-primary px-4! py-2!"
                                 aria-label="{{ __('orders.add_named', ['name' => $item->name]) }}">{{ __('orders.add') }}</button>
                         </form>
                     @endif

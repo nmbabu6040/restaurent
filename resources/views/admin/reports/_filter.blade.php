@@ -29,8 +29,8 @@
             @endforeach
         </select>
     </div>
-    <button type="submit" class="btn-primary !py-2">Apply</button>
-    <a href="{{ $exportUrl }}" class="btn border border-navy/20 !py-2 text-navy">Export CSV</a>
+    <button type="submit" class="btn-primary py-2!">Apply</button>
+    <a href="{{ $exportUrl }}" class="btn border border-navy/20 py-2! text-navy">Export CSV</a>
 </form>
 
 @if ($errors->any())
@@ -39,4 +39,5 @@
 
 <p class="mt-3 text-sm">Showing <strong>{{ $p['from']->format('d M Y') }}</strong> to
     <strong>{{ $p['to']->format('d M Y') }}</strong> ({{ $p['days'] }} {{ $p['days'] === 1 ? 'day' : 'days' }}),
-    compared with the {{ $p['days'] }} {{ $p['days'] === 1 ? 'day' : 'days' }} before.</p>
+    compared with the {{ $p['days'] }} {{ $p['days'] === 1 ? 'day' : 'days' }} before.
+</p>

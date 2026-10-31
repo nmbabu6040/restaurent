@@ -26,13 +26,13 @@
 
         <div class="mt-4 flex flex-wrap gap-3">
             <a href="{{ route('admin.orders.print', ['order' => $order, 'type' => 'kot', 'autoprint' => 1]) }}"
-                target="_blank" rel="noopener" class="btn border border-navy/30 !py-2 text-navy">Print kitchen ticket</a>
+                target="_blank" rel="noopener" class="btn border border-navy/30 py-2! text-navy">Print kitchen ticket</a>
             <a href="{{ route('admin.orders.print', ['order' => $order, 'type' => 'receipt', 'autoprint' => 1]) }}"
-                target="_blank" rel="noopener" class="btn border border-navy/30 !py-2 text-navy">Print receipt</a>
+                target="_blank" rel="noopener" class="btn border border-navy/30 py-2! text-navy">Print receipt</a>
             <a href="{{ route('admin.orders.invoice', $order) }}"
-                class="btn border border-navy/30 !py-2 text-navy">Download bill (PDF)</a>
+                class="btn border border-navy/30 py-2! text-navy">Download bill (PDF)</a>
             <a href="{{ route('admin.orders.challan', $order) }}"
-                class="btn border border-navy/30 !py-2 text-navy">Download challan (PDF)</a>
+                class="btn border border-navy/30 py-2! text-navy">Download challan (PDF)</a>
         </div>
 
         <dl class="mt-6 grid gap-4 text-sm sm:grid-cols-2">
