@@ -73,8 +73,18 @@ class AppearanceController extends Controller
             $rules['color_' . $key] = [
                 'nullable',
                 'regex:/^#[0-9A-Fa-f]{6}$/',
+                // function (string $attribute, mixed $value, \Closure $fail) use ($section) {
+                //     if ($value && Color::bestContrast($value) < 4.5) {
+                //         $fail("{$section['label']}: this color is too mid-tone, so text on it would be hard to read. Pick a lighter or a darker shade.");
+                //     }
+                // },
                 function (string $attribute, mixed $value, \Closure $fail) use ($section) {
-                    if ($value && Color::bestContrast($value) < 4.5) {
+                    // Do not run contrast calculation on invalid HEX values.
+                    if (! is_string($value) || ! preg_match('/^#[0-9A-Fa-f]{6}$/', $value)) {
+                        return;
+                    }
+
+                    if (Color::bestContrast($value) < 4.5) {
                         $fail("{$section['label']}: this color is too mid-tone, so text on it would be hard to read. Pick a lighter or a darker shade.");
                     }
                 },

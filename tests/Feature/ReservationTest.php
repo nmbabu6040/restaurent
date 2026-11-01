@@ -7,6 +7,8 @@ use App\Models\Reservation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
 use Tests\TestCase;
 
 class ReservationTest extends TestCase
@@ -52,8 +54,14 @@ class ReservationTest extends TestCase
 
     public function test_validation_errors(): void
     {
+        $this->withoutMiddleware([
+            ThrottleRequests::class,
+            ThrottleRequestsWithRedis::class,
+        ]);
+
         $this->postJson('/reservations', [])->assertStatus(422)
             ->assertJsonValidationErrors(['name', 'email', 'phone', 'date', 'time', 'party_size']);
+
 
         $this->book(['party_size' => 13])->assertJsonValidationErrors('party_size');
         $this->book(['party_size' => 0])->assertJsonValidationErrors('party_size');

@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\Review;
 use App\Models\ReviewReply;
 use App\Models\User;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
 use App\Services\ReviewService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -134,6 +136,11 @@ class ReviewTest extends TestCase
 
     public function test_validation(): void
     {
+        $this->withoutMiddleware([
+            ThrottleRequests::class,
+            ThrottleRequestsWithRedis::class,
+        ]);
+
         $this->submit(['rating' => 0])->assertStatus(422)->assertJsonValidationErrors('rating');
         $this->submit(['rating' => 6])->assertJsonValidationErrors('rating');
         $this->submit(['rating' => null])->assertJsonValidationErrors('rating');
@@ -217,6 +224,11 @@ class ReviewTest extends TestCase
 
     public function test_order_links_that_do_not_qualify_are_rejected(): void
     {
+        $this->withoutMiddleware([
+            ThrottleRequests::class,
+            ThrottleRequestsWithRedis::class,
+        ]);
+
         $other = MenuItem::factory()->create();
         $notFinished = $this->completedOrder();
         $notFinished->update(['status' => 'preparing']);

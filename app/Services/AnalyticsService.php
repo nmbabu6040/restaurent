@@ -253,13 +253,26 @@ class AnalyticsService
     }
 
     /** All orders (cancelled ones too), by status. */
+    // public function statusCounts(Carbon $from, Carbon $to): array
+    // {
+    //     return Order::query()
+    //         ->whereBetween('created_at', [$from, $to])
+    //         ->toBase()
+    //         ->selectRaw('status, COUNT(*) as c')
+    //         ->groupBy('status')
+    //         ->pluck('c', 'status')
+    //         ->map(fn($c) => (int) $c)
+    //         ->all();
+    // }
+
     public function statusCounts(Carbon $from, Carbon $to): array
     {
         return Order::query()
             ->whereBetween('created_at', [$from, $to])
             ->toBase()
-            ->selectRaw('status, COUNT(*) as c')
+            ->selectRaw('status, COUNT(*) as c, MIN(id) as first_id')
             ->groupBy('status')
+            ->orderBy('first_id')
             ->pluck('c', 'status')
             ->map(fn($c) => (int) $c)
             ->all();

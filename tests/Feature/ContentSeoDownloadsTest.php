@@ -339,8 +339,18 @@ class ContentSeoDownloadsTest extends TestCase
         $this->app->detectEnvironment(fn() => 'production');
         $this->get('/robots.txt')->assertSee('Disallow: /');
 
+        // $this->seo(['seo_noindex_all' => 0])->assertRedirect();
+        // $this->get('/robots.txt')->assertSee('Disallow: /admin')->assertDontSee('Disallow: /' . "\n");
+
+        $this->app->detectEnvironment(fn() => 'testing');
+
         $this->seo(['seo_noindex_all' => 0])->assertRedirect();
-        $this->get('/robots.txt')->assertSee('Disallow: /admin')->assertDontSee('Disallow: /' . "\n");
+
+        $this->app->detectEnvironment(fn() => 'production');
+
+        $this->get('/robots.txt')
+            ->assertSee('Disallow: /admin')
+            ->assertDontSee('Disallow: /' . "\n");
     }
 
     public function test_dishes_have_their_own_seo_text_and_the_faq_has_structured_data(): void
@@ -426,8 +436,16 @@ class ContentSeoDownloadsTest extends TestCase
         $challan = $this->actingAs($staff)->get(route('admin.orders.challan', $order))->assertOk();
         $this->assertStringStartsWith('%PDF', $challan->getContent());
 
+        // $this->get(route('admin.orders.invoice', $order))->assertRedirect('/admin/login');
+        // $this->actingAs(User::factory()->rider()->create())->get(route('admin.orders.invoice', $order))->assertForbidden();
+
+        $this->app['auth']->guard()->logout();
+
         $this->get(route('admin.orders.invoice', $order))->assertRedirect('/admin/login');
-        $this->actingAs(User::factory()->rider()->create())->get(route('admin.orders.invoice', $order))->assertForbidden();
+
+        $this->actingAs(User::factory()->rider()->create())
+            ->get(route('admin.orders.invoice', $order))
+            ->assertForbidden();
     }
 
     public function test_the_bill_and_challan_show_the_right_details(): void

@@ -1,0 +1,34 @@
+﻿
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\CartServiceTest[39m
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\ColorTest[39m
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\CouponServiceTest[39m
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\ExampleTest[39m
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\StatusTransitionsTest[39m
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AdminAccessTest[39m
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AdminOperationsTest[39m
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\AnalyticsTest[39m
+  [31;1mΓ¿»[39;22m[90m [39m[90mstatus counts include cancelled orders[39m[90m                                                       
+                                   [39m [90m0.07s[39m  
+  [31;1mΓ¿»[39;22m[90m [39m[90mreport pages are for admins and managers only[39m[90m                                                
+                                   [39m [90m0.11s[39m  
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\AppearanceTest[39m
+  [31;1mΓ¿»[39;22m[90m [39m[90munreadable or invalid colors are rejected[39m[90m                                                    
+                                  [39m [90m15.59s[39m  
+  [31;1mΓ¿»[39;22m[90m [39m[90mlogin staff and payment confirmations still work in maintenance[39m[90m                              
+                                   [39m [90m0.13s[39m  
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\ContactNewsletterTest[39m
+  [31;1mΓ¿»[39;22m[90m [39m[90mcontact validation[39m[90m                                                                           
+                                   [39m [90m0.17s[39m  
+Fatal error: Premature end of PHP process when running Tests\Feature\ContentSeoDownloadsTest::test_every_dataset_downloads_in_both_formats.
+
+

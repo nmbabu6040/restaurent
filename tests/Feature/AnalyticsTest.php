@@ -270,18 +270,51 @@ class AnalyticsTest extends TestCase
 
     // Pages and access
 
+    // public function test_report_pages_are_for_admins_and_managers_only(): void
+    // {
+    //     $staff = User::factory()->staff()->create();
+    //     $manager = User::factory()->manager()->create();
+
+    //     foreach (['/admin/sales', '/admin/customers', '/admin/sales/export', '/admin/customers/export'] as $url) {
+    //         $this->get($url)->assertRedirect('/admin/login');
+    //         $this->actingAs($staff)->get($url)->assertForbidden();
+    //     }
+
+    //     $this->actingAs($manager)->get('/admin/sales')->assertOk()->assertSee('Revenue');
+    //     $this->actingAs($manager)->get('/admin/customers')->assertOk()->assertSee('Repeat rate');
+    // }
+
     public function test_report_pages_are_for_admins_and_managers_only(): void
     {
         $staff = User::factory()->staff()->create();
         $manager = User::factory()->manager()->create();
 
-        foreach (['/admin/sales', '/admin/customers', '/admin/sales/export', '/admin/customers/export'] as $url) {
+        $urls = [
+            '/admin/sales',
+            '/admin/customers',
+            '/admin/sales/export',
+            '/admin/customers/export',
+        ];
+
+        // প্রথমে সব guest request পরীক্ষা
+        foreach ($urls as $url) {
             $this->get($url)->assertRedirect('/admin/login');
+        }
+
+        // এরপর সব staff request পরীক্ষা
+        foreach ($urls as $url) {
             $this->actingAs($staff)->get($url)->assertForbidden();
         }
 
-        $this->actingAs($manager)->get('/admin/sales')->assertOk()->assertSee('Revenue');
-        $this->actingAs($manager)->get('/admin/customers')->assertOk()->assertSee('Repeat rate');
+        $this->actingAs($manager)
+            ->get('/admin/sales')
+            ->assertOk()
+            ->assertSee('Revenue');
+
+        $this->actingAs($manager)
+            ->get('/admin/customers')
+            ->assertOk()
+            ->assertSee('Repeat rate');
     }
 
     public function test_pages_render_with_data_and_chart_configs(): void

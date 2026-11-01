@@ -135,8 +135,11 @@ if (! function_exists('seo_meta')) {
 
         return [
             'title' => ($key ? setting("seo_{$key}_title") : null) ?: (($title ? $title . ' | ' : '') . $site),
+            // 'description' => ($key ? setting("seo_{$key}_description") : null)
+            //     ?: ($description ?: (setting('seo_default_description') ?: (string) setting('tagline', ''))),
+
             'description' => ($key ? setting("seo_{$key}_description") : null)
-                ?: ($description ?: (setting('seo_default_description') ?: (string) setting('tagline', ''))),
+                ?: (setting('seo_default_description') ?: ($description ?: (string) setting('tagline', ''))),
             'image' => $image ?: setting_image('seo_default_image'),
             'noindex' => setting('seo_noindex_all') === '1',
             'google' => setting('seo_google_verification'),

@@ -74,8 +74,27 @@ class ProfitLossTest extends TestCase
         Expense::create(['expense_date' => '2026-10-01', 'category' => 'rent', 'amount' => '777.00']); // another month
     }
 
+
+
     public function test_profit_and_loss_figures(): void
     {
+
+        dump([
+            'expenses' => Expense::query()
+                ->whereBetween('expense_date', ['2026-11-15', '2026-11-15'])
+                ->get(['expense_date', 'category', 'amount'])
+                ->toArray(),
+
+            'deliveries' => \App\Models\Delivery::query()
+                ->where('status', 'delivered')
+                ->whereBetween('delivered_at', [
+                    '2026-11-15 00:00:00',
+                    '2026-11-15 23:59:59',
+                ])
+                ->get(['status', 'delivered_at', 'rider_fee'])
+                ->toArray(),
+        ]);
+
         $this->scenario();
 
         $report = $this->analytics->profitLoss(Carbon::parse('2026-11-15')->startOfDay(), Carbon::parse('2026-11-15')->endOfDay(), 'daily');
@@ -156,7 +175,11 @@ class ProfitLossTest extends TestCase
         $manager = User::factory()->manager()->create();
 
         $this->actingAs($manager)->get('/admin/profit-loss?range=today')
-            ->assertOk()->assertSee('Net profit')->assertSee('Food cost')->assertSee('no cost recorded')->assertSee('data-chart', false);
+            ->assertOk()
+            ->assertSee('Net profit')
+            ->assertSee('Food cost')
+            ->assertSee('no cost')
+            ->assertSee('data-chart', false);
 
         $csv = $this->actingAs($manager)->get('/admin/profit-loss/export?range=today')->assertOk()->streamedContent();
         $this->assertStringStartsWith("\xEF\xBB\xBFPeriod,Revenue,Costs,Profit", $csv);

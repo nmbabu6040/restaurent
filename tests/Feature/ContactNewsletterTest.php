@@ -4,6 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\NewsletterSubscriber;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
+use Illuminate\Support\Facades\RateLimiter;
 use Tests\TestCase;
 
 class ContactNewsletterTest extends TestCase
@@ -28,12 +31,36 @@ class ContactNewsletterTest extends TestCase
         $this->assertNotNull(\App\Models\ContactMessage::first()->ip_address);
     }
 
+    // public function test_contact_validation(): void
+    // {
+    //     $this->postJson('/contact', [])->assertStatus(422)->assertJsonValidationErrors(['name', 'email', 'message']);
+    //     $this->postJson('/contact', $this->message(['email' => 'nope']))->assertJsonValidationErrors('email');
+    //     $this->postJson('/contact', $this->message(['message' => str_repeat('x', 2001)]))->assertJsonValidationErrors('message');
+    //     $this->postJson('/contact', $this->message(['phone' => 'abc']))->assertJsonValidationErrors('phone');
+
+    //     $this->assertDatabaseCount('contact_messages', 0);
+    // }
+
     public function test_contact_validation(): void
     {
-        $this->postJson('/contact', [])->assertStatus(422)->assertJsonValidationErrors(['name', 'email', 'message']);
-        $this->postJson('/contact', $this->message(['email' => 'nope']))->assertJsonValidationErrors('email');
-        $this->postJson('/contact', $this->message(['message' => str_repeat('x', 2001)]))->assertJsonValidationErrors('message');
-        $this->postJson('/contact', $this->message(['phone' => 'abc']))->assertJsonValidationErrors('phone');
+        $this->withoutMiddleware([
+            ThrottleRequests::class,
+            ThrottleRequestsWithRedis::class,
+        ]);
+
+        $this->postJson('/contact', [])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['name', 'email', 'message']);
+
+        $this->postJson('/contact', $this->message(['email' => 'nope']))
+            ->assertJsonValidationErrors('email');
+
+        $this->postJson('/contact', $this->message([
+            'message' => str_repeat('x', 2001),
+        ]))->assertJsonValidationErrors('message');
+
+        $this->postJson('/contact', $this->message(['phone' => 'abc']))
+            ->assertJsonValidationErrors('phone');
 
         $this->assertDatabaseCount('contact_messages', 0);
     }

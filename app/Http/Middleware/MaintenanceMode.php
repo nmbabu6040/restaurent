@@ -30,9 +30,30 @@ class MaintenanceMode
         }
     }
 
+    // private function isExempt(Request $request): bool
+    // {
+
+    //     return $request->is('admin', 'admin/*', 'rider', 'rider/*', 'lang/*', 'payments/sslcommerz/*', 'up');
+    // }
+
     private function isExempt(Request $request): bool
     {
-        // Payment confirmations must still reach us, and staff must be able to log in and switch the mode off.
-        return $request->is('admin', 'admin/*', 'rider', 'rider/*', 'lang/*', 'payments/sslcommerz/*', 'up');
+        if (
+            $request->isMethod('GET')
+            && $request->getPathInfo() === '/'
+            && $request->user()?->role?->value === 'staff'
+        ) {
+            return true;
+        }
+
+        return $request->is(
+            'admin',
+            'admin/*',
+            'rider',
+            'rider/*',
+            'lang/*',
+            'payments/sslcommerz/*',
+            'up'
+        );
     }
 }

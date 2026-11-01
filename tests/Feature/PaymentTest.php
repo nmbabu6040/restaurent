@@ -151,7 +151,7 @@ class PaymentTest extends TestCase
         [$order, $payment] = $this->onlineOrder();
         $this->fakeValidation($payment);
 
-        $this->callback($payment)->assertRedirect(route('orders.show', $order->token))->assertSessionHas('status');
+        $this->sendPaymentCallback($payment)->assertRedirect(route('orders.show', $order->token))->assertSessionHas('status');
 
         $payment->refresh();
         $this->assertSame('paid', $payment->status);
@@ -172,10 +172,10 @@ class PaymentTest extends TestCase
         [$order, $payment] = $this->onlineOrder();
         $this->fakeValidation($payment);
 
-        $this->callback($payment);
+        $this->sendPaymentCallback($payment);
         $paidAt = $payment->fresh()->paid_at;
 
-        $this->callback($payment);
+        $this->sendPaymentCallback($payment);
         $this->post('/payments/sslcommerz/ipn', ['val_id' => 'VAL123'])->assertOk()->assertSee('OK');
 
         $this->assertEquals($paidAt, $payment->fresh()->paid_at);
@@ -199,7 +199,7 @@ class PaymentTest extends TestCase
             [$order, $payment] = $this->onlineOrder();
             $this->fakeValidation($payment, $override);
 
-            $this->callback($payment)->assertRedirect(route('orders.show', $order->token))->assertSessionHas('error');
+            $this->sendPaymentCallback($payment)->assertRedirect(route('orders.show', $order->token))->assertSessionHas('error');
 
             $this->assertSame('initiated', $payment->fresh()->status);
             $this->assertSame('unpaid', $order->fresh()->payment_status);
@@ -214,7 +214,7 @@ class PaymentTest extends TestCase
             [$order, $payment] = $this->onlineOrder();
             $this->fakeValidation($payment, ['status' => $status]);
 
-            $this->callback($payment)->assertSessionHas('error');
+            $this->sendPaymentCallback($payment)->assertSessionHas('error');
 
             $this->assertSame('unpaid', $order->fresh()->payment_status);
         }
@@ -261,7 +261,7 @@ class PaymentTest extends TestCase
             'currency_type' => 'BDT',
         ])]);
 
-        $this->callback($payment)->assertSessionHas('error');
+        $this->sendPaymentCallback($payment)->assertSessionHas('error');
 
         $this->assertSame(0, Payment::where('status', 'paid')->count());
         $this->post('/payments/sslcommerz/success', ['val_id' => 'X', 'tran_id' => 'nope'])->assertRedirect(route('home'));
@@ -272,10 +272,10 @@ class PaymentTest extends TestCase
         [$order, $payment] = $this->onlineOrder();
 
         Http::fake(['*' => Http::response('', 500)]);
-        $this->callback($payment)->assertSessionHas('error');
+        $this->sendPaymentCallback($payment)->assertSessionHas('error');
 
         Http::fake(['*' => fn() => throw new ConnectionException('boom')]);
-        $this->callback($payment)->assertSessionHas('error');
+        $this->sendPaymentCallback($payment)->assertSessionHas('error');
 
         $this->assertSame('unpaid', $order->fresh()->payment_status);
     }
@@ -285,7 +285,7 @@ class PaymentTest extends TestCase
         [$order, $payment] = $this->onlineOrder(['status' => 'cancelled']);
         $this->fakeValidation($payment);
 
-        $this->callback($payment);
+        $this->sendPaymentCallback($payment);
 
         $this->assertSame('paid', $payment->fresh()->status);
         $this->assertSame('paid', $order->fresh()->payment_status);
@@ -323,3 +323,4 @@ class PaymentTest extends TestCase
         $this->get(route('orders.show', $paid->token))->assertDontSee(route('payments.start', $paid->token), false);
     }
 }
+
