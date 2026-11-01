@@ -1,6 +1,6 @@
 <x-admin.layout title="Downloads">
     <p class="mt-2 text-sm">Download your data as a spreadsheet (<strong>CSV</strong>, opens in Excel and shows Bangla
-        correctly) or a printable <strong>PDF</strong>. PDF is English only and shows the first 1,500 rows. These files
+        correctly) or a printable <strong>PDF</strong>. PDF is English only and shows the first 500 rows. These files
         contain customers' personal details, so keep them safe.</p>
 
     <div class="mt-6 grid gap-4 md:grid-cols-2">

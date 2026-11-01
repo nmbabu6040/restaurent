@@ -54,13 +54,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($rows as $row)
+            @forelse ($rows as $row)
                 <tr>
                     @foreach ($row as $cell)
                         <td>{{ $cell }}</td>
                     @endforeach
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="{{ count($headers) }}">No records for this selection.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
     @if ($truncated)

@@ -1,0 +1,1287 @@
+﻿
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\CartServiceTest[39m
+  [32;1m✓[39;22m[90m [39m[90mcents rounds correctly[39m[90m                                                                                         [39m [90m0.58s[39m  
+  [32;1m✓[39;22m[90m [39m[90mline keys are stable[39m[90m                                                                                           [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdelivery fee and free delivery threshold[39m[90m                                                                       [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdiscount is subtracted and free delivery uses the subtotal before it[39m[90m                                           [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\ColorTest[39m
+  [32;1m✓[39;22m[90m [39m[90mtext color follows the background[39m[90m                                                                              [39m [90m0.02s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcontrast extremes[39m
+  [32;1m✓[39;22m[90m [39m[90mmid tones cannot reach a readable contrast[39m
+  [32;1m✓[39;22m[90m [39m[90mhex validation[39m[90m                                                                                                 [39m [90m0.03s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\CouponServiceTest[39m
+  [32;1m✓[39;22m[90m [39m[90mpercent discount[39m[90m                                                                                               [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpercent discount respects the cap[39m[90m                                                                              [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mfixed discount never exceeds the subtotal[39m[90m                                                                      [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrejections[39m[90m                                                                                                     [39m [90m0.08s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\ExampleTest[39m
+  [32;1m✓[39;22m[90m [39m[90mthat true is true[39m[90m                                                                                              [39m [90m0.01s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\StatusTransitionsTest[39m
+  [32;1m✓[39;22m[90m [39m[90mdelivery orders go out for delivery and pickup orders become ready[39m
+  [32;1m✓[39;22m[90m [39m[90mfinal order states have no transitions[39m
+  [32;1m✓[39;22m[90m [39m[90morders cannot skip steps[39m
+  [32;1m✓[39;22m[90m [39m[90mreservation transitions[39m
+  [32;1m✓[39;22m[90m [39m[90monly pending and confirmed reservations hold seats[39m
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AdminAccessTest[39m
+  [32;1m✓[39;22m[90m [39m[90mguests are redirected to login[39m[90m                                                                                 [39m [90m0.89s[39m  
+  [32;1m✓[39;22m[90m [39m[90madmin can log in[39m[90m                                                                                               [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90madmin can log out[39m[90m                                                                                              [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mwrong password is rejected[39m[90m                                                                                     [39m [90m0.29s[39m  
+  [32;1m✓[39;22m[90m [39m[90minactive users cannot log in[39m[90m                                                                                   [39m [90m0.31s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlogin is throttled after repeated failures[39m[90m                                                                     [39m [90m1.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma deactivated user with a live session is locked out[39m[90m                                                           [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin"[39m[90m                                                                [39m [90m0.40s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin"[39m[90m                                                              [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin"[39m[90m                                                                [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/reservations"[39m[90m                                                   [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/reservations"[39m[90m                                                 [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/reservations"[39m[90m                                                   [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/orders"[39m[90m                                                         [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/orders"[39m[90m                                                       [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/orders"[39m[90m                                                         [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/messages"[39m[90m                                                       [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/messages"[39m[90m                                                     [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/messages"[39m[90m                                                       [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/items"[39m[90m                                                          [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/items"[39m[90m                                                        [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/items"[39m[90m                                                          [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/categories"[39m[90m                                                     [39m [90m0.23s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/categories"[39m[90m                                                   [39m [90m0.23s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/categories"[39m[90m                                                     [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/content/gallery"[39m[90m                                                [39m [90m0.29s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/content/gallery"[39m[90m                                              [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/content/gallery"[39m[90m                                                [39m [90m0.38s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/content/coupons"[39m[90m                                                [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/content/coupons"[39m[90m                                              [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/content/coupons"[39m[90m                                                [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/subscribers"[39m[90m                                                    [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/subscribers"[39m[90m                                                  [39m [90m0.25s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/subscribers"[39m[90m                                                    [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/settings"[39m[90m                                                       [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/settings"[39m[90m                                                     [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/settings"[39m[90m                                                       [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/users"[39m[90m                                                          [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/users"[39m[90m                                                        [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/users"[39m[90m                                                          [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/activity"[39m[90m                                                       [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/activity"[39m[90m                                                     [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/activity"[39m[90m                                                       [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/sales"[39m[90m                                                          [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/sales"[39m[90m                                                        [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/sales"[39m[90m                                                          [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/customers"[39m[90m                                                      [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/customers"[39m[90m                                                    [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/customers"[39m[90m                                                      [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/ingredients"[39m[90m                                                    [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/ingredients"[39m[90m                                                  [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/ingredients"[39m[90m                                                    [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/expenses"[39m[90m                                                       [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/expenses"[39m[90m                                                     [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/expenses"[39m[90m                                                       [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/profit-loss"[39m[90m                                                    [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/profit-loss"[39m[90m                                                  [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/profit-loss"[39m[90m                                                    [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/content/suppliers"[39m[90m                                              [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/content/suppliers"[39m[90m                                            [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/content/suppliers"[39m[90m                                              [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/backups"[39m[90m                                                        [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/backups"[39m[90m                                                      [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/backups"[39m[90m                                                        [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/qr"[39m[90m                                                             [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/qr"[39m[90m                                                           [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/qr"[39m[90m                                                             [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/riders"[39m[90m                                                         [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/riders"[39m[90m                                                       [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/riders"[39m[90m                                                         [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/reviews"[39m[90m                                                        [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/reviews"[39m[90m                                                      [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/reviews"[39m[90m                                                        [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/content/zones"[39m[90m                                                  [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/content/zones"[39m[90m                                                [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/content/zones"[39m[90m                                                  [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/pages"[39m[90m                                                          [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/pages"[39m[90m                                                        [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/pages"[39m[90m                                                          [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/home-sections"[39m[90m                                                  [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/home-sections"[39m[90m                                                [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/home-sections"[39m[90m                                                  [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/seo"[39m[90m                                                            [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/seo"[39m[90m                                                          [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/seo"[39m[90m                                                            [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/downloads"[39m[90m                                                      [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/downloads"[39m[90m                                                    [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/downloads"[39m[90m                                                      [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "admin /admin/content/usps"[39m[90m                                                   [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "manager /admin/content/usps"[39m[90m                                                 [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrole access matrix with data set "staff /admin/content/usps"[39m[90m                                                   [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstaff cannot post to manager routes[39m[90m                                                                            [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90madmin cannot change own role or deactivate self[39m[90m                                                                [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90madmin cannot delete own account[39m[90m                                                                                [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90madmin can create a user with a strong password only[39m[90m                                                            [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90muser email must be unique[39m[90m                                                                                      [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90madmin actions are written to the activity log[39m[90m                                                                  [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90msettings are validated and shown on the site[39m[90m                                                                   [39m [90m0.24s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AdminOperationsTest[39m
+  [32;1m✓[39;22m[90m [39m[90mreservation can be confirmed and the guest is emailed[39m[90m                                                          [39m [90m0.21s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreservation status rules[39m[90m                                                                                       [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreservation list filters[39m[90m                                                                                       [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmessage is marked read and html is escaped[39m[90m                                                                     [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdelivery order full flow marks cash orders paid[39m[90m                                                                [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpickup order uses ready instead of out for delivery[39m[90m                                                            [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90morders cannot skip steps or leave a final state[39m[90m                                                                [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90munpaid online orders cannot be confirmed until paid[39m[90m                                                            [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcancelling gives the coupon back and warns about refunds[39m[90m                                                       [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90morder pages render with items and payments[39m[90m                                                                     [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdashboard only counts orders the kitchen can act on[39m[90m                                                            [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90munpaid online orders expire[39m[90m                                                                                    [39m [90m0.07s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AnalyticsTest[39m
+  [32;1m✓[39;22m[90m [39m[90monly real sales are counted[39m[90m                                                                                    [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90msummary totals[39m[90m                                                                                                 [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90man empty period has no division by zero[39m[90m                                                                        [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90morders outside the period are excluded[39m[90m                                                                         [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdaily series includes empty days[39m[90m                                                                               [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mweekly series starts weeks on monday[39m[90m                                                                           [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmonthly series[39m[90m                                                                                                 [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mbreakdown by type and payment method[39m[90m                                                                           [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstatus counts include cancelled orders[39m[90m                                                                         [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mtop items are ranked by quantity and ignore cancelled orders[39m[90m                                                   [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhourly counts[39m[90m                                                                                                  [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mperiod presets[39m[90m                                                                                                 [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mphone formats count as one customer[39m[90m                                                                            [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mnew versus returning customers[39m[90m                                                                                 [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcustomers with only cancelled orders are not customers[39m[90m                                                         [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreport pages are for admins and managers only[39m[90m                                                                  [39m [90m0.40s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpages render with data and chart configs[39m[90m                                                                       [39m [90m0.29s[39m  
+  [32;1m✓[39;22m[90m [39m[90mperiod validation[39m[90m                                                                                              [39m [90m0.38s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdashboard hides money from staff and shows charts to managers[39m[90m                                                  [39m [90m0.30s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdashboard loads on an empty database[39m[90m                                                                           [39m [90m0.22s[39m  
+  [32;1m✓[39;22m[90m [39m[90msales export is a safe csv and is logged[39m[90m                                                                       [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcustomer export lists everyone with lifetime totals[39m[90m                                                            [39m [90m0.13s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\AppearanceTest[39m
+  [32;1m✓[39;22m[90m [39m[90monly admins can open the page[39m[90m                                                                                  [39m [90m0.28s[39m  
+  [32;1m✓[39;22m[90m [39m[90msection color is saved applied and can be reset[39m[90m                                                                [39m [90m0.34s[39m  
+  [32;1m✓[39;22m[90m [39m[90munreadable or invalid colors are rejected[39m[90m                                                                      [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe default color is not stored as a custom one[39m[90m                                                                [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mwhatsapp button uses a normalised number[39m[90m                                                                       [39m [90m0.23s[39m  
+  [32;1m✓[39;22m[90m [39m[90mback to top button can be switched off[39m[90m                                                                         [39m [90m0.21s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlogo favicon and author are used on the site[39m[90m                                                                   [39m [90m0.37s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreplaced and removed images are deleted[39m[90m                                                                        [39m [90m0.31s[39m  
+  [32;1m✓[39;22m[90m [39m[90munsafe uploads are rejected[39m[90m                                                                                    [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mowner profile shows on the about page[39m[90m                                                                          [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mfood pages have share links[39m[90m                                                                                    [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mvisitors see the maintenance page with a 503[39m[90m                                                                   [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe maintenance message can be customised[39m[90m                                                                      [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlogin staff and payment confirmations still work in maintenance[39m[90m                                                [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90madmin sees a maintenance banner[39m[90m                                                                                [39m [90m0.24s[39m  
+  [32;1m✓[39;22m[90m [39m[90msite returns to normal when switched off[39m[90m                                                                       [39m [90m0.42s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdark theme cookie is applied server side[39m[90m                                                                       [39m [90m0.69s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\ContactNewsletterTest[39m
+  [32;1m✓[39;22m[90m [39m[90mcontact message is saved[39m[90m                                                                                       [39m [90m0.57s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcontact validation[39m[90m                                                                                             [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcontact honeypot and rate limit[39m[90m                                                                                [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mnewsletter subscription is idempotent and gives nothing away[39m[90m                                                   [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mnewsletter validation and honeypot[39m[90m                                                                             [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90munsubscribe and resubscribe[39m[90m                                                                                    [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mnewsletter endpoint is rate limited[39m[90m                                                                            [39m [90m0.17s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\ContentSeoDownloadsTest[39m
+  [32;1m✓[39;22m[90m [39m[90ma manager creates a page and markdown is made safe[39m[90m                                                             [39m [90m0.41s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhidden and unknown pages are 404[39m[90m                                                                               [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpages appear in the menu when asked[39m[90m                                                                            [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpage validation and the bangla text[39m[90m                                                                            [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mprivacy and terms are editable and protected[39m[90m                                                                   [39m [90m0.29s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpages are in the sitemap and staff cannot manage them[39m[90m                                                          [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe home page follows the section order and visibility[39m[90m                                                         [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mbuilt in headings can be changed[39m[90m                                                                               [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcustom sections can be created shown and deleted[39m[90m                                                               [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcustom section validation[39m[90m                                                                                      [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhighlights and about values are managed in the admin[39m[90m                                                           [39m [90m0.32s[39m  
+  [32;1m✓[39;22m[90m [39m[90mabout mission and vision come from settings[39m[90m                                                                    [39m [90m0.21s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe hero can use a photo with an overlay[39m[90m                                                                       [39m [90m1.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhero settings are validated[39m[90m                                                                                    [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcategory boxes are colourful and show dish counts[39m[90m                                                              [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe floating buttons sit on the right[39m[90m                                                                          [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpage seo overrides the title and description[39m[90m                                                                   [39m [90m0.29s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdefault description image and verification codes[39m[90m                                                               [39m [90m0.73s[39m  
+  [32;1m✓[39;22m[90m [39m[90mseo validation[39m[90m                                                                                                 [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhiding the whole site from search engines[39m[90m                                                                      [39m [90m0.34s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdishes have their own seo text and the faq has structured data[39m[90m                                                 [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90morders download as a safe csv with date limits[39m[90m                                                                 [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe dataset list matches the tests[39m[90m                                                                             [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #0[39m[90m                                                                    [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #1[39m[90m                                                                    [39m [90m0.23s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #2[39m[90m                                                                    [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #3[39m[90m                                                                    [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #4[39m[90m                                                                    [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #5[39m[90m                                                                    [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #6[39m[90m                                                                    [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #7[39m[90m                                                                    [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #8[39m[90m                                                                    [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #9[39m[90m                                                                    [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as csv with data set #10[39m[90m                                                                   [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #0[39m[90m                                                                    [39m [90m0.67s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #1[39m[90m                                                                    [39m [90m0.48s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #2[39m[90m                                                                    [39m [90m0.50s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #3[39m[90m                                                                    [39m [90m0.46s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #4[39m[90m                                                                    [39m [90m0.78s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #5[39m[90m                                                                    [39m [90m0.48s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #6[39m[90m                                                                    [39m [90m0.95s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #7[39m[90m                                                                    [39m [90m0.55s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #8[39m[90m                                                                    [39m [90m0.55s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #9[39m[90m                                                                    [39m [90m0.58s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma dataset downloads as pdf with data set #10[39m[90m                                                                   [39m [90m0.47s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdownload rules[39m[90m                                                                                                 [39m [90m0.23s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe bill and challan pdfs download[39m[90m                                                                             [39m [90m1.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe bill and challan show the right details[39m[90m                                                                    [39m [90m0.22s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma customer can download their own bill with the private link[39m[90m                                                   [39m [90m0.88s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe sidebar has icons groups search and the new pages[39m[90m                                                          [39m [90m0.28s[39m  
+  [32;1m✓[39;22m[90m [39m[90mgallery still works after the content system change[39m[90m                                                            [39m [90m0.15s[39m  
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\DeliveryTest[39m
+  [32;1m✓[39;22m[90m [39m[90ma manager creates a rider with a login[39m[90m                                                                         [39m [90m0.25s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrider validation[39m[90m                                                                                               [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mriders cannot reach the admin[39m[90m                                                                                  [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma rider logs in to their own panel[39m[90m                                                                             [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly active riders with a profile can open the panel[39m[90m                                                           [39m [90m0.24s[39m  
+  [32;1m✓[39;22m[90m [39m[90mriders do not appear in the users list and cannot be made there[39m[90m                                                [39m [90m0.30s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma rider with open deliveries cannot be removed[39m[90m                                                                 [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstaff cannot manage riders[39m[90m                                                                                     [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstaff can assign a rider and the fee is saved[39m[90m                                                                  [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90massignment rules[39m[90m                                                                                               [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreassigning resets the delivery but a delivered one is locked[39m[90m                                                  [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90morders needing a rider[39m[90m                                                                                         [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpicking up moves a preparing order out for delivery[39m[90m                                                            [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpickup waits for the kitchen[39m[90m                                                                                   [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdelivering a cash order records the cash and marks it paid[39m[90m                                                     [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdelivering an online paid order collects no cash[39m[90m                                                               [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdelivery needs a pickup first and cannot be repeated[39m[90m                                                           [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma rider only sees and changes their own deliveries[39m[90m                                                             [39m [90m0.36s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe delivery page shows what the rider needs[39m[90m                                                                   [39m [90m0.22s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreporting a problem needs a reason and leaves the order alone[39m[90m                                                  [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mgoing online and offline[39m[90m                                                                                       [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe poll signature changes with new work[39m[90m                                                                       [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcompleting the order in the office closes the delivery with its cash[39m[90m                                           [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcancelling an order cancels its open delivery[39m[90m                                                                  [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe customer sees the rider and gets the phone after pickup[39m[90m                                                    [39m [90m0.26s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe tracking signature changes when a rider is assigned[39m[90m                                                        [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90msettlement shows the numbers and closes the books[39m[90m                                                              [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly delivered deliveries are settled and staff cannot settle[39m[90m                                                  [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe riders list shows unsettled totals[39m[90m                                                                         [39m [90m0.18s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mrider fees are a cost in profit and loss on the day of delivery[39m[90m                                                [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe dashboard counts orders that need a rider[39m[90m                                                                  [39m [90m0.13s[39m  
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\DeliveryZoneTest[39m
+  [32;1m✓[39;22m[90m [39m[90mwithout areas the general fee applies and no area is asked for[39m[90m                                                 [39m [90m0.24s[39m  
+  [32;1m✓[39;22m[90m [39m[90minactive areas are ignored[39m[90m                                                                                     [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90man area is required for delivery[39m[90m                                                                               [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe fee comes from the area and the area is saved on the order[39m[90m                                                 [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe order keeps the area name when the area changes later[39m[90m                                                      [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpickup ignores areas[39m[90m                                                                                           [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma price sent by the browser is ignored[39m[90m                                                                         [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe area free delivery limit overrides the general one[39m[90m                                                         [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma zero limit means never free in that area[39m[90m                                                                     [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90man empty limit falls back to the general rule[39m[90m                                                                  [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe area minimum order is enforced[39m[90m                                                                             [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90man empty area minimum uses the general minimum[39m[90m                                                                 [39m [90m0.16s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mthe checkout page offers the areas with their totals[39m[90m                                                           [39m [90m0.22s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe checkout page has no area box when there are no areas[39m[90m                                                      [39m [90m0.22s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe area shows on the order pages in the right language[39m[90m                                                        [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma manager manages the areas[39m[90m                                                                                    [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90marea validation and access[39m[90m                                                                                     [39m [90m0.10s[39m  
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\ExampleTest[39m
+  [31;1m⨯[39;22m[90m [39m[90mthe application returns a successful response[39m[90m                                                                  [39m [90m4.11s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\InventoryTest[39m
+  [32;1m✓[39;22m[90m [39m[90mdish stock is checked taken and hides the dish at zero[39m[90m                                                         [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcart total across sizes counts against dish stock[39m[90m                                                              [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma shortage found at checkout blocks the order and changes nothing[39m[90m                                              [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcancelling gives dish stock back once[39m[90m                                                                          [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitems without stock tracking are never limited[39m[90m                                                                 [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrecipe orders take ingredients scaled by size and quantity[39m[90m                                                     [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrecipe orders are not blocked by default and stock can go negative[39m[90m                                             [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrecipe orders can be blocked when ingredients run short[39m[90m                                                        [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcancelling returns ingredients once[39m[90m                                                                            [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcost uses item cost with size override and addon cost[39m[90m                                                          [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma size without its own cost uses the item cost[39m[90m                                                                 [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreceiving stock updates the weighted average cost[39m[90m                                                              [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreceiving without a price keeps the cost[39m[90m                                                                       [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mwastage removes stock but never more than you have[39m[90m                                                             [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstock count sets the stock and logs the difference[39m[90m                                                             [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstock forms are validated[39m[90m                                                                                      [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mnew ingredient with opening stock[39m[90m                                                                              [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mingredient validation and unique name[39m[90m                                                                          [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90man ingredient used in a recipe cannot be deleted[39m[90m                                                               [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90minventory pages are for admins and managers[39m[90m                                                                    [39m [90m0.33s[39m  
+  [32;1m✓[39;22m[90m [39m[90msuppliers can be managed[39m[90m                                                                                       [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem form saves stock mode cost recipe and size factor[39m[90m                                                         [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrecipe can be cleared from the form[39m[90m                                                                            [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem form without recipe section leaves the recipe alone[39m[90m                                                       [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem form validation for stock and recipe[39m[90m                                                                      [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlow stock shows on the dashboard and the menu[39m[90m                                                                  [39m [90m0.22s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstaff do not see low stock alerts[39m[90m                                                                              [39m [90m0.16s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\MenuAdminTest[39m
+  [32;1m✓[39;22m[90m [39m[90mcategory can be created with an automatic slug[39m[90m                                                                 [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcategory slug must be unique[39m[90m                                                                                   [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcategory with items cannot be deleted[39m[90m                                                                          [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mempty category can be deleted[39m[90m                                                                                  [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem can be created[39m[90m                                                                                            [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem validation rules[39m[90m                                                                                          [39m [90m0.33s[39m  
+  [32;1m✓[39;22m[90m [39m[90mimage is stored and old image is removed on replace[39m[90m                                                            [39m [90m0.63s[39m  
+  [32;1m✓[39;22m[90m [39m[90mimage can be removed[39m[90m                                                                                           [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly safe image uploads are accepted[39m[90m                                                                           [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem is soft deleted[39m[90m                                                                                           [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mavailability can be toggled[39m[90m                                                                                    [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem list search filter and sort[39m[90m                                                                               [39m [90m0.26s[39m  
+  [32;1m✓[39;22m[90m [39m[90msizes and extras are saved and blank rows ignored[39m[90m                                                              [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90moption validation[39m[90m                                                                                              [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90moptions are updated in place and removed rows are deleted[39m[90m                                                      [39m [90m0.09s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\OfferVisibilityTest[39m
+  [32;1m✓[39;22m[90m [39m[90monly live offers are shown[39m[90m                                                                                     [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90man offer that ends today stays live all day[39m[90m                                                                    [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdates are validated[39m[90m                                                                                            [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mediting keeps the dates and the form shows plain dates[39m[90m                                                         [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe admin list says why an offer is not showing[39m[90m                                                                [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe home page shows up to six offers[39m[90m                                                                           [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma coupon that ends today works all day[39m[90m                                                                         [39m [90m0.07s[39m  
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\OperationsToolsTest[39m
+  [32;1m✓[39;22m[90m [39m[90ma backup contains the structure and the data[39m[90m                                                                   [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe photos are zipped[39m[90m                                                                                          [39m [90m0.63s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly the newest backups are kept[39m[90m                                                                               [39m [90m0.17s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly names made by the service are valid[39m[90m                                                                       [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly admins reach the backup pages[39m[90m                                                                             [39m [90m0.21s[39m  
+  [32;1m✓[39;22m[90m [39m[90man admin can create download and delete a backup[39m[90m                                                               [39m [90m0.91s[39m  
+  [32;1m✓[39;22m[90m [39m[90mbackup downloads cannot reach other files[39m[90m                                                                      [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe backup command runs[39m[90m                                                                                        [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe kitchen ticket has no prices and shows the notes[39m[90m                                                           [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe receipt shows prices and totals[39m[90m                                                                            [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mprinting rules[39m[90m                                                                                                 [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe order page links to both prints[39m[90m                                                                            [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe alert check counts what needs attention[39m[90m                                                                    [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe alert check is private and not confused with an order[39m[90m                                                      [39m [90m0.11s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mthe daily summary is emailed[39m[90m                                                                                   [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe daily summary needs a recipient and a valid date[39m[90m                                                           [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe qr page shows a code for the menu[39m[90m                                                                          [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe qr targets and custom paths[39m[90m                                                                                [39m [90m0.24s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe qr code can be downloaded and printed[39m[90m                                                                      [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly managers and admins can use the qr tool[39m[90m                                                                   [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe qr label is escaped[39m[90m                                                                                        [39m [90m0.10s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\OrderTrackingTest[39m
+  [32;1m✓[39;22m[90m [39m[90morder page is reachable only with the private token[39m[90m                                                            [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstatus endpoint returns only status information[39m[90m                                                                [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlookup by reference and phone in any format[39m[90m                                                                    [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlookup fails with a wrong phone or reference[39m[90m                                                                   [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlookup is rate limited[39m[90m                                                                                         [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcancelled order page explains it[39m[90m                                                                               [39m [90m0.09s[39m  
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\OrderingTest[39m
+  [32;1m✓[39;22m[90m [39m[90mitems can be added and the cart shows server prices[39m[90m                                                            [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mprices sent by the browser are ignored[39m[90m                                                                         [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90munavailable hidden and unknown items cannot be added[39m[90m                                                           [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mquantity limits[39m[90m                                                                                                [39m [90m0.09s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mquantity can be changed and lines removed[39m[90m                                                                      [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcash delivery order is priced on the server[39m[90m                                                                    [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpickup has no delivery fee and drops the address[39m[90m                                                               [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdelivery is free above the threshold[39m[90m                                                                           [39m [90m0.09s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mcheckout validation[39m[90m                                                                                            [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90monline payment can only be chosen when it is enabled[39m[90m                                                           [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mminimum order amount[39m[90m                                                                                           [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mempty cart cannot be checked out[39m[90m                                                                               [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem that becomes unavailable blocks the order[39m[90m                                                                 [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mprice changes after adding are picked up[39m[90m                                                                       [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90morders keep their prices when the menu changes later[39m[90m                                                           [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mordering can be switched off[39m[90m                                                                                   [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcoupon discount is applied and counted[39m[90m                                                                         [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcoupon caps and fixed amounts[39m[90m                                                                                  [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mbad coupons are rejected[39m[90m                                                                                       [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcoupon is dropped when the cart no longer qualifies[39m[90m                                                            [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcoupon can be removed[39m[90m                                                                                          [39m [90m0.13s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mlast redemption cannot be used twice[39m[90m                                                                           [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem with sizes requires a valid size[39m[90m                                                                          [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mextras are added to the price and must belong to the item[39m[90m                                                      [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90midentical selections merge and different ones stay apart[39m[90m                                                       [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90moption choices are snapshotted on the order[39m[90m                                                                    [39m [90m0.12s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mdeactivated option removes the line from the cart[39m[90m                                                              [39m [90m0.09s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\PaymentTest[39m
+  [32;1m✓[39;22m[90m [39m[90mpayment starts with the server side amount[39m[90m                                                                     [39m [90m0.23s[39m  
+  [32;1m✓[39;22m[90m [39m[90mgateway failures do not break the order page[39m[90m                                                                   [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpaid cancelled and cash orders do not start a payment[39m[90m                                                          [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpayment cannot start when online payment is off[39m[90m                                                                [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mvalid payment marks the order paid and alerts the kitchen[39m[90m                                                      [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreplaying the same callback or ipn changes nothing[39m[90m                                                             [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mipn alone can settle a payment[39m[90m                                                                                 [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mamount or currency mismatch is not accepted[39m[90m                                                                    [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mgateway says invalid means not paid[39m[90m                                                                            [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mforged callbacks cannot mark an order paid[39m[90m                                                                     [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcallbacks without a val id never reach the gateway[39m[90m                                                             [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mvalidation for an unknown transaction is ignored[39m[90m                                                               [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mgateway outages do not mark anything paid[39m[90m                                                                      [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpayment for a cancelled order is recorded but does not alert the kitchen[39m[90m                                       [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mfail and cancel callbacks only touch open attempts[39m[90m                                                             [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90morder page shows the pay button only while unpaid[39m[90m                                                              [39m [90m0.14s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\PreflightTest[39m
+  [32;1m✓[39;22m[90m [39m[90mpreflight fails when the app is not production ready[39m[90m                                                           [39m [90m0.17s[39m  
+array:2 [
+  "expenses" => []
+  "deliveries" => []
+] // tests\Feature\ProfitLossTest.php:82
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\ProfitLossTest[39m
+  [31;1m⨯[39;22m[90m [39m[90mprofit and loss figures[39m[90m                                                                                        [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdish margins[39m[90m                                                                                                   [39m [90m0.08s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mthe summary only mode skips the detail[39m[90m                                                                         [39m [90m0.07s[39m  
+  [31;1m⨯[39;22m[90m [39m[90ma loss is negative[39m[90m                                                                                             [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90man empty period is all zero[39m[90m                                                                                    [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcosts land in the right week[39m[90m                                                                                   [39m [90m0.12s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mthe report page and export[39m[90m                                                                                     [39m [90m0.31s[39m  
+  [32;1m✓[39;22m[90m [39m[90mdashboard shows the profit card[39m[90m                                                                                [39m [90m0.21s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexpenses can be added edited and deleted[39m[90m                                                                       [39m [90m0.20s[39m  
+  [32;1m✓[39;22m[90m [39m[90mexpense validation[39m[90m                                                                                             [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstaff cannot use expenses[39m[90m                                                                                      [39m [90m0.11s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\PublicPagesTest[39m
+  [32;1m✓[39;22m[90m [39m[90mpublic pages load on a clean database[39m[90m                                                                          [39m [90m0.38s[39m  
+  [32;1m✓[39;22m[90m [39m[90munknown url shows the custom 404 page[39m[90m                                                                          [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem page and hidden category[39m[90m                                                                                  [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmenu search and category filter[39m[90m                                                                                [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90majax menu request returns only the grid[39m[90m                                                                        [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90msold out items are labelled and cannot be added[39m[90m                                                                [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mmenu text is escaped[39m[90m                                                                                           [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mlanguage switch is remembered[39m[90m                                                                                  [39m [90m0.13s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\ReservationTest[39m
+  [32;1m✓[39;22m[90m [39m[90mvalid booking is saved as pending and emailed[39m[90m                                                                  [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mvalidation errors[39m[90m                                                                                              [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhoneypot blocks bots[39m[90m                                                                                           [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mtimes outside the slot grid are rejected[39m[90m                                                                       [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mminimum notice is enforced[39m[90m                                                                                     [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcapacity blocks overlapping bookings only[39m[90m                                                                      [39m [90m0.14s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcancelled and rejected bookings free their seats[39m[90m                                                               [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mavailability endpoint reports slots[39m[90m                                                                            [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mavailability validates its input[39m[90m                                                                               [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mbooking endpoint is rate limited[39m[90m                                                                               [39m [90m0.10s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\ReviewTest[39m
+  [32;1m✓[39;22m[90m [39m[90man anonymous review waits for approval[39m[90m                                                                         [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mapproving publishes it and updates the rating[39m[90m                                                                  [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhiding removes it again[39m[90m                                                                                        [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe average only counts approved reviews[39m[90m                                                                       [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90mvalidation[39m[90m                                                                                                     [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma rating alone is enough[39m[90m                                                                                       [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe same text cannot be posted twice in a day[39m[90m                                                                  [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreview posting is rate limited[39m[90m                                                                                 [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mhidden categories and unknown dishes cannot be reviewed[39m[90m                                                        [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreview text is escaped[39m[90m                                                                                         [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma verified buyer review goes live at once[39m[90m                                                                      [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mone review per dish per order[39m[90m                                                                                  [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90morder links that do not qualify are rejected[39m[90m                                                                   [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe moderation setting[39m[90m                                                                                         [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe dish page unlocks the verified form from an order link[39m[90m                                                     [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe order page offers a rating link only when the order is complete[39m[90m                                            [39m [90m0.15s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma visitor reply waits for approval[39m[90m                                                                             [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreplies are only possible on live reviews[39m[90m                                                                      [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mreply validation and rate limit[39m[90m                                                                                [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstaff replies go live with a restaurant badge[39m[90m                                                                  [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe review gets its own share links[39m[90m                                                                            [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe admin list filters[39m[90m                                                                                         [39m [90m0.26s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly staff can moderate[39m[90m                                                                                        [39m [90m0.16s[39m  
+  [32;1m✓[39;22m[90m [39m[90monly managers can delete and the stats follow[39m[90m                                                                  [39m [90m0.13s[39m  
+  [32;1m✓[39;22m[90m [39m[90mthe dashboard counts everything waiting[39m[90m                                                                        [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90ma deleted dish keeps its reviews out of sight[39m[90m                                                                  [39m [90m0.12s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\SecurityHeadersTest[39m
+  [32;1m✓[39;22m[90m [39m[90mbasic security headers are sent[39m[90m                                                                                [39m [90m0.19s[39m  
+  [32;1m✓[39;22m[90m [39m[90mcontent security policy is sent and can be switched off[39m[90m                                                        [39m [90m0.21s[39m  
+  [32;1m✓[39;22m[90m [39m[90mprivate pages are not cached or indexed[39m[90m                                                                        [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpublic pages are cacheable and indexable[39m[90m                                                                       [39m [90m0.15s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\SeoTest[39m
+  [32;1m✓[39;22m[90m [39m[90mhome page has title canonical open graph and structured data[39m[90m                                                   [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mitem page has menu item structured data with the price[39m[90m                                                         [39m [90m0.12s[39m  
+  [32;1m✓[39;22m[90m [39m[90mpersonal pages are marked noindex[39m[90m                                                                              [39m [90m0.10s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrobots txt blocks everything outside production[39m[90m                                                                [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mrobots txt in production hides private areas and lists the sitemap[39m[90m                                             [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90msitemap lists visible items only[39m[90m                                                                               [39m [90m0.11s[39m  
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\DeliveryTest[22m [90m>[39m rider fees are a cost in profit and loss on the day of delivery                    
+[39;1m  Failed asserting that 1270.0 is identical to -50.0.[39;22m
+
+  at [32mtests\Feature\DeliveryTest.php[39m:[32m506[39m
+    502▕         $analytics = app(AnalyticsService::class);
+    503▕         $today = $analytics->profitLoss(Carbon::parse('2026-11-15')->startOfDay(), Carbon::parse('2026-11-15')->endOfDay(), 'daily');
+    504▕ 
+    505▕         $this->assertSame(50.0, $today['summary']['courier']);
+  ➜ 506▕         $this->assertSame(-50.0, $today['summary']['net']);
+    507▕         $this->assertSame(50.0, $today['series'][0]['costs']);
+    508▕ 
+    509▕         $week = $analytics->profitLoss(Carbon::parse('2026-11-09')->startOfDay(), Carbon::parse('2026-11-15')->endOfDay(), 'daily', false);
+    510▕         $this->assertSame(120.0, $week['summary']['courier']);
+
+  [33m1   [39m[39;1mtests\Feature\DeliveryTest.php[39;22m:[39;1m506[39;22m
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\DeliveryZoneTest[22m [90m>[39m the checkout page offers the areas with their totals                           
+[39;1m  Expected: [39;22m[31m<!DOCTYPE html>\r\n
+[39m[31m<html lang="en">[39m[31m\r\n
+\r\n
+[39m[31m<head>[39m[31m\r\n
+    [39m[31m<meta charset="utf-8">[39m[31m\r\n
+    [39m[31m<meta name="viewport" content="width=device-width, initial-scale=1">[39m[31m\r\n
+    [39m[31m<meta name="csrf-token" content="RY7yyur7Rc114Vri8GcHuN3JVUgnLhxgvswLNE45">[39m[31m\r\n
+    [39m[31m<meta name="theme-color" content="#172B4D">[39m[31m\r\n
+    [39m[31m<title>[39m[31mCheckout | Meher Cuisine[39m[31m</title>[39m[31m\r\n
+    [39m[31m<meta name="description" content="">[39m[31m\r\n
+                            [39m[31m<meta name="robots" content="noindex,nofollow">[39m[31m\r\n
+    \r\n
+    [39m[31m<meta property="og:site_name" content="Meher Cuisine">[39m[31m\r\n
+    [39m[31m<meta property="og:type" content="website">[39m[31m\r\n
+    [39m[31m<meta property="og:title" content="Checkout | Meher Cuisine">[39m[31m\r\n
+    [39m[31m<meta property="og:description" content="">[39m[31m\r\n
+    [39m[31m<meta property="og:url" content="http://localhost/checkout">[39m[31m\r\n
+    [39m[31m<meta property="og:locale" content="en_US">[39m[31m\r\n
+        [39m[31m<meta name="twitter:card" content="summary">[39m[31m\r\n
+\r\n
+        [39m[31m</head>[39m[31m\r\n
+\r\n
+[39m[31m<body class="flex min-h-screen flex-col" data-cart-error="Something went wrong. Please try again.">[39m[31m\r\n
+    [39m[31m<a href="#main"\r\n
+        class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-3">[39m[31mSkip to content[39m[31m</a>[39m[31m\r\n
+\r\n
+    [39m[31m<header class="section-themed sticky top-0 z-40 shadow-md" data-tone="dark"\r\n
+    style="--sec-bg: #172B4D;">[39m[31m<div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">[39m[31m\r\n
+        [39m[31m<a href="http://localhost" class="flex items-center gap-2 font-heading text-2xl font-bold tracking-wide">[39m[31m\r\n
+                            Meher Cuisine\r\n
+                    [39m[31m</a>[39m[31m\r\n
+\r\n
+        [39m[31m<nav aria-label="Primary" class="hidden items-center gap-8 lg:flex">[39m[31m\r\n
+                                            [39m[31m<a href="http://localhost"                     class="text-sm font-medium transition hover:text-(--accent) opacity-90">[39m[31m\r\n
+                    Home\r\n
+                [39m[31m</a>[39m[31m\r\n
+                                            [39m[31m<a href="http://localhost/menu"                     class="text-sm font-medium transition hover:text-(--accent) opacity-90">[39m[31m\r\n
+                    Menu\r\n
+                [39m[31m</a>[39m[31m\r\n
+                                            [39m[31m<a href="http://localhost/about"                     class="text-sm font-medium transition hover:text-(--accent) opacity-90">[39m[31m\r\n
+                    About\r\n
+                [39m[31m</a>[39m[31m\r\n
+                                            [39m[31m<a href="http://localhost/gallery"                     class="text-sm font-medium transition hover:text-(--accent) opacity-90">[39m[31m\r\n
+                    Gallery\r\n
+                [39m[31m</a>[39m[31m\r\n
+                                            [39m[31m<a href="http://localhost/contact"                     class="text-sm font-medium transition hover:text-(--accent) opacity-90">[39m[31m\r\n
+                    Contact\r\n
+                [39m[31m</a>[39m[31m\r\n
+            \r\n
+                    [39m[31m</nav>[39m[31m\r\n
+\r\n
+        [39m[31m<div class="hidden items-center gap-4 lg:flex">[39m[31m\r\n
+            [39m[31m<a href="http://localhost/cart" class="relative rounded-full p-2 hover:bg-current/10"\r\n
+        aria-label="Your Cart">[39m[31m\r\n
+        [39m[31m<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">[39m[31m\r\n
+            [39m[31m<path stroke-linecap="round" stroke-linejoin="round"\r\n
+                d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />[39m[31m\r\n
+        [39m[31m</svg>[39m[31m\r\n
+        [39m[31m<span data-cart-count\r\n
+            class="absolute -right-1 -top-1 min-w-5 rounded-full bg-terracotta-dark px-1.5 text-center text-xs font-semibold text-white ">[39m[31m1[39m[31m</span>[39m[31m\r\n
+    [39m[31m</a>[39m[31m\r\n
+            [39m[31m<div class="flex items-center gap-1 text-sm" role="group" aria-label="Language">[39m[31m\r\n
+                [39m[31m<a href="http://localhost/lang/en" lang="en"\r\n
+                     aria-current="true"                     class="rounded px-2 py-1 bg-current/15 font-semibold">[39m[31mEN[39m[31m</a>[39m[31m\r\n
+                [39m[31m<a href="http://localhost/lang/bn" lang="bn"\r\n
+                                        class="rounded px-2 py-1 opacity-70 hover:opacity-100">[39m[31mবাং[39m[31m</a>[39m[31m\r\n
+            [39m[31m</div>[39m[31m\r\n
+            [39m[31m<a href="http://localhost/reservations" class="btn-accent">[39m[31mReserve a Table[39m[31m</a>[39m[31m\r\n
+        [39m[31m</div>[39m[31m\r\n
+\r\n
+        [39m[31m<div class="flex items-center gap-1 lg:hidden">[39m[31m\r\n
+            [39m[31m<a href="http://localhost/cart" class="relative rounded-full p-2 hover:bg-current/10"\r\n
+        aria-label="Your Cart">[39m[31m\r\n
+        [39m[31m<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">[39m[31m\r\n
+            [39m[31m<path stroke-linecap="round" stroke-linejoin="round"\r\n
+                d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />[39m[31m\r\n
+        [39m[31m</svg>[39m[31m\r\n
+        [39m[31m<span data-cart-count\r\n
+            class="absolute -right-1 -top-1 min-w-5 rounded-full bg-terracotta-dark px-1.5 text-center text-xs font-semibold text-white ">[39m[31m1[39m[31m</span>[39m[31m\r\n
+    [39m[31m</a>[39m[31m\r\n
+            [39m[31m<button id="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" class="rounded p-2"\r\n
+                aria-label="Toggle menu">[39m[31m\r\n
+                [39m[31m<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"\r\n
+                    aria-hidden="true">[39m[31m\r\n
+                    [39m[31m<path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />[39m[31m\r\n
+                [39m[31m</svg>[39m[31m\r\n
+            [39m[31m</button>[39m[31m\r\n
+        [39m[31m</div>[39m[31m\r\n
+    [39m[31m</div>[39m[31m\r\n
+\r\n
+    [39m[31m<div id="mobile-nav" class="hidden border-t border-current/10 px-6 pb-6 lg:hidden">[39m[31m\r\n
+        [39m[31m<nav aria-label="Mobile" class="flex flex-col gap-1 pt-4">[39m[31m\r\n
+                            [39m[31m<a href="http://localhost"\r\n
+                    class="rounded px-2 py-3 text-base hover:bg-current/10">[39m[31mHome[39m[31m</a>[39m[31m\r\n
+                            [39m[31m<a href="http://localhost/menu"\r\n
+                    class="rounded px-2 py-3 text-base hover:bg-current/10">[39m[31mMenu[39m[31m</a>[39m[31m\r\n
+                            [39m[31m<a href="http://localhost/about"\r\n
+                    class="rounded px-2 py-3 text-base hover:bg-current/10">[39m[31mAbout[39m[31m</a>[39m[31m\r\n
+                            [39m[31m<a href="http://localhost/gallery"\r\n
+                    class="rounded px-2 py-3 text-base hover:bg-current/10">[39m[31mGallery[39m[31m</a>[39m[31m\r\n
+                            [39m[31m<a href="http://localhost/contact"\r\n
+                    class="rounded px-2 py-3 text-base hover:bg-current/10">[39m[31mContact[39m[31m</a>[39m[31m\r\n
+            \r\n
+                    [39m[31m</nav>[39m[31m\r\n
+        [39m[31m<div class="mt-4 flex items-center justify-between">[39m[31m\r\n
+            [39m[31m<div class="flex gap-2 text-sm">[39m[31m\r\n
+                [39m[31m<a href="http://localhost/lang/en" lang="en"\r\n
+                    class="rounded px-3 py-2 bg-current/15 font-semibold">[39m[31mEN[39m[31m</a>[39m[31m\r\n
+                [39m[31m<a href="http://localhost/lang/bn" lang="bn"\r\n
+                    class="rounded px-3 py-2 ">[39m[31mবাংলা[39m[31m</a>[39m[31m\r\n
+            [39m[31m</div>[39m[31m\r\n
+            [39m[31m<a href="http://localhost/reservations" class="btn-accent">[39m[31mReserve a Table[39m[31m</a>[39m[31m\r\n
+        [39m[31m</div>[39m[31m\r\n
+    [39m[31m</div>[39m[31m</header>[39m[31m\r\n
+\r\n
+    [39m[31m<main id="main" tabindex="-1" class="flex-1 focus:outline-none">[39m[31m<section class="mx-auto max-w-6xl px-6 py-12">[39m[31m\r\n
+        [39m[31m<h1 class="text-4xl font-bold">[39m[31mCheckout[39m[31m</h1>[39m[31m\r\n
+\r\n
+        [39m[31m<div class="mt-8 grid gap-8 lg:grid-cols-3">[39m[31m\r\n
+            [39m[31m<form id="checkout-form" method="POST" action="http://localhost/checkout" data-ajax-form\r\n
+                data-totals="{&quot;delivery&quot;:{&quot;fee&quot;:&quot;\u09f3 60&quot;,&quot;total&quot;:&quot;\u09f3 560&quot;},&quot;pickup&quot;:{&quot;fee&quot;:&quot;Free&quot;,&quot;total&quot;:&quot;\u09f3 500&quot;}}"\r\n
+                 data-zones="{&quot;1&quot;:{&quot;fee&quot;:&quot;\u09f3 80&quot;,&quot;total&quot;:&quot;\u09f3 580&quot;,&quot;note&quot;:&quot;The minimum order for this area is \u09f3 600.&quot;},&quot;2&quot;:{&quot;fee&quot;:&quot;Free&quot;,&quot;total&quot;:&quot;\u09f3 500&quot;,&quot;note&quot;:&quot;&quot;}}"                 data-msg-error="Something went wrong. Please try again." data-msg-throttled="Too many attempts. Please wait a few minutes and try again."\r\n
+                class="card space-y-5 p-6 sm:p-8 lg:col-span-2">[39m[31m\r\n
+                [39m[31m<input type="hidden" name="_token" value="RY7yyur7Rc114Vri8GcHuN3JVUgnLhxgvswLNE45" autocomplete="off">[39m[31m\r\n
+                [39m[31m<p data-error-for="cart" role="alert" class="text-sm font-semibold text-red-700">[39m[31m</p>[39m[31m\r\n
+\r\n
+                                    [39m[31m<fieldset>[39m[31m\r\n
+                        [39m[31m<legend class="text-sm font-medium text-navy">[39m[31mHow would you like to receive your order?[39m[31m</legend>[39m[31m\r\n
+                        [39m[31m<div class="mt-2 flex flex-wrap gap-4">[39m[31m\r\n
+                                                            [39m[31m<label\r\n
+                                    class="flex items-center gap-2 rounded-lg border border-navy/20 bg-surface px-4 py-3 text-sm">[39m[31m\r\n
+                                    [39m[31m<input type="radio" name="type" value="delivery" class="accent-navy"\r\n
+                                        checked>[39m[31m Delivery\r\n
+                                [39m[31m</label>[39m[31m\r\n
+                                                            [39m[31m<label\r\n
+                                    class="flex items-center gap-2 rounded-lg border border-navy/20 bg-surface px-4 py-3 text-sm">[39m[31m\r\n
+                                    [39m[31m<input type="radio" name="type" value="pickup" class="accent-navy"\r\n
+                                        >[39m[31m Pickup\r\n
+                                [39m[31m</label>[39m[31m\r\n
+                                                    [39m[31m</div>[39m[31m\r\n
+                        [39m[31m<p data-error-for="type" class="mt-1 text-sm text-red-700">[39m[31m</p>[39m[31m\r\n
+                    [39m[31m</fieldset>[39m[31m\r\n
+                \r\n
+                [39m[31m<h2 class="text-xl font-semibold">[39m[31mYour details[39m[31m</h2>[39m[31m\r\n
+                [39m[31m<div>[39m[31m\r\n
+    [39m[31m<label for="name" class="block text-sm font-medium text-navy">[39m[31m\r\n
+        Full name            [39m[31m<span aria-hidden="true" class="text-terracotta-dark">[39m[31m *[39m[31m</span>[39m[31m\r\n
+            [39m[31m</label>[39m[31m\r\n
+    [39m[31m<input id="name" name="name" type="text" value=""\r\n
+        required aria-describedby="name-error"\r\n
+                class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta aria-[invalid=true]:border-red-700" maxlength="100" autocomplete="name">[39m[31m\r\n
+    [39m[31m<p id="name-error" aria-live="polite" data-error-for="name"\r\n
+        class="mt-1 text-sm text-red-700">[39m[31m\r\n
+        [39m[31m</p>[39m[31m\r\n
+[39m[31m</div>[39m[31m\r\n
+                [39m[31m<div class="grid gap-5 sm:grid-cols-2">[39m[31m\r\n
+                    [39m[31m<div>[39m[31m\r\n
+    [39m[31m<label for="phone" class="block text-sm font-medium text-navy">[39m[31m\r\n
+        Phone number            [39m[31m<span aria-hidden="true" class="text-terracotta-dark">[39m[31m *[39m[31m</span>[39m[31m\r\n
+            [39m[31m</label>[39m[31m\r\n
+    [39m[31m<input id="phone" name="phone" type="tel" value=""\r\n
+        required aria-describedby="phone-error"\r\n
+                class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta aria-[invalid=true]:border-red-700" maxlength="20" autocomplete="tel">[39m[31m\r\n
+    [39m[31m<p id="phone-error" aria-live="polite" data-error-for="phone"\r\n
+        class="mt-1 text-sm text-red-700">[39m[31m\r\n
+        [39m[31m</p>[39m[31m\r\n
+[39m[31m</div>[39m[31m\r\n
+                    [39m[31m<div>[39m[31m\r\n
+    [39m[31m<label for="email" class="block text-sm font-medium text-navy">[39m[31m\r\n
+        Email (optional, for order updates)    [39m[31m</label>[39m[31m\r\n
+    [39m[31m<input id="email" name="email" type="email" value=""\r\n
+         aria-describedby="email-error"\r\n
+                class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta aria-[invalid=true]:border-red-700" maxlength="150" autocomplete="email">[39m[31m\r\n
+    [39m[31m<p id="email-error" aria-live="polite" data-error-for="email"\r\n
+        class="mt-1 text-sm text-red-700">[39m[31m\r\n
+        [39m[31m</p>[39m[31m\r\n
+[39m[31m</div>[39m[31m\r\n
+                [39m[31m</div>[39m[31m\r\n
+\r\n
+                                    [39m[31m<div id="zone-wrap" class="mb-5">[39m[31m\r\n
+                        [39m[31m<label for="delivery_zone_id"\r\n
+                            class="block text-sm font-medium text-navy">[39m[31mDelivery area[39m[31m<span\r\n
+                                aria-hidden="true" class="text-terracotta-dark">[39m[31m *[39m[31m</span>[39m[31m</label>[39m[31m\r\n
+                        [39m[31m<select id="delivery_zone_id" name="delivery_zone_id"\r\n
+                            class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta">[39m[31m\r\n
+                            [39m[31m<option value="">[39m[31mChoose your area[39m[31m</option>[39m[31m\r\n
+                                                            [39m[31m<option value="1" >[39m[31m\r\n
+                                    Gulshan\r\n
+                                    (৳ 80)[39m[31m</option>[39m[31m\r\n
+                                                            [39m[31m<option value="2" >[39m[31m\r\n
+                                    Banani\r\n
+                                    (Free)[39m[31m</option>[39m[31m\r\n
+                                                    [39m[31m</select>[39m[31m\r\n
+                        [39m[31m<p data-error-for="delivery_zone_id" class="mt-1 text-sm text-red-700">[39m[31m</p>[39m[31m\r\n
+                        [39m[31m<p id="zone-note" aria-live="polite" class="mt-1 text-sm font-semibold text-terracotta-dark">[39m[31m\r\n
+                        [39m[31m</p>[39m[31m\r\n
+                    [39m[31m</div>[39m[31m\r\n
+                \r\n
+                [39m[31m<div id="address-wrap">[39m[31m\r\n
+                    [39m[31m<div>[39m[31m\r\n
+    [39m[31m<label for="address" class="block text-sm font-medium text-navy">[39m[31m\r\n
+        Delivery address    [39m[31m</label>[39m[31m\r\n
+    [39m[31m<textarea id="address" name="address" rows="3"         aria-describedby="address-error"         class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta aria-[invalid=true]:border-red-700" maxlength="300">[39m[31m</textarea>[39m[31m\r\n
+    [39m[31m<p id="address-error" aria-live="polite" data-error-for="address"\r\n
+        class="mt-1 text-sm text-red-700">[39m[31m\r\n
+        [39m[31m</p>[39m[31m\r\n
+[39m[31m</div>[39m[31m\r\n
+                [39m[31m</div>[39m[31m\r\n
+\r\n
+                [39m[31m<div>[39m[31m\r\n
+    [39m[31m<label for="notes" class="block text-sm font-medium text-navy">[39m[31m\r\n
+        Order notes (optional)    [39m[31m</label>[39m[31m\r\n
+    [39m[31m<textarea id="notes" name="notes" rows="2"         aria-describedby="notes-error"         class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta aria-[invalid=true]:border-red-700" maxlength="500">[39m[31m</textarea>[39m[31m\r\n
+    [39m[31m<p id="notes-error" aria-live="polite" data-error-for="notes"\r\n
+        class="mt-1 text-sm text-red-700">[39m[31m\r\n
+        [39m[31m</p>[39m[31m\r\n
+[39m[31m</div>[39m[31m\r\n
+\r\n
+                [39m[31m<fieldset>[39m[31m\r\n
+                    [39m[31m<legend class="text-xl font-semibold text-navy">[39m[31mPayment[39m[31m</legend>[39m[31m\r\n
+                                            [39m[31m<input type="hidden" name="payment_method" value="cod">[39m[31m\r\n
+                        [39m[31m<p class="mt-2 text-sm">[39m[31mPay with cash when your order arrives or when you collect it.[39m[31m</p>[39m[31m\r\n
+                                    [39m[31m</fieldset>[39m[31m\r\n
+\r\n
+                [39m[31m<div class="hidden" aria-hidden="true">[39m[31m<input type="text" name="website" tabindex="-1"\r\n
+                        autocomplete="off">[39m[31m</div>[39m[31m\r\n
+\r\n
+                [39m[31m<div class="flex flex-wrap gap-3">[39m[31m\r\n
+                    [39m[31m<button type="submit" class="btn-accent">[39m[31mPlace Order[39m[31m</button>[39m[31m\r\n
+                    [39m[31m<a href="http://localhost/cart"\r\n
+                        class="btn border border-navy/20 text-navy">[39m[31mBack to cart[39m[31m</a>[39m[31m\r\n
+                [39m[31m</div>[39m[31m\r\n
+            [39m[31m</form>[39m[31m\r\n
+\r\n
+            [39m[31m<aside class="card h-fit p-6">[39m[31m\r\n
+                [39m[31m<h2 class="text-xl font-semibold">[39m[31mYour items[39m[31m</h2>[39m[31m\r\n
+                [39m[31m<ul class="mt-4 space-y-2 text-sm">[39m[31m\r\n
+                                            [39m[31m<li class="flex justify-between gap-3">[39m[31m\r\n
+                            [39m[31m<span>[39m[31m1 &times; Ab Officia Quia[39m[31m</span>[39m[31m\r\n
+                            [39m[31m<span>[39m[31m৳ 500[39m[31m</span>[39m[31m\r\n
+                        [39m[31m</li>[39m[31m\r\n
+                                    [39m[31m</ul>[39m[31m\r\n
+                [39m[31m<dl class="mt-4 space-y-2 border-t border-navy/10 pt-4 text-sm">[39m[31m\r\n
+                    [39m[31m<div class="flex justify-between">[39m[31m\r\n
+                        [39m[31m<dt>[39m[31mSubtotal[39m[31m</dt>[39m[31m\r\n
+                        [39m[31m<dd>[39m[31m৳ 500[39m[31m</dd>[39m[31m\r\n
+                    [39m[31m</div>[39m[31m\r\n
+                                        [39m[31m<div class="flex justify-between">[39m[31m\r\n
+                        [39m[31m<dt>[39m[31mDelivery fee[39m[31m</dt>[39m[31m\r\n
+                        [39m[31m<dd id="sum-fee">[39m[31m৳ 60[39m[31m</dd>[39m[31m\r\n
+                    [39m[31m</div>[39m[31m\r\n
+                    [39m[31m<div class="flex justify-between text-base font-semibold text-navy">[39m[31m\r\n
+                        [39m[31m<dt>[39m[31mTotal[39m[31m</dt>[39m[31m\r\n
+                        [39m[31m<dd id="sum-total">[39m[31m৳ 560[39m[31m</dd>[39m[31m\r\n
+                    [39m[31m</div>[39m[31m\r\n
+                [39m[31m</dl>[39m[31m\r\n
+            [39m[31m</aside>[39m[31m\r\n
+        [39m[31m</div>[39m[31m\r\n
+    [39m[31m</section>[39m[31m</main>[39m[31m\r\n
+\r\n
+    [39m[31m<footer class="section-themed" data-tone="dark"\r\n
+    style="--sec-bg: #172B4D;">[39m[31m<div class="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-2 lg:grid-cols-4">[39m[31m\r\n
+        [39m[31m<div>[39m[31m\r\n
+                            [39m[31m<p class="font-heading text-2xl font-bold">[39m[31mMeher Cuisine[39m[31m</p>[39m[31m\r\n
+                        [39m[31m<p class="mt-3 text-sm opacity-80">[39m[31m</p>[39m[31m\r\n
+            [39m[31m<div class="mt-4 flex gap-4 text-sm">[39m[31m\r\n
+                [39m[31m<a href="#" class="hover:text-(--accent)" rel="noopener">[39m[31mFacebook[39m[31m</a>[39m[31m\r\n
+                [39m[31m<a href="#" class="hover:text-(--accent)" rel="noopener">[39m[31mInstagram[39m[31m</a>[39m[31m\r\n
+            [39m[31m</div>[39m[31m\r\n
+        [39m[31m</div>[39m[31m\r\n
+\r\n
+        [39m[31m<div>[39m[31m\r\n
+            [39m[31m<h2 class="font-heading text-lg">[39m[31mContact[39m[31m</h2>[39m[31m\r\n
+            [39m[31m<ul class="mt-3 space-y-2 text-sm opacity-80">[39m[31m\r\n
+                [39m[31m<li>[39m[31m</li>[39m[31m\r\n
+                [39m[31m<li>[39m[31m<a href="tel:"\r\n
+                        class="hover:underline">[39m[31m</a>[39m[31m</li>[39m[31m\r\n
+                [39m[31m<li>[39m[31m<a href="mailto:" class="hover:underline">[39m[31m</a>[39m[31m</li>[39m[31m\r\n
+            [39m[31m</ul>[39m[31m\r\n
+        [39m[31m</div>[39m[31m\r\n
+\r\n
+        [39m[31m<div>[39m[31m\r\n
+            [39m[31m<h2 class="font-heading text-lg">[39m[31mOpening Hours[39m[31m</h2>[39m[31m\r\n
+            [39m[31m<p class="mt-3 text-sm opacity-80">[39m[31mHours will be managed from the admin dashboard.[39m[31m</p>[39m[31m\r\n
+        [39m[31m</div>[39m[31m\r\n
+\r\n
+        [39m[31m<div>[39m[31m\r\n
+            [39m[31m<h2 class="font-heading text-lg">[39m[31mNewsletter[39m[31m</h2>[39m[31m\r\n
+            [39m[31m<p class="mt-3 text-sm opacity-80">[39m[31mOffers and news, no spam.[39m[31m</p>[39m[31m\r\n
+            [39m[31m<form method="POST" action="http://localhost/newsletter" data-ajax-form\r\n
+                data-msg-error="Something went wrong. Please try again."\r\n
+                data-msg-throttled="Too many attempts. Please wait a few minutes and try again." class="mt-3">[39m[31m\r\n
+                [39m[31m<input type="hidden" name="_token" value="RY7yyur7Rc114Vri8GcHuN3JVUgnLhxgvswLNE45" autocomplete="off">[39m[31m                [39m[31m<div class="flex gap-2">[39m[31m\r\n
+                    [39m[31m<label for="newsletter-email" class="sr-only">[39m[31mYour email[39m[31m</label>[39m[31m\r\n
+                    [39m[31m<input id="newsletter-email" type="email" name="email" required maxlength="150"\r\n
+                        autocomplete="email" placeholder="Your email"\r\n
+                        aria-describedby="email-error-footer"\r\n
+                        class="w-full rounded-full border-0 bg-white px-4 py-2 text-sm text-charcoal">[39m[31m\r\n
+                    [39m[31m<button type="submit"\r\n
+                        class="btn-accent shrink-0 px-4! py-2!">[39m[31mSubscribe[39m[31m</button>[39m[31m\r\n
+                [39m[31m</div>[39m[31m\r\n
+                [39m[31m<div class="hidden" aria-hidden="true">[39m[31m<input type="text" name="website" tabindex="-1"\r\n
+                        autocomplete="off">[39m[31m</div>[39m[31m\r\n
+                [39m[31m<p id="email-error-footer" data-error-for="email" class="mt-1 text-sm font-semibold text-(--accent)">[39m[31m\r\n
+                [39m[31m</p>[39m[31m\r\n
+            [39m[31m</form>[39m[31m\r\n
+        [39m[31m</div>[39m[31m\r\n
+    [39m[31m</div>[39m[31m\r\n
+\r\n
+    [39m[31m<div class="border-t border-current/10 px-6 py-5 text-center text-xs opacity-80">[39m[31m\r\n
+        [39m[31m<nav aria-label="Footer" class="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-2">[39m[31m\r\n
+            [39m[31m<a href="http://localhost/offers" class="hover:underline">[39m[31mOffers[39m[31m</a>[39m[31m\r\n
+            [39m[31m<a href="http://localhost/testimonials" class="hover:underline">[39m[31mReviews[39m[31m</a>[39m[31m\r\n
+            [39m[31m<a href="http://localhost/faq" class="hover:underline">[39m[31mFAQ[39m[31m</a>[39m[31m\r\n
+            [39m[31m<a href="http://localhost/orders/track" class="hover:underline">[39m[31mTrack an order[39m[31m</a>[39m[31m\r\n
+            [39m[31m<a href="http://localhost/privacy-policy" class="hover:underline">[39m[31mPrivacy Policy[39m[31m</a>[39m[31m\r\n
+            [39m[31m<a href="http://localhost/terms-and-conditions" class="hover:underline">[39m[31mTerms &amp; Conditions[39m[31m</a>[39m[31m\r\n
+\r\n
+                    [39m[31m</nav>[39m[31m\r\n
+        &copy; 2026 Meher Cuisine. All rights reserved.\r\n
+            [39m[31m</div>[39m[31m</footer>[39m[31m\r\n
+\r\n
+    [39m[31m<div class="fixed bottom-4 right-4 z-40 flex flex-col items-center gap-3">[39m[31m\r\n
+                    [39m[31m<div data-back-to-top-wrap class="hidden">[39m[31m\r\n
+                [39m[31m<button type="button" aria-label="Back to top"\r\n
+                    class="flex h-12 w-12 items-center justify-center rounded-full bg-navy text-white shadow-lg ring-2 ring-white/70 transition hover:scale-105">[39m[31m\r\n
+                    [39m[31m<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"\r\n
+                        aria-hidden="true">[39m[31m\r\n
+                        [39m[31m<path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M5 12l7-7 7 7" />[39m[31m\r\n
+                    [39m[31m</svg>[39m[31m\r\n
+                [39m[31m</button>[39m[31m\r\n
+            [39m[31m</div>[39m[31m\r\n
+        \r\n
+            [39m[31m</div>[39m[31m\r\n
+\r\n
+    [39m[31m</body>[39m[31m\r\n
+\r\n
+[39m[31m</html>[39m[31m\r\n
+[39m[39;1m
+
+  To contain: [39;22m[32mGulshan (৳ 80)[39m
+
+  at [32mtests\Feature\DeliveryZoneTest.php[39m:[32m204[39m
+    200▕         $this->get('/checkout')
+    201▕             ->assertOk()
+    202▕             ->assertSee('name="delivery_zone_id"', false)
+    203▕             ->assertSee('data-zones', false)
+  ➜ 204▕             ->assertSee('Gulshan (৳ 80)')
+    205▕             ->assertSee('Banani (Free)')
+    206▕             ->assertViewHas('zoneTotals', fn($z) => $z[$gulshan->id]['fee'] === '৳ 80'
+    207▕                 && $z[$gulshan->id]['total'] === '৳ 580'
+    208▕                 && str_contains($z[$gulshan->id]['note'], '৳ 600')
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\ExampleTest[22m [90m>[39m the application returns a successful response                                       
+[39;1m  Expected response status code [200] but received 500.
+Failed asserting that 500 is identical to 200.
+
+The following exception occurred during the last request:
+
+PDOException: SQLSTATE[HY000]: General error: 1 no such table: home_sections in C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Connection.php:442
+Stack trace:
+#0 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Connection.php(442): PDO->prepare('select * from "...')
+#1 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Connection.php(853): Illuminate\Database\Connection->{closure:Illuminate\Database\Connection::select():433}('select * from "...', Array)
+#2 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Connection.php(820): Illuminate\Database\Connection->runQueryCallback('select * from "...', Array, Object(Closure))
+#3 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Connection.php(433): Illuminate\Database\Connection->run('select * from "...', Array, Object(Closure))
+#4 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3640): Illuminate\Database\Connection->select('select * from "...', Array, true, Array)
+#5 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3624): Illuminate\Database\Query\Builder->runSelect()
+#6 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(951): Illuminate\Database\Query\Builder->get(Array)
+#7 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(933): Illuminate\Database\Eloquent\Builder->getModels(Array)
+#8 C:\xampp\htdocs\restaurent\app\Http\Controllers\HomeController.php(24): Illuminate\Database\Eloquent\Builder->get()
+#9 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(46): App\Http\Controllers\HomeController->__invoke()
+#10 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Route.php(276): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(App\Http\Controllers\HomeController), '__invoke')
+#11 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Route.php(216): Illuminate\Routing\Route->runController()
+#12 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(834): Illuminate\Routing\Route->run()
+#13 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Routing\Router->{closure:Illuminate\Routing\Router::runRouteWithinStack():833}(Object(Illuminate\Http\Request))
+#14 C:\xampp\htdocs\restaurent\app\Http\Middleware\MaintenanceMode.php(15): Illuminate\Pipeline\Pipeline->{closure:Illuminate\Pipeline\Pipeline::prepareDestination():178}(Object(Illuminate\Http\Request))
+#15 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\MaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
+#16 C:\xampp\htdocs\restaurent\app\Http\Middleware\SecurityHeaders.php(17): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#17 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\SecurityHeaders->handle(Object(Illuminate\Http\Request), Object(Closure))
+#18 C:\xampp\htdocs\restaurent\app\Http\Middleware\SetLocale.php(21): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#19 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\SetLocale->handle(Object(Illuminate\Http\Request), Object(Closure))
+#20 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Middleware\SubstituteBindings.php(52): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#21 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Routing\Middleware\SubstituteBindings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#22 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestForgery.php(104): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\PreventRequestForgery->handle(Object(Illuminate\Http\Request), Object(Closure))
+#24 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\View\Middleware\ShareErrorsFromSession.php(48): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#25 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#26 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(120): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#27 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(63): Illuminate\Session\Middleware\StartSession->handleStatefulRequest(Object(Illuminate\Http\Request), Object(Illuminate\Session\Store), Object(Closure))
+#28 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#29 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse.php(36): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#30 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
+#31 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\EncryptCookies.php(74): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#32 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#33 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#34 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(833): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#35 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(812): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#36 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(776): Illuminate\Routing\Router->runRoute(Object(Illuminate\Http\Request), Object(Illuminate\Routing\Route))
+#37 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(765): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#38 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(200): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#39 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Kernel->{closure:Illuminate\Foundation\Http\Kernel::dispatchToRouter():197}(Object(Illuminate\Http\Request))
+#40 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(38): Illuminate\Pipeline\Pipeline->{closure:Illuminate\Pipeline\Pipeline::prepareDestination():178}(Object(Illuminate\Http\Request))
+#41 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#42 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
+#43 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(38): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#44 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(51): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#45 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#46 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#47 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
+#48 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php(110): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#49 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance->handle(Object(Illuminate\Http\Request), Object(Closure))
+#50 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(61): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#51 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
+#52 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(58): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#53 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#54 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks.php(22): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#55 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks->handle(Object(Illuminate\Http\Request), Object(Closure))
+#56 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePathEncoding.php(28): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#57 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePathEncoding->handle(Object(Illuminate\Http\Request), Object(Closure))
+#58 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#59 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(175): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#60 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(144): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#61 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(638): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#62 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(368): Illuminate\Foundation\Testing\TestCase->call('GET', '/', Array, Array, Array, Array)
+#63 C:\xampp\htdocs\restaurent\tests\Feature\ExampleTest.php(15): Illuminate\Foundation\Testing\TestCase->get('/')
+#64 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestCase.php(1320): Tests\Feature\ExampleTest->test_the_application_returns_a_successful_response()
+#65 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestCase.php(1357): PHPUnit\Framework\TestCase->invokeTestMethod('test_the_applic...', Array)
+#66 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestCase.php(521): PHPUnit\Framework\TestCase->runTest()
+#67 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestRunner\TestRunner.php(98): PHPUnit\Framework\TestCase->runBare()
+#68 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestCase.php(361): PHPUnit\Framework\TestRunner->run(Object(Tests\Feature\ExampleTest))
+#69 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestSuite.php(382): PHPUnit\Framework\TestCase->run()
+#70 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestSuite.php(382): PHPUnit\Framework\TestSuite->run()
+#71 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestSuite.php(382): PHPUnit\Framework\TestSuite->run()
+#72 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\TextUI\TestRunner.php(64): PHPUnit\Framework\TestSuite->run()
+#73 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\TextUI\Application.php(228): PHPUnit\TextUI\TestRunner->run(Object(PHPUnit\TextUI\Configuration\Configuration), Object(PHPUnit\Runner\ResultCache\DefaultResultCache), Object(PHPUnit\Framework\TestSuite))
+#74 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\phpunit(104): PHPUnit\TextUI\Application->run(Array)
+#75 {main}
+
+Next Illuminate\Database\QueryException: SQLSTATE[HY000]: General error: 1 no such table: home_sections (Connection: sqlite, Database: :memory:, SQL: select * from "home_sections" order by "sort_order" asc, "id" asc) in C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Connection.php:864
+Stack trace:
+#0 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Connection.php(820): Illuminate\Database\Connection->runQueryCallback('select * from "...', Array, Object(Closure))
+#1 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Connection.php(433): Illuminate\Database\Connection->run('select * from "...', Array, Object(Closure))
+#2 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3640): Illuminate\Database\Connection->select('select * from "...', Array, true, Array)
+#3 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(3624): Illuminate\Database\Query\Builder->runSelect()
+#4 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(951): Illuminate\Database\Query\Builder->get(Array)
+#5 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(933): Illuminate\Database\Eloquent\Builder->getModels(Array)
+#6 C:\xampp\htdocs\restaurent\app\Http\Controllers\HomeController.php(24): Illuminate\Database\Eloquent\Builder->get()
+#7 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(46): App\Http\Controllers\HomeController->__invoke()
+#8 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Route.php(276): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(App\Http\Controllers\HomeController), '__invoke')
+#9 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Route.php(216): Illuminate\Routing\Route->runController()
+#10 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(834): Illuminate\Routing\Route->run()
+#11 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Routing\Router->{closure:Illuminate\Routing\Router::runRouteWithinStack():833}(Object(Illuminate\Http\Request))
+#12 C:\xampp\htdocs\restaurent\app\Http\Middleware\MaintenanceMode.php(15): Illuminate\Pipeline\Pipeline->{closure:Illuminate\Pipeline\Pipeline::prepareDestination():178}(Object(Illuminate\Http\Request))
+#13 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\MaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
+#14 C:\xampp\htdocs\restaurent\app\Http\Middleware\SecurityHeaders.php(17): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#15 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\SecurityHeaders->handle(Object(Illuminate\Http\Request), Object(Closure))
+#16 C:\xampp\htdocs\restaurent\app\Http\Middleware\SetLocale.php(21): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#17 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): App\Http\Middleware\SetLocale->handle(Object(Illuminate\Http\Request), Object(Closure))
+#18 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Middleware\SubstituteBindings.php(52): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#19 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Routing\Middleware\SubstituteBindings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#20 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestForgery.php(104): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#21 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\PreventRequestForgery->handle(Object(Illuminate\Http\Request), Object(Closure))
+#22 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\View\Middleware\ShareErrorsFromSession.php(48): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\View\Middleware\ShareErrorsFromSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#24 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(120): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#25 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Session\Middleware\StartSession.php(63): Illuminate\Session\Middleware\StartSession->handleStatefulRequest(Object(Illuminate\Http\Request), Object(Illuminate\Session\Store), Object(Closure))
+#26 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Session\Middleware\StartSession->handle(Object(Illuminate\Http\Request), Object(Closure))
+#27 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse.php(36): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#28 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse->handle(Object(Illuminate\Http\Request), Object(Closure))
+#29 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Cookie\Middleware\EncryptCookies.php(74): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#30 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Cookie\Middleware\EncryptCookies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#31 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#32 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(833): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#33 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(812): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#34 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(776): Illuminate\Routing\Router->runRoute(Object(Illuminate\Http\Request), Object(Illuminate\Routing\Route))
+#35 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Routing\Router.php(765): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#36 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(200): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#37 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(180): Illuminate\Foundation\Http\Kernel->{closure:Illuminate\Foundation\Http\Kernel::dispatchToRouter():197}(Object(Illuminate\Http\Request))
+#38 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(38): Illuminate\Pipeline\Pipeline->{closure:Illuminate\Pipeline\Pipeline::prepareDestination():178}(Object(Illuminate\Http\Request))
+#39 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#40 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
+#41 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(38): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#42 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php(51): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#43 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#44 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#45 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
+#46 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php(110): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#47 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance->handle(Object(Illuminate\Http\Request), Object(Closure))
+#48 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php(61): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#49 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
+#50 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php(58): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#51 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#52 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks.php(22): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#53 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks->handle(Object(Illuminate\Http\Request), Object(Closure))
+#54 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePathEncoding.php(28): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#55 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(219): Illuminate\Http\Middleware\ValidatePathEncoding->handle(Object(Illuminate\Http\Request), Object(Closure))
+#56 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(137): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#57 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(175): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#58 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(144): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#59 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(638): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#60 C:\xampp\htdocs\restaurent\vendor\laravel\framework\src\Illuminate\Foundation\Testing\Concerns\MakesHttpRequests.php(368): Illuminate\Foundation\Testing\TestCase->call('GET', '/', Array, Array, Array, Array)
+#61 C:\xampp\htdocs\restaurent\tests\Feature\ExampleTest.php(15): Illuminate\Foundation\Testing\TestCase->get('/')
+#62 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestCase.php(1320): Tests\Feature\ExampleTest->test_the_application_returns_a_successful_response()
+#63 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestCase.php(1357): PHPUnit\Framework\TestCase->invokeTestMethod('test_the_applic...', Array)
+#64 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestCase.php(521): PHPUnit\Framework\TestCase->runTest()
+#65 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestRunner\TestRunner.php(98): PHPUnit\Framework\TestCase->runBare()
+#66 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestCase.php(361): PHPUnit\Framework\TestRunner->run(Object(Tests\Feature\ExampleTest))
+#67 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestSuite.php(382): PHPUnit\Framework\TestCase->run()
+#68 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestSuite.php(382): PHPUnit\Framework\TestSuite->run()
+#69 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\Framework\TestSuite.php(382): PHPUnit\Framework\TestSuite->run()
+#70 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\TextUI\TestRunner.php(64): PHPUnit\Framework\TestSuite->run()
+#71 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\src\TextUI\Application.php(228): PHPUnit\TextUI\TestRunner->run(Object(PHPUnit\TextUI\Configuration\Configuration), Object(PHPUnit\Runner\ResultCache\DefaultResultCache), Object(PHPUnit\Framework\TestSuite))
+#72 C:\xampp\htdocs\restaurent\vendor\phpunit\phpunit\phpunit(104): PHPUnit\TextUI\Application->run(Array)
+#73 {main}
+
+----------------------------------------------------------------------------------
+
+SQLSTATE[HY000]: General error: 1 no such table: home_sections (Connection: sqlite, Database: :memory:, SQL: select * from "home_sections" order by "sort_order" asc, "id" asc)[39;22m
+
+  at [32mtests\Feature\ExampleTest.php[39m:[32m17[39m
+     13▕     public function test_the_application_returns_a_successful_response(): void
+     14▕     {
+     15▕         $response = $this->get('/');
+     16▕ 
+  ➜  17▕         $response->assertStatus(200);
+     18▕     }
+     19▕ }
+     20▕
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\OperationsToolsTest[22m [90m>[39m the daily summary is emailed                                                
+[39;1m  Expected: [39;22m[31m<!DOCTYPE html>\r\n
+[39m[31m<html lang="en">[39m[31m\r\n
+\r\n
+[39m[31m<body style="font-family: Arial, sans-serif; color: #292D32; line-height: 1.6;">[39m[31m\r\n
+    [39m[31m<h2 style="color: #172B4D;">[39m[31mSales summary for 15 Nov 2026[39m[31m</h2>[39m[31m\r\n
+\r\n
+    [39m[31m<p style="font-size: 18px;">[39m[31m<strong>[39m[31m৳ 620[39m[31m</strong>[39m[31m from\r\n
+        [39m[31m<strong>[39m[31m1[39m[31m</strong>[39m[31m order\r\n
+        (average ৳ 620).\r\n
+            [39m[31m</p>[39m[31m\r\n
+\r\n
+    [39m[31m<table style="border-collapse: collapse;">[39m[31m\r\n
+        [39m[31m<tr>[39m[31m\r\n
+            [39m[31m<td style="padding: 2px 16px 2px 0;">[39m[31mPortions sold[39m[31m</td>[39m[31m\r\n
+            [39m[31m<td align="right">[39m[31m2[39m[31m</td>[39m[31m\r\n
+        [39m[31m</tr>[39m[31m\r\n
+        [39m[31m<tr>[39m[31m\r\n
+            [39m[31m<td style="padding: 2px 16px 2px 0;">[39m[31mDelivery fees collected[39m[31m</td>[39m[31m\r\n
+            [39m[31m<td align="right">[39m[31m৳ 0[39m[31m</td>[39m[31m\r\n
+        [39m[31m</tr>[39m[31m\r\n
+        [39m[31m<tr>[39m[31m\r\n
+            [39m[31m<td style="padding: 2px 16px 2px 0;">[39m[31mDiscounts given[39m[31m</td>[39m[31m\r\n
+            [39m[31m<td align="right">[39m[31m৳ 0[39m[31m</td>[39m[31m\r\n
+        [39m[31m</tr>[39m[31m\r\n
+        [39m[31m<tr>[39m[31m\r\n
+            [39m[31m<td style="padding: 2px 16px 2px 0;">[39m[31mFood cost[39m[31m</td>[39m[31m\r\n
+            [39m[31m<td align="right">[39m[31m৳ 200[39m[31m</td>[39m[31m\r\n
+        [39m[31m</tr>[39m[31m\r\n
+        [39m[31m<tr>[39m[31m\r\n
+            [39m[31m<td style="padding: 2px 16px 2px 0;">[39m[31m<strong>[39m[31mEstimated profit[39m[31m</strong>[39m[31m</td>[39m[31m\r\n
+            [39m[31m<td align="right">[39m[31m<strong>[39m[31m৳ 420[39m[31m</strong>[39m[31m</td>[39m[31m\r\n
+        [39m[31m</tr>[39m[31m\r\n
+    [39m[31m</table>[39m[31m\r\n
+    \r\n
+            [39m[31m<h3 style="color: #172B4D;">[39m[31mBest sellers[39m[31m</h3>[39m[31m\r\n
+        [39m[31m<ol>[39m[31m\r\n
+                            [39m[31m<li>[39m[31mBiryani: 2 sold (৳ 620)[39m[31m</li>[39m[31m\r\n
+                    [39m[31m</ol>[39m[31m\r\n
+    \r\n
+            [39m[31m<h3 style="color: #172B4D;">[39m[31mOrders by status[39m[31m</h3>[39m[31m\r\n
+        [39m[31m<p>[39m[31m\r\n
+                            Pending: 1                    [39m[31m</p>[39m[31m\r\n
+    \r\n
+            [39m[31m<p>[39m[31m<strong>[39m[31m1[39m[31m</strong>[39m[31m ingredient is low on\r\n
+            stock.[39m[31m</p>[39m[31m\r\n
+    \r\n
+    [39m[31m<p>[39m[31m<a href="http://localhost/admin">[39m[31mOpen the dashboard[39m[31m</a>[39m[31m</p>[39m[31m\r\n
+[39m[31m</body>[39m[31m\r\n
+\r\n
+[39m[31m</html>[39m[31m\r\n
+[39m[39;1m
+
+  To contain: [39;22m[32m1 ingredient is[39m
+
+  at [32mtests\Feature\OperationsToolsTest.php[39m:[32m299[39m
+    295▕             ['cogs' => 200.0, 'net' => 420.0, 'uncosted' => 0],
+    296▕             1
+    297▕         ))->render();
+    298▕         $this->assertStringContainsString('Biryani', $html);
+  ➜ 299▕         $this->assertStringContainsString('1 ingredient is', $html);
+    300▕     }
+    301▕ 
+    302▕     public function test_the_daily_summary_needs_a_recipient_and_a_valid_date(): void
+    303▕     {
+
+  [33m1   [39m[39;1mtests\Feature\OperationsToolsTest.php[39;22m:[39;1m299[39;22m
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\OrderingTest[22m [90m>[39m quantity can be changed and lines removed                                          
+[39;1m  Expected response status code [404] but received 405.
+Failed asserting that 405 is identical to 404.[39;22m
+
+  at [32mtests\Feature\OrderingTest.php[39m:[32m111[39m
+    107▕ 
+    108▕         $this->add($item, 2);
+    109▕         $this->deleteJson(route('cart.remove', ['line' => $line]))->assertOk()->assertJson(['count' => 0]);
+    110▕ 
+  ➜ 111▕         $this->patchJson('/cart/items/abc', ['quantity' => 1])->assertNotFound();
+    112▕         $this->patchJson(route('cart.update', ['line' => '999_0_']), ['quantity' => 1])->assertOk(); // unknown line: harmless
+    113▕     }
+    114▕ 
+    115▕     // Checkout
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\OrderingTest[22m [90m>[39m checkout validation                                                                
+[39;1m  Failed to find a validation error in the response for key: 'payment_method'
+
+Response does not have JSON validation errors.
+Failed asserting that an array has the key 'payment_method'.[39;22m
+
+  at [32mtests\Feature\OrderingTest.php[39m:[32m177[39m
+    173▕         $this->checkout(['name' => ''])->assertJsonValidationErrors('name');
+    174▕         $this->checkout(['phone' => 'abc'])->assertJsonValidationErrors('phone');
+    175▕         $this->checkout(['email' => 'nope'])->assertJsonValidationErrors('email');
+    176▕         $this->checkout(['type' => 'teleport'])->assertJsonValidationErrors('type');
+  ➜ 177▕         $this->checkout(['payment_method' => 'bitcoin'])->assertJsonValidationErrors('payment_method');
+    178▕         $this->checkout(['website' => 'spam'])->assertJsonValidationErrors('website');
+    179▕ 
+    180▕         $this->assertDatabaseCount('orders', 0);
+    181▕     }
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\OrderingTest[22m [90m>[39m last redemption cannot be used twice                                               
+[39;1m  Expected response status code [422] but received 201.
+Failed asserting that 201 is identical to 422.[39;22m
+
+  at [32mtests\Feature\OrderingTest.php[39m:[32m359[39m
+    355▕ 
+    356▕         // Someone else uses it between applying and paying.
+    357▕         $coupon->update(['used_count' => 1]);
+    358▕ 
+  ➜ 359▕         $this->checkout()->assertStatus(422)->assertJsonValidationErrors('cart');
+    360▕         $this->assertDatabaseCount('orders', 0);
+    361▕         $this->assertSame(1, $coupon->fresh()->used_count);
+    362▕     }
+    363▕
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\OrderingTest[22m [90m>[39m deactivated option removes the line from the cart                                  
+[39;1m  Failed asserting that [count] matches the expected value.
+Failed asserting that 1 matches expected 0.[39;22m
+
+  at [32mtests\Feature\OrderingTest.php[39m:[32m439[39m
+    435▕         $this->add($item, 1, ['variation_id' => $half->id]);
+    436▕ 
+    437▕         $half->update(['is_active' => false]);
+    438▕ 
+  ➜ 439▕         $this->get('/cart')->assertViewHas('count', 0)->assertViewHas('removed', ['Kacchi Biryani']);
+    440▕         $this->checkout()->assertStatus(422);
+    441▕         $this->assertDatabaseCount('orders', 0);
+    442▕     }
+    443▕ }
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\ProfitLossTest[22m [90m>[39m profit and loss figures                                                          
+[39;1m  Failed asserting that 0.0 is identical to 150.0.[39;22m
+
+  at [32mtests\Feature\ProfitLossTest.php[39m:[32m108[39m
+    104▕         $this->assertSame(200.0, $s['cogs']);
+    105▕         $this->assertSame(800.0, $s['gross']);
+    106▕         $this->assertSame(80.0, $s['gross_margin']);
+    107▕         $this->assertSame(20.0, $s['wastage']);
+  ➜ 108▕         $this->assertSame(150.0, $s['expenses']);
+    109▕         $this->assertSame(630.0, $s['net']);
+    110▕         $this->assertSame(63.0, $s['net_margin']);
+    111▕         $this->assertSame(1, $s['uncosted']);
+    112▕
+
+  [33m1   [39m[39;1mtests\Feature\ProfitLossTest.php[39;22m:[39;1m108[39;22m
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\ProfitLossTest[22m [90m>[39m the summary only mode skips the detail                                           
+[39;1m  Failed asserting that 780.0 is identical to 630.0.[39;22m
+
+  at [32mtests\Feature\ProfitLossTest.php[39m:[32m137[39m
+    133▕         $this->scenario();
+    134▕ 
+    135▕         $report = $this->analytics->profitLoss(Carbon::parse('2026-11-15')->startOfDay(), Carbon::parse('2026-11-15')->endOfDay(), 'daily', false);
+    136▕ 
+  ➜ 137▕         $this->assertSame(630.0, $report['summary']['net']);
+    138▕         $this->assertArrayNotHasKey('series', $report);
+    139▕     }
+    140▕ 
+    141▕     public function test_a_loss_is_negative(): void
+
+  [33m1   [39m[39;1mtests\Feature\ProfitLossTest.php[39;22m:[39;1m137[39;22m
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\ProfitLossTest[22m [90m>[39m a loss is negative                                                               
+[39;1m  Failed asserting that 40.0 is identical to -260.0.[39;22m
+
+  at [32mtests\Feature\ProfitLossTest.php[39m:[32m148[39m
+    144▕         Expense::create(['expense_date' => '2026-11-15', 'category' => 'rent', 'amount' => '300.00']);
+    145▕ 
+    146▕         $s = $this->analytics->profitLoss(Carbon::parse('2026-11-15')->startOfDay(), Carbon::parse('2026-11-15')->endOfDay(), 'daily', false)['summary'];
+    147▕ 
+  ➜ 148▕         $this->assertSame(-260.0, $s['net']);
+    149▕     }
+    150▕ 
+    151▕     public function test_an_empty_period_is_all_zero(): void
+    152▕     {
+
+  [33m1   [39m[39;1mtests\Feature\ProfitLossTest.php[39;22m:[39;1m148[39;22m
+
+  [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\ProfitLossTest[22m [90m>[39m the report page and export                                                       
+[39;1m  Expected: [39;22m[31m﻿Period,Revenue,Costs,Profit\n
+"15 Nov",1000,220,780\n
+\n
+Revenue,1000\n
+"Food cost",200\n
+"Gross profit",800\n
+Wastage,20\n
+"Rider fees",0\n
+Expenses,0\n
+"Net profit",780\n
+[39m[39;1m
+
+  To contain: [39;22m[32mNet profit,630[39m
+
+  at [32mtests\Feature\ProfitLossTest.php[39m:[32m186[39m
+    182▕             ->assertSee('data-chart', false);
+    183▕ 
+    184▕         $csv = $this->actingAs($manager)->get('/admin/profit-loss/export?range=today')->assertOk()->streamedContent();
+    185▕         $this->assertStringStartsWith("\xEF\xBB\xBFPeriod,Revenue,Costs,Profit", $csv);
+  ➜ 186▕         $this->assertStringContainsString('Net profit,630', $csv);
+    187▕         $this->assertDatabaseHas('activity_logs', ['action' => 'report.exported', 'user_id' => $manager->id]);
+    188▕ 
+    189▕         $this->actingAs(User::factory()->staff()->create())->get('/admin/profit-loss')->assertForbidden();
+    190▕         $this->actingAs(User::factory()->staff()->create())->get('/admin/profit-loss/export')->assertForbidden();
+
+  [33m1   [39m[39;1mtests\Feature\ProfitLossTest.php[39;22m:[39;1m186[39;22m
+
+
+  [90mTests:[39m    [31;1m12 failed[39;22m[90m,[39m[39m [39m[32;1m447 passed[39;22m[90m (1984 assertions)[39m
+  [90mDuration:[39m [39m82.18s[39m
+

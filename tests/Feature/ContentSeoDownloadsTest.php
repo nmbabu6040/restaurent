@@ -393,18 +393,46 @@ class ContentSeoDownloadsTest extends TestCase
         $this->assertDatabaseHas('activity_logs', ['action' => 'export.orders', 'user_id' => $manager->id]);
     }
 
-    public function test_every_dataset_downloads_in_both_formats(): void
+    public static function datasetKeys(): array
+    {
+        return array_map(fn($key) => [$key], [
+            'orders',
+            'sales_lines',
+            'reservations',
+            'messages',
+            'subscribers',
+            'customers',
+            'expenses',
+            'ingredients',
+            'menu_items',
+            'reviews',
+            'deliveries',
+        ]);
+    }
+
+    public function test_the_dataset_list_matches_the_tests(): void
+    {
+        $this->assertEqualsCanonicalizing(array_column(self::datasetKeys(), 0), array_keys(\App\Support\Exports::all()));
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('datasetKeys')]
+    public function test_a_dataset_downloads_as_csv(string $dataset): void
     {
         $this->order();
-        $manager = $this->manager();
 
-        foreach (array_keys(\App\Support\Exports::all()) as $dataset) {
-            $csv = $this->actingAs($manager)->get("/admin/downloads/{$dataset}?format=csv")->assertOk();
-            $this->assertStringStartsWith("\xEF\xBB\xBF", $csv->streamedContent(), $dataset);
+        $csv = $this->actingAs($this->manager())->get("/admin/downloads/{$dataset}?format=csv")->assertOk();
 
-            $pdf = $this->actingAs($manager)->get("/admin/downloads/{$dataset}?format=pdf")->assertOk();
-            $this->assertStringStartsWith('%PDF', $pdf->getContent(), $dataset);
-        }
+        $this->assertStringStartsWith("\xEF\xBB\xBF", $csv->streamedContent());
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('datasetKeys')]
+    public function test_a_dataset_downloads_as_pdf(string $dataset): void
+    {
+        $this->order();
+
+        $pdf = $this->actingAs($this->manager())->get("/admin/downloads/{$dataset}?format=pdf")->assertOk();
+
+        $this->assertStringStartsWith('%PDF', $pdf->getContent());
     }
 
     public function test_download_rules(): void

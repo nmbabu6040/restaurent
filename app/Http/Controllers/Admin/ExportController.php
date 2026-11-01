@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class ExportController extends Controller
 {
-    private const PDF_LIMIT = 1500;
+    private const PDF_LIMIT = 500;
 
     public function index()
     {
