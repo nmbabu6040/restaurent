@@ -61,6 +61,11 @@ class CartController extends Controller
 
     public function update(Request $request, string $line)
     {
+        abort_unless(
+            preg_match('/\A[0-9]+_[0-9]+_(?:[0-9]+(?:\.[0-9]+)*)?\z/', $line) === 1,
+            404
+        );
+
         $data = $request->validate([
             'quantity' => ['required', 'integer', 'min:0', 'max:' . config('restaurant.ordering.max_qty')],
         ]);
@@ -72,6 +77,12 @@ class CartController extends Controller
 
     public function destroy(Request $request, string $line)
     {
+
+        abort_unless(
+            preg_match('/\A[0-9]+_[0-9]+_(?:[0-9]+(?:\.[0-9]+)*)?\z/', $line) === 1,
+            404
+        );
+
         $this->cart->remove($line);
 
         return $this->respond($request);

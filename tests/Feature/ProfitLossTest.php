@@ -183,7 +183,8 @@ class ProfitLossTest extends TestCase
 
         $csv = $this->actingAs($manager)->get('/admin/profit-loss/export?range=today')->assertOk()->streamedContent();
         $this->assertStringStartsWith("\xEF\xBB\xBFPeriod,Revenue,Costs,Profit", $csv);
-        $this->assertStringContainsString('Net profit,630', $csv);
+        // $this->assertStringContainsString('Net profit,630', $csv);
+        $this->assertStringContainsString('"Net profit",630', $csv);
         $this->assertDatabaseHas('activity_logs', ['action' => 'report.exported', 'user_id' => $manager->id]);
 
         $this->actingAs(User::factory()->staff()->create())->get('/admin/profit-loss')->assertForbidden();

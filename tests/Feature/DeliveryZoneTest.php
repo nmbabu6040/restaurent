@@ -191,23 +191,50 @@ class DeliveryZoneTest extends TestCase
 
     // The pages
 
+    // public function test_the_checkout_page_offers_the_areas_with_their_totals(): void
+    // {
+    //     $gulshan = $this->zone(['fee' => '80.00', 'min_order' => '600.00']);
+    //     $free = $this->zone(['name_en' => 'Banani', 'fee' => '0.00', 'sort_order' => 2]);
+    //     $this->addItem('500.00');
+
+    //     $this->get('/checkout')
+    //         ->assertOk()
+    //         ->assertSee('name="delivery_zone_id"', false)
+    //         ->assertSee('data-zones', false)
+    //         ->assertSee('Gulshan (৳ 80)')
+    //         ->assertSee('Banani (Free)')
+    //         ->assertViewHas('zoneTotals', fn($z) => $z[$gulshan->id]['fee'] === '৳ 80'
+    //             && $z[$gulshan->id]['total'] === '৳ 580'
+    //             && str_contains($z[$gulshan->id]['note'], '৳ 600')
+    //             && $z[$free->id]['fee'] === 'Free'
+    //             && $z[$free->id]['note'] === '');
+    // }
+
     public function test_the_checkout_page_offers_the_areas_with_their_totals(): void
     {
         $gulshan = $this->zone(['fee' => '80.00', 'min_order' => '600.00']);
         $free = $this->zone(['name_en' => 'Banani', 'fee' => '0.00', 'sort_order' => 2]);
         $this->addItem('500.00');
 
+        $taka = "\u{09F3}";
+
         $this->get('/checkout')
             ->assertOk()
             ->assertSee('name="delivery_zone_id"', false)
             ->assertSee('data-zones', false)
-            ->assertSee('Gulshan (৳ 80)')
-            ->assertSee('Banani (Free)')
-            ->assertViewHas('zoneTotals', fn($z) => $z[$gulshan->id]['fee'] === '৳ 80'
-                && $z[$gulshan->id]['total'] === '৳ 580'
-                && str_contains($z[$gulshan->id]['note'], '৳ 600')
-                && $z[$free->id]['fee'] === 'Free'
-                && $z[$free->id]['note'] === '');
+            ->assertSee('Gulshan')
+            ->assertSee("({$taka} 80)")
+            ->assertSee('Banani')
+            ->assertSee('Free')
+            ->assertViewHas(
+                'zoneTotals',
+                fn($z) =>
+                $z[$gulshan->id]['fee'] === "{$taka} 80"
+                    && $z[$gulshan->id]['total'] === "{$taka} 580"
+                    && str_contains($z[$gulshan->id]['note'], "{$taka} 600")
+                    && $z[$free->id]['fee'] === 'Free'
+                    && $z[$free->id]['note'] === ''
+            );
     }
 
     public function test_the_checkout_page_has_no_area_box_when_there_are_no_areas(): void

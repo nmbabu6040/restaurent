@@ -357,7 +357,8 @@ class OrderingTest extends TestCase
         $this->postJson('/cart/coupon', ['code' => 'WELCOME10'])->assertOk();
 
         // Someone else uses it between applying and paying.
-        $coupon->update(['used_count' => 1]);
+        // $coupon->update(['used_count' => 1]);
+        $coupon->forceFill(['used_count' => 1])->save();
 
         $this->checkout()->assertStatus(422)->assertJsonValidationErrors('cart');
         $this->assertDatabaseCount('orders', 0);

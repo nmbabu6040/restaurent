@@ -59,10 +59,19 @@ Route::get('/lang/{locale}', LocaleController::class)->name('lang.switch');
 Route::middleware([EnsureOrderingEnabled::class, 'throttle:120,1'])->group(function () {
     Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
     Route::post('/cart/items', [CartController::class, 'add'])->name('cart.add');
+
+    // Route::patch('/cart/items/{line}', [CartController::class, 'update'])
+    //     ->where('line', '[0-9]+_[0-9]+_[0-9.]*')->name('cart.update');
+
+    // Route::delete('/cart/items/{line}', [CartController::class, 'destroy'])
+    //     ->where('line', '[0-9]+_[0-9]+_[0-9.]*')->name('cart.remove');
+
     Route::patch('/cart/items/{line}', [CartController::class, 'update'])
-        ->where('line', '[0-9]+_[0-9]+_[0-9.]*')->name('cart.update');
+        ->name('cart.update');
+
     Route::delete('/cart/items/{line}', [CartController::class, 'destroy'])
-        ->where('line', '[0-9]+_[0-9]+_[0-9.]*')->name('cart.remove');
+        ->name('cart.remove');
+
     Route::post('/cart/coupon', [CartController::class, 'applyCoupon'])->name('cart.coupon.apply');
     Route::delete('/cart/coupon', [CartController::class, 'removeCoupon'])->name('cart.coupon.remove');
 
