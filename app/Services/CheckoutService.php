@@ -57,6 +57,11 @@ class CheckoutService
                 throw ValidationException::withMessages(['cart' => __('orders.errors.empty')]);
             }
 
+            // The coupon stopped working after the customer saw their total: say so, never charge more silently.
+            if ($summary['coupon_error']) {
+                throw ValidationException::withMessages(['cart' => __('orders.coupon.' . $summary['coupon_error'])]);
+            }
+
             // A delivery area can ask for its own minimum order.
             $minimum = ($zone && $zone->min_order !== null) ? CartService::cents($zone->min_order) : $summary['min_order'];
 

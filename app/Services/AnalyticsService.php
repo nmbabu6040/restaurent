@@ -51,7 +51,8 @@ class AnalyticsService
             ->get(['delivered_at', 'rider_fee']);
         $courier = (float) $courierRows->sum('rider_fee');
 
-        $expenseRows = Expense::query()->whereBetween('expense_date', [$from->toDateString(), $to->toDateString()])
+        $expenseRows = Expense::query()
+            ->whereBetween('expense_date', [$from->copy()->startOfDay(), $to->copy()->endOfDay()])
             ->get(['expense_date', 'category', 'amount']);
         $expenses = (float) $expenseRows->sum('amount');
 

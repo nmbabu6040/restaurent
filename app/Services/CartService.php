@@ -194,7 +194,8 @@ class CartService
             $variations = $item->variations->where('is_active', true);
             $variation = null;
 
-            if ($variations->isNotEmpty()) {
+            if ($entry['variation'] !== null) {
+                // The chosen size must still be active, even if it was the only one.
                 $variation = $variations->firstWhere('id', $entry['variation']);
 
                 if (! $variation) {
@@ -202,6 +203,11 @@ class CartService
 
                     continue;
                 }
+            } elseif ($variations->isNotEmpty()) {
+                // The dish got sizes after it was put in the cart.
+                $removed[] = $item->name;
+
+                continue;
             }
 
             $addons = $item->addons->where('is_active', true)->whereIn('id', $entry['addons'])->values();

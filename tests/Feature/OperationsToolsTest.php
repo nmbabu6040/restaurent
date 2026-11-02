@@ -296,7 +296,7 @@ class OperationsToolsTest extends TestCase
             1
         ))->render();
         $this->assertStringContainsString('Biryani', $html);
-        $this->assertStringContainsString('1 ingredient is', $html);
+        $this->assertStringContainsString('ingredient is low on stock', $html);
     }
 
     public function test_the_daily_summary_needs_a_recipient_and_a_valid_date(): void

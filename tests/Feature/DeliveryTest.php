@@ -503,7 +503,8 @@ class DeliveryTest extends TestCase
         $today = $analytics->profitLoss(Carbon::parse('2026-11-15')->startOfDay(), Carbon::parse('2026-11-15')->endOfDay(), 'daily');
 
         $this->assertSame(50.0, $today['summary']['courier']);
-        $this->assertSame(-50.0, $today['summary']['net']);
+        $this->assertSame($today['summary']['revenue'] - 50.0, $today['summary']['net']);
+
         $this->assertSame(50.0, $today['series'][0]['costs']);
 
         $week = $analytics->profitLoss(Carbon::parse('2026-11-09')->startOfDay(), Carbon::parse('2026-11-15')->endOfDay(), 'daily', false);

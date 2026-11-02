@@ -20,7 +20,7 @@ class ExpenseController extends Controller
         ]);
 
         $month = Carbon::createFromFormat('Y-m-d', ($filters['month'] ?? now()->format('Y-m')) . '-01')->startOfMonth();
-        $inMonth = fn() => Expense::query()->whereBetween('expense_date', [$month->toDateString(), $month->copy()->endOfMonth()->toDateString()]);
+        $inMonth = fn() => Expense::query()->whereBetween('expense_date', [$month->copy()->startOfDay(), $month->copy()->endOfMonth()->endOfDay()]);
 
         return view('admin.expenses.index', [
             'month' => $month,

@@ -44,27 +44,26 @@
                         autocomplete="email" />
                 </div>
 
-                @if ($zones->isNotEmpty())
-                    <div id="zone-wrap" class="mb-5">
-                        <label for="delivery_zone_id"
-                            class="block text-sm font-medium text-navy">{{ __('orders.zone.label') }}<span
-                                aria-hidden="true" class="text-terracotta-dark"> *</span></label>
-                        <select id="delivery_zone_id" name="delivery_zone_id"
-                            class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta">
-                            <option value="">{{ __('orders.zone.choose') }}</option>
-                            @foreach ($zones as $zone)
-                                <option value="{{ $zone->id }}" @selected((int) old('delivery_zone_id') === $zone->id)>
-                                    {{ $zone->tr('name') }}
-                                    ({{ (float) $zone->fee > 0 ? money($zone->fee) : __('orders.free') }})</option>
-                            @endforeach
-                        </select>
-                        <p data-error-for="delivery_zone_id" class="mt-1 text-sm text-red-700"></p>
-                        <p id="zone-note" aria-live="polite" class="mt-1 text-sm font-semibold text-terracotta-dark">
-                        </p>
-                    </div>
-                @endif
-
                 <div id="address-wrap">
+                    @if ($zones->isNotEmpty())
+                        <div id="zone-wrap" class="mb-5">
+                            <label for="delivery_zone_id"
+                                class="block text-sm font-medium text-navy">{{ __('orders.zone.label') }}<span
+                                    aria-hidden="true" class="text-terracotta-dark"> *</span></label>
+                            <select id="delivery_zone_id" name="delivery_zone_id"
+                                class="mt-1 w-full rounded-lg border border-navy/20 bg-surface px-4 py-2.5 text-sm focus:border-terracotta">
+                                <option value="">{{ __('orders.zone.choose') }}</option>
+                                @foreach ($zones as $zone)
+                                    <option value="{{ $zone->id }}" @selected((int) old('delivery_zone_id') === $zone->id)>
+                                        {{ $zone->tr('name') }}
+                                        ({{ (float) $zone->fee > 0 ? money($zone->fee) : __('orders.free') }})</option>
+                                @endforeach
+                            </select>
+                            <p data-error-for="delivery_zone_id" class="mt-1 text-sm text-red-700"></p>
+                            <p id="zone-note" aria-live="polite"
+                                class="mt-1 text-sm font-semibold text-terracotta-dark"></p>
+                        </div>
+                    @endif
                     <x-form.textarea name="address" :label="__('orders.form.address')" rows="3" maxlength="300" />
                 </div>
 

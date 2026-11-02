@@ -12,6 +12,7 @@ use App\Models\MenuItem;
 use App\Models\Order;
 use App\Services\CartService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
@@ -24,6 +25,8 @@ class OrderingTest extends TestCase
         parent::setUp();
 
         Mail::fake();
+        // These tests send many checkouts in a row. The rate limit has its own test (CheckoutRateLimitTest).
+        $this->withoutMiddleware(ThrottleRequests::class);
     }
 
     private function item(array $attributes = []): MenuItem
