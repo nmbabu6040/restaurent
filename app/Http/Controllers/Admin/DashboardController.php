@@ -25,6 +25,7 @@ class DashboardController extends Controller
         'out_for_delivery' => '#8B5CF6',
         'completed' => '#10B981',
         'cancelled' => '#EF4444',
+
     ];
 
     public function __invoke(AnalyticsService $analytics)
@@ -34,6 +35,13 @@ class DashboardController extends Controller
         $data = [
             'canReport' => $canReport,
             'stats' => [
+                [
+                    'label' => 'Open restaurant bills',
+                    'value' => Order::posOpen()->count(),
+                    'icon' => 'card',
+                    'tone' => 'teal',
+                    'href' => route('admin.pos.index')
+                ],
                 [
                     'label' => 'Pending orders',
                     'value' => Order::needsAttention()->count(),
@@ -196,7 +204,7 @@ class DashboardController extends Controller
                 true,
             ),
             'typeChart' => Chart::doughnut(
-                array_map('ucfirst', array_keys($breakdown['type'])),
+                array_map(fn($k) => \App\Enums\OrderType::tryFrom($k)?->adminLabel() ?? ucfirst($k), array_keys($breakdown['type'])),
                 array_column($breakdown['type'], 'orders'),
                 'Orders',
                 ['#F59E0B', '#06B6D4', '#8B5CF6'],

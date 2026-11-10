@@ -30,7 +30,11 @@ return [
     'removed_notice' => 'These items are no longer available and were removed from your cart: :items.',
     'unavailable' => 'Sorry, this item is not available right now.',
     'track_link' => 'Track an order',
-    'type' => ['delivery' => 'Delivery', 'pickup' => 'Pickup'],
+    'type' => [
+        'delivery' => 'Delivery',
+        'pickup' => 'Pickup',
+        'dine_in' => 'Dine in',
+    ],
     'zone' => [
         'label' => 'Delivery area',
         'choose' => 'Choose your area',

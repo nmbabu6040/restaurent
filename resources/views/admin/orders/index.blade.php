@@ -22,6 +22,7 @@
                 <option value="">All</option>
                 <option value="delivery" @selected(request('type') === 'delivery')>Delivery</option>
                 <option value="pickup" @selected(request('type') === 'pickup')>Pickup</option>
+                <option value="dine_in" @selected(request('type') === 'dine_in')>Dine in</option>
             </select>
         </div>
 
@@ -81,7 +82,12 @@
                             <span class="text-xs">{{ $o->phone }}</span>
                         </td>
 
-                        <td class="p-4">{{ ucfirst($o->type->value) }}</td>
+                        <td class="p-4">{{ $o->type->adminLabel() }}@if ($o->source === 'pos')
+                                <span class="rounded-full bg-navy/10 px-2 py-0.5 text-xs">POS</span>
+                                @endif @if ($o->table_name)
+                                    <br><span class="text-xs">{{ $o->table_name }}</span>
+                                @endif
+                        </td>
 
                         <td class="p-4">
                             {{ money($o->total) }}
@@ -107,16 +113,16 @@
                             </a>
                         </td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="7" class="p-6 text-center">No orders found.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="p-6 text-center">No orders found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
 
-    <div class="mt-6">
-        {{ $orders->links() }}
-    </div>
-</x-admin.layout>
+        <div class="mt-6">
+            {{ $orders->links() }}
+        </div>
+    </x-admin.layout>

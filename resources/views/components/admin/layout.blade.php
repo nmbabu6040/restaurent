@@ -13,6 +13,7 @@
             ? \App\Models\Review::where('status', 'pending')->count() +
                 \App\Models\ReviewReply::where('status', 'pending')->count()
             : 0,
+        'pos' => \App\Models\Order::posOpen()->count(),
         'riders' => $user->can('manage-riders') ? \App\Models\Delivery::where('status', 'failed')->count() : 0,
         'stock' => $user->can('manage-inventory') ? \App\Models\Ingredient::low()->count() : 0,
     ];
@@ -24,6 +25,8 @@
     $groups = [
         'Operations' => [
             ['Dashboard', 'grid', route('admin.dashboard'), $is('admin.dashboard'), 'access-admin'],
+            ['POS', 'card', route('admin.pos.index'), $is('admin.pos.*'), 'use-pos', $badge['pos']],
+            ['Tables', 'layout', $c('tables'), $isContent('tables'), 'manage-content'],
             ['Orders', 'bag', route('admin.orders.index'), $is('admin.orders.*'), 'handle-guests', $badge['orders']],
             [
                 'Reservations',

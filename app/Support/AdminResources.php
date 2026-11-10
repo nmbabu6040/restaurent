@@ -11,6 +11,7 @@ use App\Models\Coupon;
 use App\Models\Supplier;
 use App\Models\DeliveryZone;
 use App\Models\Feature;
+use App\Models\DiningTable;
 use Closure;
 
 final class AdminResources
@@ -247,6 +248,37 @@ final class AdminResources
                     self::text('role_bn', 'Role (বাংলা)', false, 100),
                     self::area('bio_en', 'Bio (English)', false, 600),
                     self::area('bio_bn', 'Bio (বাংলা)', false, 600),
+                    self::order(),
+                    self::active(),
+                ],
+            ],
+
+            'tables' => [
+                'model' => DiningTable::class,
+                'title' => 'Tables',
+                'singular' => 'table',
+                'image' => null,
+                'columns' => ['name' => 'Table', 'section' => 'Section', 'seats' => 'Seats'],
+                'fields' => [
+                    [
+                        'name' => 'name',
+                        'label' => 'Table name or number (e.g. T1, Window 2)',
+                        'type' => 'text',
+                        'required' => true,
+                        'unique' => 'dining_tables',
+                        'rules' => ['required', 'string', 'max:30']
+                    ],
+                    self::text('section', 'Section (optional, e.g. Ground floor)', false, 40),
+                    [
+                        'name' => 'seats',
+                        'label' => 'Seats',
+                        'type' => 'number',
+                        'required' => true,
+                        'min' => 1,
+                        'max' => 50,
+                        'default' => 4,
+                        'rules' => ['required', 'integer', 'between:1,50']
+                    ],
                     self::order(),
                     self::active(),
                 ],

@@ -100,15 +100,21 @@
 
 <body data-autoprint="{{ $autoprint ? '1' : '0' }}">
     <div class="no-print">
+        @if ($order->source === 'pos')
+            <a href="{{ route('admin.pos.index') }}">Back to POS</a>
+        @endif
         <button type="button" data-print style="font-size:14px;padding:6px 14px;">Print</button>
-
     </div>
 
     @if ($isKot)
         <p class="center big">KITCHEN ORDER</p>
-        <p class="center"><span class="badge">{{ strtoupper($order->type->value) }}</span></p>
+        <p class="center">
+            <span class="badge">{{ $order->table_name ?: strtoupper($order->type->adminLabel()) }}</span>
+        </p>
         <div class="rule"></div>
-        <div class="row bold"><span>{{ $order->reference }}</span><span>{{ $order->created_at->format('g:i A') }}</span>
+        <div class="row bold">
+            <span>{{ $order->reference }}</span>
+            <span>{{ $order->created_at->format('g:i A') }}</span>
         </div>
         <div>{{ $order->created_at->format('d M Y') }} &middot; {{ $order->name }}</div>
         <div class="rule"></div>
@@ -134,12 +140,28 @@
             <p class="center">{{ setting('phone') }}</p>
         @endif
         <div class="rule"></div>
-        <div class="row"><span>Order</span><span class="bold">{{ $order->reference }}</span></div>
-        <div class="row"><span>Date</span><span>{{ $order->created_at->format('d M Y, g:i A') }}</span></div>
-        <div class="row"><span>Type</span><span>{{ ucfirst($order->type->value) }}</span></div>
-        <div class="row"><span>Customer</span><span>{{ $order->name }}</span></div>
+        <div class="row">
+            <span>Order</span><span class="bold">{{ $order->reference }}</span>
+        </div>
+        <div class="row">
+            <span>Date</span><span>{{ $order->created_at->format('d M Y, g:i A') }}</span>
+        </div>
+        <div class="row">
+            <span>Type</span><span>{{ $order->type->adminLabel() }}</span>
+        </div>
+        @if ($order->table_name)
+            <div class="row"><span>Table</span><span class="bold">{{ $order->table_name }}</span></div>
+        @endif
+        @if ($order->cashier)
+            <div class="row"><span>Served by</span><span>{{ $order->cashier->name }}</span></div>
+        @endif
+        <div class="row">
+            <span>Customer</span><span>{{ $order->name }}</span>
+        </div>
         @if ($order->type->value === 'delivery')
-            <div class="row"><span>Phone</span><span>{{ $order->phone }}</span></div>
+            <div class="row">
+                <span>Phone</span><span>{{ $order->phone }}</span>
+            </div>
             @if ($order->address)
                 <p>{{ $order->address }}</p>
             @endif
@@ -150,8 +172,10 @@
         <div class="rule"></div>
 
         @foreach ($order->items as $line)
-            <div class="row"><span>{{ $line->quantity }} x
-                    {{ $line->name_en }}</span><span>{{ money($line->line_total) }}</span></div>
+            <div class="row">
+                <span>{{ $line->quantity }} x
+                    {{ $line->name_en }}</span><span>{{ money($line->line_total) }}</span>
+            </div>
             @if ($line->optionsLabel('en'))
                 <p class="opt">{{ $line->optionsLabel('en') }}</p>
             @endif
@@ -161,19 +185,48 @@
         @endforeach
 
         <div class="rule"></div>
-        <div class="row"><span>Subtotal</span><span>{{ money($order->subtotal) }}</span></div>
+        <div class="row">
+            <span>Subtotal</span><span>{{ money($order->subtotal) }}</span>
+        </div>
         @if ((float) $order->discount > 0)
             <div class="row">
                 <span>Discount{{ $order->coupon_code ? ' (' . $order->coupon_code . ')' : '' }}</span><span>-{{ money($order->discount) }}</span>
             </div>
         @endif
-        @if ((float) $order->delivery_fee > 0)
-            <div class="row"><span>Delivery</span><span>{{ money($order->delivery_fee) }}</span></div>
+        @if ((float) $order->service_charge > 0)
+            <div class="row">
+                <span>Service charge</span><span>{{ money($order->service_charge) }}</span>
+            </div>
         @endif
-        <div class="row big"><span>TOTAL</span><span>{{ money($order->total) }}</span></div>
+        @if ((float) $order->delivery_fee > 0)
+            <div class="row">
+                <span>Delivery</span><span>{{ money($order->delivery_fee) }}</span>
+            </div>
+        @endif
+        <div class="row big">
+            <span>TOTAL</span><span>{{ money($order->total) }}</span>
+        </div>
         <div class="rule"></div>
-        <div class="row"><span>Payment</span><span>{{ $order->payment_method === 'cod' ? 'Cash' : 'Online' }},
-                {{ $order->payment_status }}</span></div>
+        @if ($order->source === 'pos' && $order->posPayments->isNotEmpty())
+            @foreach ($order->posPayments->where('amount', '>', 0) as $p)
+                <div class="row">
+                    <span>{{ \App\Models\OrderPayment::METHODS[$p->method] ?? $p->method }}</span><span>{{ money($p->amount) }}</span>
+                </div>
+                @if ($p->method === 'cash' && $p->tendered !== null && (float) $p->tendered > (float) $p->amount)
+                    <p class="opt">Cash given {{ money($p->tendered) }}, change
+                        {{ money($p->tendered - $p->amount) }}</p>
+                @endif
+            @endforeach
+        @elseif ($order->source === 'pos')
+            <div class="row">
+                <span>Payment</span><span>NOT PAID YET</span>
+            </div>
+        @else
+            <div class="row">
+                <span>Payment</span><span>{{ $order->payment_method === 'cod' ? 'Cash' : 'Online' }},
+                    {{ $order->payment_status }}</span>
+            </div>
+        @endif
         <div class="rule"></div>
         <p class="center">Thank you!</p>
     @endif

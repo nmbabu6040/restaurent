@@ -20,6 +20,7 @@
         <x-admin.chart title="Revenue" :config="$charts['revenue']" />
         <x-admin.chart title="Orders" :config="$charts['orders']" />
         <x-admin.chart title="Orders by type" :config="$charts['type']" />
+        <x-admin.chart title="Online and restaurant orders" :config="$charts['source']" />
         <x-admin.chart title="Revenue by payment method" :config="$charts['payment']" />
         <x-admin.chart title="Top dishes (portions sold)" :config="$charts['top']" />
         <x-admin.chart title="Busiest hours" :config="$charts['hours']" />

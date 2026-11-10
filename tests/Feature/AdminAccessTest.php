@@ -111,7 +111,9 @@ class AdminAccessTest extends TestCase
             '/admin/home-sections',
             '/admin/seo',
             '/admin/downloads',
-            '/admin/content/usps'
+            '/admin/content/usps',
+            '/admin/pos',
+            '/admin/content/tables'
         ];
         $managerOnly = ['/admin/settings', '/admin/users', '/admin/activity', '/admin/backups', '/admin/seo'];
         $guestHandling = [
@@ -119,7 +121,8 @@ class AdminAccessTest extends TestCase
             '/admin/reservations',
             '/admin/orders',
             '/admin/messages',
-            '/admin/reviews'
+            '/admin/reviews',
+            '/admin/pos'
         ];
 
         $cases = [];

@@ -56,6 +56,11 @@ return [
         'daily_time' => env('DAILY_REPORT_TIME', '23:30'),
     ],
     'pdf_currency' => env('PDF_CURRENCY', 'Tk'),
+
+    'pos' => [
+        'service_charge' => (float) env('POS_SERVICE_CHARGE', 0),        // percent, added to dine-in bills
+        'staff_max_discount' => (float) env('POS_STAFF_MAX_DISCOUNT', 10), // percent a normal staff member may give
+    ],
     'admin' => [
         'email' => env('ADMIN_EMAIL', 'nmbabu6040@gmail.com'),
         'password' => env('ADMIN_PASSWORD'),

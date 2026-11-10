@@ -148,7 +148,7 @@ class OrderController extends Controller
         ActivityLog::record('order.printed', "Printed {$type} for {$order->reference}", $order);
 
         return view('admin.orders.print', [
-            'order' => $order->load('items', 'delivery.rider'),
+            'order' => $order->load('items', 'delivery.rider', 'posPayments', 'cashier'),
             'type' => $type,
             'autoprint' => $request->boolean('autoprint'),
         ]);

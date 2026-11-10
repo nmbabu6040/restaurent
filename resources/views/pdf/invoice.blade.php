@@ -149,6 +149,13 @@
                 <td class="r">{{ pdf_money($order->delivery_fee) }}</td>
             </tr>
         @endif
+
+        @if ((float) $order->service_charge > 0)
+            <tr>
+                <td>Service charge</td>
+                <td class="r">{{ pdf_money($order->service_charge) }}</td>
+            </tr>
+        @endifa
         <tr class="grand">
             <td>Total</td>
             <td class="r">{{ pdf_money($order->total) }}</td>

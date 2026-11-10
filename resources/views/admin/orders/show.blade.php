@@ -51,7 +51,10 @@
             </div>
             <div>
                 <dt class="font-semibold text-navy">Type</dt>
-                <dd>{{ ucfirst($order->type->value) }}</dd>
+                <dd>{{ $order->type->adminLabel() }}@if ($order->table_name)
+                        &middot; {{ $order->table_name }}
+                    @endif
+                </dd>
             </div>
             @if ($order->address)
                 <div class="sm:col-span-2">

@@ -27,6 +27,8 @@ use App\Http\Controllers\Admin\CmsPageController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\SeoController;
+use App\Http\Controllers\Admin\CashDrawerController;
+use App\Http\Controllers\Admin\PosController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -139,6 +141,29 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
     Route::middleware('can:manage-riders')->group(function () {
         Route::resource('riders', RiderController::class)->parameters(['riders' => 'rider']);
         Route::post('riders/{rider}/settle', [RiderController::class, 'settle'])->name('riders.settle');
+    });
+
+
+    Route::middleware('can:use-pos')->prefix('pos')->name('pos.')->group(function () {
+        Route::get('/', [PosController::class, 'index'])->name('index');
+        Route::get('state', [PosController::class, 'state'])->name('state');
+        Route::post('orders', [PosController::class, 'store'])->name('store');
+        Route::get('orders/{order}', [PosController::class, 'show'])->whereNumber('order')->name('show');
+        Route::patch('orders/{order}', [PosController::class, 'update'])->whereNumber('order')->name('update');
+        Route::post('orders/{order}/lines', [PosController::class, 'addLine'])->whereNumber('order')->name('lines.store');
+        Route::patch('orders/{order}/lines/{line}', [PosController::class, 'setQuantity'])->whereNumber(['order', 'line'])->name('lines.update');
+        Route::delete('orders/{order}/lines/{line}', [PosController::class, 'removeLine'])->whereNumber(['order', 'line'])->name('lines.destroy');
+        Route::post('orders/{order}/discount', [PosController::class, 'discount'])->whereNumber('order')->name('discount');
+        Route::post('orders/{order}/send', [PosController::class, 'send'])->whereNumber('order')->name('send');
+        Route::get('orders/{order}/kot', [PosController::class, 'kot'])->whereNumber('order')->name('kot');
+        Route::get('orders/{order}/pay', [PosController::class, 'pay'])->whereNumber('order')->name('pay');
+        Route::post('orders/{order}/pay', [PosController::class, 'payStore'])->whereNumber('order')->name('pay.store');
+        Route::post('orders/{order}/cancel', [PosController::class, 'cancel'])->whereNumber('order')->name('cancel');
+        Route::post('orders/{order}/void', [PosController::class, 'void'])->whereNumber('order')->middleware('can:manage-menu')->name('void');
+
+        Route::get('shift', [CashDrawerController::class, 'index'])->name('shift');
+        Route::post('shift/open', [CashDrawerController::class, 'open'])->name('shift.open');
+        Route::post('shift/close', [CashDrawerController::class, 'close'])->name('shift.close');
     });
 
     Route::get('activity', [ActivityLogController::class, 'index'])->middleware('can:view-logs')->name('activity.index');

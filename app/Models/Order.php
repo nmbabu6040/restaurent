@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -34,7 +35,15 @@ class Order extends Model
         'locale',
         'delivery_zone_id',
         'zone_en',
-        'zone_bn'
+        'zone_bn',
+        'source',
+        'dining_table_id',
+        'table_name',
+        'guests',
+        'user_id',
+        'discount_percent',
+        'discount_reason',
+        'service_charge',
     ];
 
     protected function casts(): array
@@ -47,6 +56,8 @@ class Order extends Model
             'delivery_fee' => 'decimal:2',
             'discount' => 'decimal:2',
             'total' => 'decimal:2',
+            'discount_percent' => 'decimal:2',
+            'service_charge' => 'decimal:2',
         ];
     }
 
@@ -104,5 +115,24 @@ class Order extends Model
             ->whereIn('status', ['confirmed', 'preparing', 'out_for_delivery'])
             ->where(fn($w) => $w->whereDoesntHave('delivery')
                 ->orWhereHas('delivery', fn($d) => $d->where('status', 'failed')));
+    }
+
+    public function posPayments(): HasMany
+    {
+        return $this->hasMany(OrderPayment::class)->orderBy('id');
+    }
+
+    /** The staff member who took the order at the counter. */
+    public function cashier(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /** Restaurant bills that are still open (not paid, not cancelled). */
+    public function scopePosOpen(Builder $query): Builder
+    {
+        return $query->where('source', 'pos')
+            ->where('payment_status', '!=', 'paid')
+            ->whereNotIn('status', ['completed', 'cancelled']);
     }
 }

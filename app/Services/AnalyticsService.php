@@ -244,13 +244,13 @@ class AnalyticsService
         $rows = $this->salesWhere(Order::query())
             ->whereBetween('orders.created_at', [$from, $to])
             ->toBase()
-            ->get(['type', 'payment_method', 'total']);
+            ->get(['type', 'payment_method', 'total', 'source']);
 
         $by = fn(string $column) => $rows->groupBy($column)
             ->map(fn($group) => ['orders' => $group->count(), 'revenue' => (float) $group->sum('total')])
             ->all();
 
-        return ['type' => $by('type'), 'payment' => $by('payment_method')];
+        return ['type' => $by('type'), 'payment' => $by('payment_method'), 'source' => $by('source')];
     }
 
     /** All orders (cancelled ones too), by status. */
@@ -393,6 +393,10 @@ class AnalyticsService
 
         foreach ($orders as $order) {
             $key = self::customerKey($order->phone);
+
+            if ($key === '') {
+                continue; // a walk-in without a phone number is not a customer we can recognise
+            }
 
             $customer = $customers[$key] ?? [
                 'name' => $order->name,

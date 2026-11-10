@@ -20,6 +20,8 @@ import { initBackToTop } from "./modules/scroll-top";
 import { initShare } from "./modules/share";
 import { toast } from "./modules/toast";
 import { initAdminNav } from "./modules/admin-nav";
+import { initPos } from "./modules/pos";
+initPos();
 
 window.$ = window.jQuery = $;
 

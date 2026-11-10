@@ -22,6 +22,8 @@ class OrderItem extends Model
         'line_total',
         'unit_cost',
         'consumed',
+        'sent_qty',
+        'line_key'
     ];
 
     protected function casts(): array

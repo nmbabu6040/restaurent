@@ -31,11 +31,30 @@ final class Exports
             'orders' => [
                 'label' => 'Orders',
                 'dated' => true,
-                'headers' => ['Reference', 'Date', 'Type', 'Status', 'Payment', 'Paid', 'Customer', 'Phone', 'Area', 'Subtotal', 'Delivery fee', 'Discount', 'Coupon', 'Total'],
+                'headers' => [
+                    'Reference',
+                    'Date',
+                    'Channel',
+                    'Type',
+                    'Table',
+                    'Status',
+                    'Payment',
+                    'Paid',
+                    'Customer',
+                    'Phone',
+                    'Area',
+                    'Subtotal',
+                    'Delivery fee',
+                    'Discount',
+                    'Coupon',
+                    'Total'
+                ],
                 'rows' => fn($from, $to) => self::between(Order::query(), 'created_at', $from, $to)->lazyById(500)->map(fn($o) => [
                     $o->reference,
                     $day($o->created_at),
+                    $o->source,
                     $o->type->value,
+                    $o->table_name,
                     $o->status->value,
                     $o->payment_method,
                     $o->payment_status,
@@ -108,6 +127,7 @@ final class Exports
                     number_format($c['spent'], 2, '.', ''),
                     $c['first']->format('Y-m-d'),
                     $c['last']->format('Y-m-d'),
+
                 ]),
             ],
             'expenses' => [

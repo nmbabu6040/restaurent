@@ -14,7 +14,15 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SalesController extends Controller
 {
-    private const PAYMENT_LABELS = ['cod' => 'Cash', 'sslcommerz' => 'Online'];
+    private const PAYMENT_LABELS = [
+        'cod' => 'Cash on delivery',
+        'sslcommerz' => 'Online',
+        'cash' => 'Cash (restaurant)',
+        'card' => 'Card',
+        'bkash' => 'bKash',
+        'nagad' => 'Nagad',
+        'other' => 'Other'
+    ];
 
     public function index(ReportRangeRequest $request, AnalyticsService $a)
     {
@@ -44,7 +52,7 @@ class SalesController extends Controller
                 'revenue' => Chart::bar(array_column($series, 'label'), [['label' => 'Revenue', 'data' => Chart::round(array_column($series, 'revenue')), 'color' => '#6366F1']], true),
                 'orders' => Chart::line(array_column($series, 'label'), [['label' => 'Orders', 'data' => array_column($series, 'orders'), 'color' => '#10B981']]),
                 'type' => Chart::doughnut(
-                    array_map('ucfirst', array_keys($breakdown['type'])),
+                    array_map(fn($k) => \App\Enums\OrderType::tryFrom($k)?->adminLabel() ?? ucfirst($k), array_keys($breakdown['type'])),
                     array_column($breakdown['type'], 'orders'),
                     'Orders',
                     ['#F59E0B', '#06B6D4', '#8B5CF6'],
@@ -55,6 +63,12 @@ class SalesController extends Controller
                     'Revenue',
                     ['#10B981', '#6366F1'],
                     true,
+                ),
+                'source' => Chart::doughnut(
+                    array_map(fn($k) => $k === 'pos' ? 'In restaurant' : 'Online', array_keys($breakdown['source'])),
+                    array_column($breakdown['source'], 'orders'),
+                    'Orders',
+                    ['#6366F1', '#F59E0B'],
                 ),
                 'top' => Chart::bar(array_column($top, 'name'), [['label' => 'Portions sold', 'data' => array_column($top, 'qty'), 'color' => '#F59E0B']], false, true),
                 'hours' => Chart::bar(
