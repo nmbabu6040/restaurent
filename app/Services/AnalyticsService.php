@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Expense;
 use App\Models\StockMovement;
 use App\Models\Delivery;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class AnalyticsService
@@ -467,5 +468,41 @@ class AnalyticsService
     private function label(Carbon $date, string $group): string
     {
         return $group === 'monthly' ? $date->format('M Y') : $date->format('d M');
+    }
+
+    /** Restaurant (counter) sales by the person who took the order. */
+    public function staffSales(Carbon $from, Carbon $to): array
+    {
+        $sales = $this->salesWhere(Order::query())
+            ->where('orders.source', 'pos')
+            ->whereBetween('orders.created_at', [$from, $to])
+            ->toBase()
+            ->selectRaw('user_id, COUNT(*) as bills, COALESCE(SUM(total), 0) as revenue, COALESCE(SUM(discount), 0) as discount, COALESCE(SUM(guests), 0) as guests')
+            ->groupBy('user_id')
+            ->get();
+
+        $items = $this->salesWhere(DB::table('order_items')->join('orders', 'orders.id', '=', 'order_items.order_id'))
+            ->where('orders.source', 'pos')
+            ->whereBetween('orders.created_at', [$from, $to])
+            ->selectRaw('orders.user_id as user_id, SUM(order_items.quantity) as qty')
+            ->groupBy('orders.user_id')
+            ->pluck('qty', 'user_id');
+
+        $cancelled = Order::query()->where('source', 'pos')->where('status', 'cancelled')
+            ->whereBetween('created_at', [$from, $to])
+            ->toBase()->selectRaw('user_id, COUNT(*) as c')->groupBy('user_id')->pluck('c', 'user_id');
+
+        $names = User::whereIn('id', $sales->pluck('user_id')->filter()->all())->pluck('name', 'id');
+
+        return $sales->map(fn($r) => [
+            'name' => $names[$r->user_id] ?? 'Unknown',
+            'bills' => (int) $r->bills,
+            'revenue' => (float) $r->revenue,
+            'average' => $r->bills > 0 ? (float) $r->revenue / $r->bills : 0.0,
+            'discount' => (float) $r->discount,
+            'items' => (int) ($items[$r->user_id] ?? 0),
+            'guests' => (int) $r->guests,
+            'cancelled' => (int) ($cancelled[$r->user_id] ?? 0),
+        ])->sortByDesc('revenue')->values()->all();
     }
 }

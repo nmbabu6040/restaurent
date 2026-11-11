@@ -13,6 +13,7 @@ use App\Models\OrderItem;
 use App\Models\Reservation;
 use App\Models\Review;
 use App\Services\AnalyticsService;
+use App\Models\OrderPayment;
 use Carbon\Carbon;
 
 /** What can be downloaded from Admin > Downloads. Each entry: label, whether it can be limited by dates, column headers, and a row generator. */
@@ -67,6 +68,22 @@ final class Exports
                     $o->coupon_code,
                     $o->total,
                 ]),
+            ],
+            'pos_payments' => [
+                'label' => 'Restaurant payments (cash, card, mobile)',
+                'dated' => true,
+                'headers' => ['Date', 'Bill', 'Table', 'Method', 'Amount', 'Cash given', 'Reference', 'Taken by'],
+                'rows' => fn($from, $to) => self::between(OrderPayment::query()->with('order:id,reference,table_name', 'user:id,name'), 'created_at', $from, $to)
+                    ->lazyById(500)->map(fn($p) => [
+                        $day($p->created_at),
+                        $p->order?->reference,
+                        $p->order?->table_name,
+                        OrderPayment::METHODS[$p->method] ?? $p->method,
+                        $p->amount,
+                        $p->tendered,
+                        $p->reference,
+                        $p->user?->name,
+                    ]),
             ],
             'sales_lines' => [
                 'label' => 'Sold items (every order line)',

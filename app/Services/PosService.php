@@ -160,6 +160,7 @@ class PosService
             $line->update([
                 'quantity' => $qty,
                 'sent_qty' => min($line->sent_qty, $qty),
+                'ready_qty' => min($line->ready_qty, $qty),
                 'line_total' => $this->dec(CartService::cents($line->unit_price) * $qty),
             ]);
 
@@ -290,7 +291,12 @@ class PosService
             }
 
             foreach ($rows as $row) {
-                $row['line']->update(['sent_qty' => $row['line']->quantity]);
+                $line = $row['line'];
+                $line->update([
+                    'sent_qty' => $line->quantity,
+                    // The kitchen clock restarts when something is added to a line that was already finished.
+                    'sent_at' => $line->sent_qty <= $line->ready_qty ? now() : $line->sent_at,
+                ]);
             }
 
             if ($order->status === OrderStatus::Pending) {
@@ -335,6 +341,7 @@ class PosService
                     'unit_cost' => $entry['unit_cost'] ?? null,
                     'consumed' => $entry['consumed'] ?? null,
                     'sent_qty' => $line->quantity,
+                    'sent_at' => $line->quantity > $line->sent_qty && $line->sent_qty <= $line->ready_qty ? now() : $line->sent_at,
                 ], fn($v) => $v !== null));
             }
 

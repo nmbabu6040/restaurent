@@ -365,7 +365,8 @@ class PosTest extends TestCase
 
         $this->add($order, $item)->assertStatus(422);
         $this->actingAs($this->staff())->postJson(route('admin.pos.discount', $order), ['type' => 'percent', 'value' => 5])->assertStatus(422);
-        $this->pay($order, [['method' => 'cash', 'amount' => '380.00']])->assertRedirect(route('admin.pos.show', $order)); // nothing to pay any more
+        $this->pay($order, [['method' => 'cash', 'amount' => '380.00']])->assertSessionHas('error'); // already closed
+        $this->actingAs($this->staff())->get(route('admin.pos.pay', $order))->assertRedirect(route('admin.pos.show', $order));
     }
 
     public function test_paying_takes_the_ingredients_and_saves_the_cost(): void

@@ -10,6 +10,7 @@ use App\Models\MenuCategory;
 use App\Models\MenuItem;
 use App\Models\Order;
 use App\Models\OrderPayment;
+use App\Models\Reservation;
 use App\Services\CashDrawerService;
 use App\Services\PosService;
 use Illuminate\Http\Request;
@@ -28,6 +29,21 @@ class PosController extends Controller
             'tables' => DiningTable::where('is_active', true)->orderBy('sort_order')->orderBy('name')->get(),
             'byTable' => $open->whereNotNull('dining_table_id')->keyBy('dining_table_id'),
             'takeaways' => $open->filter(fn($o) => $o->type === OrderType::Pickup)->values(),
+            // 'reservedSoon' => Reservation::where('status', 'confirmed')
+            //     ->whereNotNull('dining_table_id')->whereNull('seated_order_id')
+            //     ->whereBetween('reserved_at', [now()->subMinutes(30), now()->addHours(2)])
+            //     ->orderBy('reserved_at')->get()->groupBy('dining_table_id'),
+
+            'reservedSoon' => Reservation::where('status', 'confirmed')
+                ->whereNotNull('dining_table_id')
+                ->whereNull('seated_order_id')
+                ->whereBetween('reserved_at', [
+                    now()->subMinutes(30),
+                    now()->addHours(2),
+                ])
+                ->orderBy('reserved_at')
+                ->get()
+                ->groupBy('dining_table_id'),
             'shift' => $this->drawer->current(),
             'signature' => $this->signature(),
         ]);
@@ -251,9 +267,12 @@ class PosController extends Controller
         abort_unless($order->source === 'pos', 404);
     }
 
+    /** Changes whenever a table is opened, paid, changed, or the kitchen marks food ready. */
     private function signature(): string
     {
-        return Order::posOpen()->withCount('items')->orderBy('id')->get(['id', 'total', 'status'])
-            ->map(fn($o) => $o->id . ':' . $o->total . ':' . $o->items_count . ':' . $o->status->value)->implode('|');
+        return Order::posOpen()->withCount('items')->withSum('items as ready_total', 'ready_qty')
+            ->orderBy('id')->get(['id', 'total', 'status'])
+            ->map(fn($o) => $o->id . ':' . $o->total . ':' . $o->items_count . ':' . $o->status->value . ':' . (int) $o->ready_total)
+            ->implode('|');
     }
 }

@@ -26,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
         // so a forged Host header cannot inject another domain into them.
         if ($this->app->isProduction()) {
             URL::forceRootUrl(config('app.url'));
+        }
+
+        if (https_forced()) {
             URL::forceScheme('https');
         }
 

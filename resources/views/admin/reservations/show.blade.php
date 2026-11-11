@@ -28,6 +28,11 @@
                 <dt class="font-semibold text-navy">Guest</dt>
                 <dd>{{ $reservation->name }}</dd>
             </div>
+
+            <div>
+                <dt class="font-semibold text-navy">Reserved table</dt>
+                <dd>{{ $reservation->diningTable?->name ?? 'Not assigned' }}</dd>
+            </div>
             <div>
                 <dt class="font-semibold text-navy">Phone</dt>
                 <dd><a href="tel:{{ preg_replace('/[^+\d]/', '', $reservation->phone) }}"
@@ -64,6 +69,47 @@
                 <dd>{{ $reservation->message ?: '—' }}</dd>
             </div>
         </dl>
+
+        @if ($reservation->status->value === 'confirmed')
+            <section class="mt-8 border-t border-navy/10 pt-6" aria-labelledby="table-title">
+                <h2 id="table-title" class="text-xl font-semibold">Table</h2>
+
+                @if ($reservation->seatedOrder)
+                    <p class="mt-3 text-sm font-semibold text-green-800">Seated at
+                        {{ $reservation->seatedOrder->table_name }}.
+                        <a href="{{ route('admin.pos.show', $reservation->seatedOrder) }}" class="underline">Open the
+                            bill</a>
+                    </p>
+                @else
+                    <form method="POST" action="{{ route('admin.reservations.table', $reservation) }}"
+                        class="mt-3 flex flex-wrap items-end gap-3">
+                        @csrf @method('PATCH')
+                        <div>
+                            <label for="dining_table_id" class="block text-sm font-medium text-navy">Reserved
+                                table</label>
+                            <select id="dining_table_id" name="dining_table_id"
+                                class="mt-1 rounded-lg border border-navy/20 bg-surface px-3 py-2 text-sm">
+                                <option value="">No table yet</option>
+                                @foreach ($tables as $t)
+                                    <option value="{{ $t->id }}" @selected($reservation->dining_table_id === $t->id)>
+                                        {{ $t->name }} ({{ $t->seats }} seats)</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary !py-2">Save table</button>
+                    </form>
+
+                    <form method="POST" action="{{ route('admin.reservations.seat', $reservation) }}" class="mt-4">
+                        @csrf
+                        <button type="submit" class="btn-accent disabled:opacity-40" @disabled(!$reservation->dining_table_id)>Seat
+                            the guests and open a bill</button>
+                        @unless ($reservation->dining_table_id)
+                            <p class="mt-1 text-xs">Choose a table first.</p>
+                        @endunless
+                    </form>
+                @endif
+            </section>
+        @endif
 
         @if ($reservation->status->transitions())
             <div class="mt-8 flex flex-wrap gap-3 border-t border-navy/10 pt-6">

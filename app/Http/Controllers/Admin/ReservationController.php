@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\OrderType;
 use App\Enums\ReservationStatus;
+use App\Exceptions\PosException;
 use App\Http\Controllers\Controller;
 use App\Mail\ReservationStatusMail;
 use App\Models\ActivityLog;
+use App\Models\DiningTable;
 use App\Models\Reservation;
+use App\Services\PosService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
@@ -40,7 +44,10 @@ class ReservationController extends Controller
 
     public function show(Reservation $reservation)
     {
-        return view('admin.reservations.show', compact('reservation'));
+        return view('admin.reservations.show', [
+            'reservation' => $reservation->load('seatedOrder'),
+            'tables' => DiningTable::where('is_active', true)->orderBy('sort_order')->orderBy('name')->get(),
+        ]);
     }
 
     public function updateStatus(Request $request, Reservation $reservation)
@@ -68,5 +75,48 @@ class ReservationController extends Controller
             ->queue(new ReservationStatusMail($reservation));
 
         return back()->with('status', "Reservation {$reservation->reference} marked {$new->value}. The guest has been emailed.");
+    }
+
+    public function setTable(Request $request, Reservation $reservation)
+    {
+        $data = $request->validate([
+            'dining_table_id' => ['nullable', Rule::exists('dining_tables', 'id')->where('is_active', true)],
+        ]);
+
+        $reservation->update(['dining_table_id' => $data['dining_table_id'] ?? null]);
+
+        return back()->with('status', $reservation->dining_table_id ? 'Table assigned.' : 'Table removed.');
+    }
+
+    /** The guests have arrived: open a bill on their table with their details already filled in. */
+    public function seat(Request $request, Reservation $reservation, PosService $pos)
+    {
+        if ($reservation->status !== ReservationStatus::Confirmed) {
+            return back()->with('error', 'Only a confirmed reservation can be seated.');
+        }
+
+        if ($reservation->seatedOrder && $reservation->seatedOrder->payment_status !== 'paid' && $reservation->seatedOrder->status->value !== 'cancelled') {
+            return redirect()->route('admin.pos.show', $reservation->seatedOrder);
+        }
+
+        $tableId = $reservation->dining_table_id ?? $request->input('dining_table_id');
+
+        try {
+            $order = $pos->open(OrderType::DineIn, [
+                'dining_table_id' => $tableId,
+                'guests' => min(50, max(1, $reservation->party_size)),
+                'name' => $reservation->name,
+                'phone' => $reservation->phone,
+            ], $request->user());
+        } catch (PosException $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        $order->update(['notes' => $reservation->message]);
+        $reservation->update(['dining_table_id' => $order->dining_table_id, 'seated_order_id' => $order->id]);
+
+        ActivityLog::record('reservation.seated', "Reservation {$reservation->reference} seated at {$order->table_name}", $reservation);
+
+        return redirect()->route('admin.pos.show', $order);
     }
 }

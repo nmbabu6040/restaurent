@@ -5,7 +5,8 @@ return [
 
     'ordering_enabled' => env('ORDERING_ENABLED', true),
     'currency_symbol' => env('CURRENCY_SYMBOL', '৳'),
-
+    // true when the site runs on the restaurant's own network over plain http (no public domain)
+    'lan_mode' => (bool) env('LAN_MODE', false),
     'ordering' => [
         'delivery_enabled' => env('ORDER_DELIVERY', true),
         'pickup_enabled' => env('ORDER_PICKUP', true),

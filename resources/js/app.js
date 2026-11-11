@@ -21,7 +21,7 @@ import { initShare } from "./modules/share";
 import { toast } from "./modules/toast";
 import { initAdminNav } from "./modules/admin-nav";
 import { initPos } from "./modules/pos";
-initPos();
+import { initKitchen } from "./modules/kitchen";
 
 window.$ = window.jQuery = $;
 
@@ -53,6 +53,8 @@ $(() => {
     initPrint();
     initAdminAlerts();
     initAdminNav();
+    initPos();
+    initKitchen();
 
     const flash = document.getElementById("flash-message");
     if (flash)

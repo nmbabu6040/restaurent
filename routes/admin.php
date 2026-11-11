@@ -29,6 +29,8 @@ use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\SeoController;
 use App\Http\Controllers\Admin\CashDrawerController;
 use App\Http\Controllers\Admin\PosController;
+use App\Http\Controllers\Admin\KitchenController;
+use App\Http\Controllers\Admin\StaffSalesController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -43,6 +45,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('reservations', [ReservationController::class, 'index'])->name('reservations.index');
         Route::get('reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
         Route::patch('reservations/{reservation}/status', [ReservationController::class, 'updateStatus'])->name('reservations.status');
+
+        Route::patch('reservations/{reservation}/table', [ReservationController::class, 'setTable'])->name('reservations.table');
+        Route::post('reservations/{reservation}/seat', [ReservationController::class, 'seat'])->name('reservations.seat');
 
         Route::get('messages', [ContactMessageController::class, 'index'])->name('messages.index');
         Route::get('messages/{message}', [ContactMessageController::class, 'show'])->name('messages.show');
@@ -129,6 +134,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
 
         Route::get('downloads', [ExportController::class, 'index'])->name('downloads.index');
         Route::get('downloads/{dataset}', [ExportController::class, 'download'])->where('dataset', '[a-z_]+')->name('downloads.get');
+
+        Route::get('staff-sales', [StaffSalesController::class, 'index'])->name('staff.index');
+        Route::get('staff-sales/export', [StaffSalesController::class, 'export'])->name('staff.export');
     });
 
     Route::middleware('can:manage-inventory')->group(function () {
@@ -164,6 +172,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])
         Route::get('shift', [CashDrawerController::class, 'index'])->name('shift');
         Route::post('shift/open', [CashDrawerController::class, 'open'])->name('shift.open');
         Route::post('shift/close', [CashDrawerController::class, 'close'])->name('shift.close');
+    });
+
+    Route::middleware('can:use-pos')->prefix('kitchen')->name('kitchen.')->group(function () {
+        Route::get('/', [KitchenController::class, 'index'])->name('index');
+        Route::get('tickets', [KitchenController::class, 'tickets'])->name('tickets');
+        Route::post('orders/{order}/ready', [KitchenController::class, 'ready'])->whereNumber('order')->name('ready');
+        Route::post('orders/{order}/lines/{line}/ready', [KitchenController::class, 'readyLine'])->whereNumber(['order', 'line'])->name('lines.ready');
     });
 
     Route::get('activity', [ActivityLogController::class, 'index'])->middleware('can:view-logs')->name('activity.index');

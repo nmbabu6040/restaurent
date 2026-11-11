@@ -26,6 +26,7 @@
         'Operations' => [
             ['Dashboard', 'grid', route('admin.dashboard'), $is('admin.dashboard'), 'access-admin'],
             ['POS', 'card', route('admin.pos.index'), $is('admin.pos.*'), 'use-pos', $badge['pos']],
+            ['Kitchen', 'utensils', route('admin.kitchen.index'), $is('admin.kitchen.*'), 'use-pos'],
             ['Tables', 'layout', $c('tables'), $isContent('tables'), 'manage-content'],
             ['Orders', 'bag', route('admin.orders.index'), $is('admin.orders.*'), 'handle-guests', $badge['orders']],
             [
@@ -95,6 +96,7 @@
         'Reports' => [
             ['Sales', 'trend', route('admin.sales.index'), $is('admin.sales.*'), 'view-reports'],
             ['Customers', 'users', route('admin.customers.index'), $is('admin.customers.*'), 'view-reports'],
+            ['Staff sales', 'users', route('admin.staff.index'), $is('admin.staff.*'), 'view-reports'],
             ['Downloads', 'download', route('admin.downloads.index'), $is('admin.downloads.*'), 'view-reports'],
         ],
         'System' => [

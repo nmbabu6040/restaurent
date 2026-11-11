@@ -147,3 +147,11 @@ if (! function_exists('seo_meta')) {
         ];
     }
 }
+
+if (! function_exists('https_forced')) {
+    /** Links are forced to https on a real production site, but not when it runs on the restaurant's own network. */
+    function https_forced(): bool
+    {
+        return app()->isProduction() && ! config('restaurant.lan_mode');
+    }
+}

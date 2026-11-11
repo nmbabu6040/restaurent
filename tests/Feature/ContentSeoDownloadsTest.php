@@ -381,7 +381,11 @@ class ContentSeoDownloadsTest extends TestCase
         $manager = $this->manager();
 
         $csv = $this->actingAs($manager)->get('/admin/downloads/orders?format=csv')->assertOk()->streamedContent();
-        $this->assertStringStartsWith("\xEF\xBB\xBFReference,Date,Type", $csv);
+        // $this->assertStringStartsWith("\xEF\xBB\xBFReference,Date,Type", $csv);
+        $this->assertStringStartsWith(
+            "\xEF\xBB\xBFReference,Date,Channel,Type",
+            $csv
+        );
         $this->assertStringContainsString($recent->reference, $csv);
         $this->assertStringContainsString($old->reference, $csv);
         $this->assertStringContainsString("'=HYPERLINK(", $csv);
@@ -407,6 +411,7 @@ class ContentSeoDownloadsTest extends TestCase
             'menu_items',
             'reviews',
             'deliveries',
+            'pos_payments'
         ]);
     }
 

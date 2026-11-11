@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Reservation extends Model
 {
@@ -24,6 +25,8 @@ class Reservation extends Model
         'status',
         'status_changed_at',
         'locale',
+        'dining_table_id',
+        'seated_order_id'
     ];
 
     protected function casts(): array
@@ -46,5 +49,15 @@ class Reservation extends Model
             ReservationStatus::Pending->value,
             ReservationStatus::Confirmed->value,
         ]);
+    }
+
+    public function table(): BelongsTo
+    {
+        return $this->belongsTo(DiningTable::class, 'dining_table_id');
+    }
+
+    public function seatedOrder(): BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'seated_order_id');
     }
 }

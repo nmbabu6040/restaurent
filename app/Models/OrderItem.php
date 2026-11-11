@@ -23,7 +23,10 @@ class OrderItem extends Model
         'unit_cost',
         'consumed',
         'sent_qty',
-        'line_key'
+        'line_key',
+        'ready_qty',
+        'sent_at',
+        'ready_at'
     ];
 
     protected function casts(): array
@@ -34,7 +37,9 @@ class OrderItem extends Model
             'line_total' => 'decimal:2',
             'quantity' => 'integer',
             'unit_cost' => 'decimal:2',
-            'consumed' => 'array'
+            'consumed' => 'array',
+            'sent_at' => 'datetime',
+            'ready_at' => 'datetime',
         ];
     }
 

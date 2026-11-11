@@ -155,7 +155,7 @@
                 <td>Service charge</td>
                 <td class="r">{{ pdf_money($order->service_charge) }}</td>
             </tr>
-        @endifa
+        @endif
         <tr class="grand">
             <td>Total</td>
             <td class="r">{{ pdf_money($order->total) }}</td>

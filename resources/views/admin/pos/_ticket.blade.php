@@ -33,7 +33,9 @@
                         data-url="{{ route('admin.pos.lines.destroy', [$order, $line]) }}"
                         aria-label="Remove {{ $line->name_en }}"
                         class="ml-2 text-xs font-semibold text-red-700 hover:underline">Remove</button>
-                    @if ($line->sent_qty >= $line->quantity)
+                    @if ($line->ready_qty > 0 && $line->ready_qty >= $line->sent_qty)
+                        <span class="ml-auto text-xs font-bold text-green-800">ready to serve</span>
+                    @elseif ($line->sent_qty >= $line->quantity)
                         <span class="ml-auto text-xs font-semibold text-green-800">sent</span>
                     @elseif ($line->sent_qty > 0)
                         <span class="ml-auto text-xs font-semibold text-terracotta-dark">{{ $line->sent_qty }}
