@@ -12,6 +12,7 @@ use App\Models\Supplier;
 use App\Models\DeliveryZone;
 use App\Models\Feature;
 use App\Models\DiningTable;
+use App\Models\SpacePhoto;
 use Closure;
 
 final class AdminResources
@@ -76,7 +77,22 @@ final class AdminResources
     public static function all(): array
     {
         return [
-            'usps' => [
+            'space' => [
+                'model' => SpacePhoto::class,
+                'title' => 'Our space photos',
+                'singular' => 'photo',
+                'image' => ['field' => 'image_path', 'accessor' => 'image_url', 'dir' => 'space', 'required' => true, 'label' => 'Photo (JPG, PNG or WebP, max 2 MB)'],
+                'columns' => ['caption_en' => 'Caption', 'alt_en' => 'Description', 'sort_order' => 'Order'],
+                'fields' => [
+                    self::text('alt_en', 'Describe the photo (English), for people who cannot see it', true, 200),
+                    self::text('alt_bn', 'Description (বাংলা)', false, 200),
+                    self::text('caption_en', 'Caption under the photo (English, optional)', false, 150),
+                    self::text('caption_bn', 'Caption (বাংলা, optional)', false, 150),
+                    self::order(),
+                    self::active(),
+                ],
+            ],
+            'highlights' => [
                 'model' => Feature::class,
                 'where' => ['group' => 'usp'],
                 'title' => 'Home highlights',

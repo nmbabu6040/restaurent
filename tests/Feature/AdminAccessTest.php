@@ -111,11 +111,12 @@ class AdminAccessTest extends TestCase
             '/admin/home-sections',
             '/admin/seo',
             '/admin/downloads',
-            '/admin/content/usps',
+            '/admin/content/highlights',
             '/admin/pos',
             '/admin/content/tables',
             '/admin/kitchen',
-            '/admin/staff-sales'
+            '/admin/staff-sales',
+            '/admin/content/space'
 
         ];
         $managerOnly = ['/admin/settings', '/admin/users', '/admin/activity', '/admin/backups', '/admin/seo'];

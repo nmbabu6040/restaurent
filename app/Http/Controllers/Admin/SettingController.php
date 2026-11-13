@@ -31,6 +31,16 @@ class SettingController extends Controller
             'about_vision' => ['label' => 'About page: vision', 'type' => 'textarea', 'translatable' => true, 'required' => false, 'rules' => ['max:600']],
             'invoice_bin' => ['label' => 'Business ID (BIN) printed on bills', 'type' => 'text', 'translatable' => false, 'required' => false, 'rules' => ['max:40']],
             'invoice_note' => ['label' => 'Note printed at the bottom of bills', 'type' => 'textarea', 'translatable' => true, 'required' => false, 'rules' => ['max:300']],
+
+            'about_title' => ['label' => 'About page: title', 'type' => 'text', 'translatable' => true, 'required' => false, 'rules' => ['max:100']],
+            'about_subtitle' => ['label' => 'About page: sub-heading', 'type' => 'text', 'translatable' => true, 'required' => false, 'rules' => ['max:200']],
+            'about_story_title' => ['label' => 'About page: "Our Story" heading', 'type' => 'text', 'translatable' => true, 'required' => false, 'rules' => ['max:100']],
+            'about_mission_title' => ['label' => 'About page: mission heading', 'type' => 'text', 'translatable' => true, 'required' => false, 'rules' => ['max:100']],
+            'about_vision_title' => ['label' => 'About page: vision heading', 'type' => 'text', 'translatable' => true, 'required' => false, 'rules' => ['max:100']],
+            'about_values_title' => ['label' => 'About page: values heading', 'type' => 'text', 'translatable' => true, 'required' => false, 'rules' => ['max:100']],
+            'about_team_title' => ['label' => 'About page: team heading', 'type' => 'text', 'translatable' => true, 'required' => false, 'rules' => ['max:100']],
+            'about_space_title' => ['label' => 'About page: "Our space" heading', 'type' => 'text', 'translatable' => true, 'required' => false, 'rules' => ['max:100']],
+            'about_space_text' => ['label' => 'About page: "Our space" text under the heading', 'type' => 'textarea', 'translatable' => true, 'required' => false, 'rules' => ['max:600']],
         ];
     }
 
